@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>应用程序技术 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">应用程序技术</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 12, 2020&nbsp;&nbsp;20:00:28</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Web-应用程序技术"><a href="#Web-应用程序技术" class="headerlink" title="Web 应用程序技术"></a>Web 应用程序技术</h1><p>Web应用程序使用各种不同的技术实现其功能。本章简要介绍渗透侧试员在攻击Web应用程序时可能遇到的关键技术。我们将分析HTTP协议、服务器和客户端常用的技术以及用于在各种情形下呈现数据的编码方案。这些技术大都简单易懂，掌握其相关特性对于向Web应用程序发动有效攻击极其重要。</p>
+<h2 id="1、cookie与session的区别"><a href="#1、cookie与session的区别" class="headerlink" title="1、cookie与session的区别"></a>1、cookie与session的区别</h2><p>1、cookie数据存放在客户的浏览器上，session数据放在服务器上。</p>
+<p>2、cookie不是很安全，别人可以分析存放在本地的COOKIE并进行COOKIE欺骗考虑到安全应当使用session。</p>
+<p>3、session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能考虑到减轻服务器性能方面，应当使用COOKIE。</p>
+<p>4、单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。</p>
+<p>5、所以个人建议：将登陆信息等重要信息存放为SESSION</p>
+<p>其他信息如果需要保留，可以放在COOKIE中</p>
+<h2 id="2、用自己的语言描述get、post、Accept、Referer、User-Agent、host、cookie、X-Forwarded-for、Location各请求头的含义"><a href="#2、用自己的语言描述get、post、Accept、Referer、User-Agent、host、cookie、X-Forwarded-for、Location各请求头的含义" class="headerlink" title="2、用自己的语言描述get、post、Accept、Referer、User-Agent、host、cookie、X_Forwarded_for、Location各请求头的含义"></a>2、用自己的语言描述get、post、Accept、Referer、User-Agent、host、cookie、X_Forwarded_for、Location各请求头的含义</h2><p><strong>Connection</strong>表示持久的客户端与服务连接。（close关闭）</p>
+<p>get：访问的地址，里面有=什么什么的是参数一般可以插入payllody，可以插入攻击代码如果没有一般没漏洞，HTTP版本1.1必须使用host请求头get发送的数据在url公开</p>
+<p>post:一般为表单提交；通过post提交的数据在url不可见；</p>
+<p>accept:表示浏览器支持的MIME类型，优先顺序是从左到右表示我当前的浏览器希望接受什么类型的文件，这是请求首部，当服务器没有客户端想要的资源的媒体类型时，会返回406 Not Acceptable 响应。当然使用了 <em>/</em> 表示愿意接受任意类型的资源，所以应不会看到这个响应。另外，这里的 q 表示权重，权重在 0-1 之间，（顺序为重大到小优先顺序）可以理解成客户端在这些给出的类型中，想优先接受什么类型，可以服务器就可以根据客户端的需要返回相应的资源。</p>
+<p>如果没有，则默认为 1 。这里前面几个类型都没有标明，则默认都是 1 ，表示优先这些类型，后面的 0.9 表示前面都没有就用这个，最后的 0.8 表示如果都没有，那么任意的类型都行）</p>
+<p>Referer：向服务器提交跳转链接所在地址，如果用户时通过链接跳转到当前页面，此请求域为链接所在界面的URL。</p>
+<p>当访问某个网站是通过什么访问的，有时候一定要从某个地方访问挑战，我们便可以改为从设定的地方访问</p>
+<p>Use-Agent:用来收集数据例如什么电脑，什么浏览器,MAC地址等等用来取证</p>
+<p>Host:向服务器提交（服务器）主机和端口号</p>
+<p>Cookie:第一次访问可能不带，第二次调用本地记录向客户端发送来验证身份</p>
+<p>X_Forwarded_for：伪造ip登录，也可以伪造多IP登录例如127.0.$设置个字典$.$设置个字典$用于过waf绕后台抓包时添加</p>
+<p><img src="//upload-images.jianshu.io/upload_images/21549033-03f08085be99b2ab.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/793/format/webp" alt="img"></p>
+<p>Location: 这个消息头用于在重定向响应(那些状态码以3开头的响应)中说明重定向的目标。跳转</p>
+<h2 id="3、常用-http-支持的方法有那些，同时对Head、options、put、get、post用自己的语言进行描述"><a href="#3、常用-http-支持的方法有那些，同时对Head、options、put、get、post用自己的语言进行描述" class="headerlink" title="3、常用 http 支持的方法有那些，同时对Head、options、put、get、post用自己的语言进行描述"></a>3、常用 http 支持的方法有那些，同时对Head、options、put、get、post用自己的语言进行描述</h2><p>HTTP请求的常用方法有：GET方法、POST方法、HEAD方法、PUT方法、DELETE方法、CONNECT方法、OPTIONS方法、TRACE方法。</p>
+<p>Head:与get相似，检查资源是否存在。waf一般不拦截</p>
+<p>Options:查看当前网站支持的请求方法。用来检测服务器性能</p>
+<p>Put：把文件上传到服务器（后一个会覆盖上一个0，一般用来改资源）</p>
+<p>get：从服务器获得数据返回前进不影响</p>
+<p>post:向服务器传送数据后一个资源不会覆盖上一个返回前会一直向服务器发送请求（一般用增加资源）</p>
+<p>TRACE.这种方法主要用于诊断。服务器应在响应主体中返回其收到的请求消息的具体内容。这种方法可用于检测客户端与服务器之间是否存在任何操纵请求的代理服务器。</p>
+<h2 id="4、cookie头里面的secure与HttpOnly项分别代表什么含义"><a href="#4、cookie头里面的secure与HttpOnly项分别代表什么含义" class="headerlink" title="4、cookie头里面的secure与HttpOnly项分别代表什么含义"></a>4、cookie头里面的secure与HttpOnly项分别代表什么含义</h2><p>Secure：如果设置这个属性.则仅在HTTPS请求中提交cookie.</p>
+<p>HttpOnly：如果设置这个属性，将无法通过客户端JavaScript直接访问cookie.</p>
+<h2 id="5、状态码"><a href="#5、状态码" class="headerlink" title="5、状态码"></a>5、状态码</h2><p>每条HTTP响应消息都必须在第一行中包含一个状态码，说明请求的结果。根据代码的第一</p>
+<p>位数字，可将状态码分为以下5类。</p>
+<p>1xx</p>
+<p>-提供信息。</p>
+<p>2xx—请求被成功提交。</p>
+<p>3xx—客户端被重定向到其他资源。</p>
+<p>4xx-请求包含某种错误。</p>
+<p>5xx—服务器执行请求时遇到错误。</p>
+<p>还有大量特殊状态码，其中许多状态码仅用在特殊情况下。下面列出渗透测试员在攻击Web</p>
+<p>应用程序时最有可能遇到的状态码及其相关的原因短语。</p>
+<p>100Continue。当客户端提交一个包含主体的请求时.将发送这个响应。该响应表示已收到请求消息头.客户端应继续发送主体。请求完成后，再由服务器返回另一个响应。</p>
+<p>200Ok。本状态码表示已成功提交请求，且响应主体中包含请求结果。</p>
+<p>201Created. PUT请求的响应返回这个状态码，表示请求已成功提交。</p>
+<p>301Moved Permanently。本状态码将浏览器永久重定向到另外一个在Location消息头中指定的URL。以后客户端应使用新URL替换原始URL。</p>
+<p>302Found。本状态码将浏览器暂时重定向到另外一个在Location消息头中指定的URL.客户端应在随后的请求中恢复使用原始URL.</p>
+<p>304Not Modified。本状态码指示浏览器使用缓存中保存的所请求资源的副本。服务器使用If-Modified-Since与工f-None-Match消息头确定客户端是否拥有最新版本的资源。</p>
+<p>400Bad Request。本状态码表示客户端提交了一个无效的HTTP请求。当以某种无效的方式修改请求时(例如在URL中插人一个空格符)，可能会遇到这个状态码。</p>
+<p>401Unauthorized.服务器在许可请求前要求HTTP进行身份验证。WWW-Authenticate消息头详细说明所支持的身份验证类型。</p>
+<p>403Forbidden。本状态码指出，不管是否通过身份验证，禁止任何人访问被请求的资源。</p>
+<p>404Not Found。本状态码表示所请求的资源并不存在。</p>
+<p>]405Method Not Allowed。本状态码表示指定的URL不支持请求中使用的方法。例如，如果试图在不支持PUT方法的地方使用该方法，就会收到本状态码。</p>
+<p>413Request Entity Too Large。如果在本地代码中探查缓冲器滋出瀚洞并就此提交超长数据串.则本状态码表示请求主体过长，服务器无法处理。</p>
+<p>414Request URI Too Long。与前一个响应类似，本状态码表示请求中的URL过长，服务器无法处理。</p>
+<p>500Internal Server Error。本状态码表示服务器在执行请求时遇到错误。当提交无法预料的输人、在应用程序处理过程中造成无法处理的错误时，通常会收到本状态码。应该仔细检查服务器响应的所有内容，了解与错误性质有关的详情。</p>
+<p>503Service Unavailable。通常，本状态码表示尽管Web服务器运转正常.并且能够响应请求，但服务器访问的应用程序还是无法作出响应。应该进行核实，是否因为执行了某种行为而造成这个结果。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2020/09/12/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8A%80%E6%9C%AF/">http://example.com/2020/09/12/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8A%80%E6%9C%AF/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/12/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/12/Metasploit/">Metasploit</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

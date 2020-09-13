@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>信息收集 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">信息收集</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 12, 2020&nbsp;&nbsp;19:48:18</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a><strong>信息收集</strong></h1><h2 id="1-1-第一步-域名探测"><a href="#1-1-第一步-域名探测" class="headerlink" title="1.1 第一步 域名探测"></a>1.1 <strong>第一步 域名探测</strong></h2><p>​    当我们要对一个站点进行渗透测试之前，一般渗透测试人员常见方法是直接通漏洞扫描器来对指定目标站点进行渗透，当指定的目标站点无漏洞情况，渗透测试员就需要进行信息收集工作来完成后期的渗透。</p>
+<p>​    目前一般域名漏洞扫描工具有AWVS、APPSCAN、Netspark、WebInspect、Nmap、Nessus、天镜、明鉴、WVSS、RSAS等，后面会分开给大家讲解。</p>
+<h2 id="1-2-第二步-子域名探测"><a href="#1-2-第二步-子域名探测" class="headerlink" title="1.2 第二步 子域名探测"></a>1.2 <strong>第二步 子域名探测</strong></h2><p>根据主域名，可以获取二级域名、三级域名、……主要姿势可以有：</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps1.jpg" alt="img"> </p>
+<p><strong>【1】DNS域传送漏洞（不得不称赞）</strong></p>
+<p>​       如果存在，不仅能搜集子域名，还能轻松找到一枚洞，这样子的好事百试不厌。如果SRC一级域名不多，直接在kali下 dnsenum oldboyedu.com 。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps2.jpg" alt="img"> </p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps3.jpg" alt="img"> </p>
+<p><strong>工具说明及用法可参考如下：</strong></p>
+<p>​    dnsenum的目的是尽可能收集一个域的信息，它能够通过谷歌或者字典文件猜测可能存在的域名，以及对一个网段进行反向查询。它可以查询网站的主机地址信息、域名服务器、mx record（函件交换记录），在域名服务器上执行axfr请求，通过谷歌脚本得到扩展域名信息（google hacking），提取自域名并查询，计算C类地址并执行whois查询，执行反向查询，把地址段写入文件。</p>
+<p><strong>参数说明：</strong></p>
+<p> -h        查看工具使用帮助</p>
+<p>–dnsserver    <server>    指定域名服务器</p>
+<p>–enum    快捷选项，相当于”–threads 5 -s 15 -w” </p>
+<p>–noreverse    跳过反向查询操作</p>
+<p>–nocolor    无彩色输出</p>
+<p>–private    显示并在”domain_ips.txt”文件结尾保存私有的ips</p>
+<p>–subfile <file>    写入所有有效的子域名到指定文件</p>
+<p>-t, –timeout <value>     tcp或者udp的连接超时时间，默认为10s（时间单位：秒）</p>
+<p>–threads <value>    查询线程数</p>
+<p>-v, –verbose    显示所有的进度和错误消息</p>
+<p>-o ,–output <file>    输出选项，将输出信息保存到指定文件</p>
+<p>-e, –exclude    <regexp>    反向查询选项，从反向查询结果中排除与正则表达式相符的PTR记录，在排查无效主机上非常有用</p>
+<p>-w, –whois    在一个C段网络地址范围提供whois查询</p>
+<p>-f dns.txt 指定字典文件，可以换成 dns-big.txt 也可以自定义字典</p>
+<p><strong>相关解析记录说明可参考：</strong><a target="_blank" rel="noopener" href="https://wenku.baidu.com/view/d2d597b669dc5022aaea0030.html">https://wenku.baidu.com/view/d2d597b669dc5022aaea0030.html</a></p>
+<p><strong>【2】备案号查询</strong></p>
+<p>​       这算是奇招吧，通过查询系统域名备案号，再反查备案号相关的域名，收获颇丰。</p>
+<p><strong>网站备案查询地址：<a target="_blank" rel="noopener" href="http://www.beianbeian.com/">http://www.beianbeian.com</a></strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps4.jpg" alt="img"> </p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps5.jpg" alt="img"> </p>
+<p><strong>【3】SSL证书</strong></p>
+<p>​       通过查询SSL证书，获取的域名存活率很高，这应该也是不错的思路。</p>
+<p>查询网址: <a target="_blank" rel="noopener" href="https://myssl.com/ssl.html">https://myssl.com/ssl.html</a>  和<a target="_blank" rel="noopener" href="https://www.chinassl.net/ssltools/ssl-checker.html">https://www.chinassl.net/ssltools/ssl-checker.html</a></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps6.jpg" alt="img"> </p>
+<p><strong>【4】google搜索C段</strong></p>
+<p>​       这招用的比较少，国内没条件的就用bing或百度吧（国内站点足矣），在没什么进展的时候或许会有意外惊喜。</p>
+<p>方法一：参考GoogleHack用法</p>
+<p>方法二：用k8工具，前提条件记得注册bing接口</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps7.jpg" alt="img"> </p>
+<p><strong>什么是C段：</strong>比如在：127.127.127.4 这个IP上面有一个网站 127.4 这个服务器上面有网站我们可以想想..他是一个非常大的站几乎没什么漏洞！但是在他同C段 127.127.127.1<del>127.127.127.255 这 1</del>255 上面也有服务器而且也有网站并且存在漏洞,那么我们就可以来渗透 1~255任何一个站 之后提权来嗅探得到127.4 这台服务器的密码 甚至3389连接的密码后台登录的密码 如果运气好会得到很多的密码…</p>
+<p><strong>【5】APP提取</strong></p>
+<p>​       反编译APP进行提取相关IP地址，此外在APP上挖洞的时候，可以发现前面招式找不到的域名，在APP里面有大量的接口IP和内网 IP，同时可获取不少安全漏洞。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps8.jpg" alt="img"> </p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps9.jpg" alt="img"> </p>
+<p><strong>【6】微信公众号</strong></p>
+<p>​       企业的另一通道，渗透相关公众号，绝对会有意外收获：不少漏洞+域名，有关Burp如何抓取微信公众号数据可参考 Burp APP抓包。</p>
+<p><strong>【7】字典枚举法</strong></p>
+<p>​       字典枚举法是一种传统查找子域名的技术，这类工具有  DNSReconcile、Layer子域名挖掘机、DirBuster等。</p>
+<p><strong>【8】公开DNS源</strong></p>
+<p>Rapid7下Sonar项目发布的： <a target="_blank" rel="noopener" href="https://scans.io/study/sonar.fdns_v2%E3%80%82">https://scans.io/study/sonar.fdns_v2。</a></p>
+<p>DNS历史解析：     <a target="_blank" rel="noopener" href="https://dnsdb.io/zh-cn/">https://dnsdb.io/zh-cn/</a></p>
+<p><strong>【9】威胁情报查询</strong></p>
+<p>华为安全情报 <a target="_blank" rel="noopener" href="https://isecurity.huawei.com/">https://isecurity.huawei.com</a></p>
+<h2 id="1-3-第三步-敏感信息收集"><a href="#1-3-第三步-敏感信息收集" class="headerlink" title="1.3 第三步 敏感信息收集"></a>1.3 <strong>第三步 敏感信息收集</strong></h2><p><strong>【1】Web源代码泄露</strong></p>
+<p>​      通过工具暴破相关Web源代码泄露，流程如下：</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps10.jpg" alt="img"> </p>
+<p>​    最想强调的是github信息泄露了，直接去github上搜索，收获往往是大于付出。可能有人不自信认为没能力去SRC挖洞，可是肯定不敢说不会上网不会搜索。github相关的故事太多，但是给人引出的信息泄露远远不仅在这里：github.com、rubygems.org、pan.baidu.com…</p>
+<p>QQ群备注或介绍等，甚至混入企业qq工作群…</p>
+<p>​    然后说再多，也没这个好用：<a target="_blank" rel="noopener" href="https://sec.xiaomi.com/article/37">https://sec.xiaomi.com/article/37</a>   全自动监控github</p>
+<p><strong>信息泄露收集可能会用到如下地址：</strong></p>
+<p>网盘搜索：<a target="_blank" rel="noopener" href="http://www.pansou.com/%E6%88%96">http://www.pansou.com/或</a><a target="_blank" rel="noopener" href="https://www.lingfengyun.com/">https://www.lingfengyun.com/</a> 网盘密码破解可参考：<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-763130-1-1.html">https://www.52pojie.cn/thread-763130-1-1.html</a></p>
+<p>社工信息泄露：<a target="_blank" rel="noopener" href="https://www.instantcheckmate.com/%E3%80%81http://www.uneihan.com/">https://www.instantcheckmate.com/、http://www.uneihan.com/</a></p>
+<p>源码搜索：<a target="_blank" rel="noopener" href="https://searchcode.com/%E3%80%81">https://searchcode.com/、</a><a target="_blank" rel="noopener" href="https://gitee.com/">https://gitee.com/</a>、gitcafe.com、code.csdn.net</p>
+<p>钟馗之眼： <a target="_blank" rel="noopener" href="https://www.zoomeye.org/">https://www.zoomeye.org/</a></p>
+<p>天眼查   <a target="_blank" rel="noopener" href="https://www.tianyancha.com/">https://www.tianyancha.com/</a></p>
+<p>其它：威胁情报：微步在线、 ti.360.cn、 Virustotal</p>
+<p><strong>【2】邮箱信息收集</strong></p>
+<p>​    收集邮箱信息主要有两个作用：1.通过发现目标系统账号的命名规律，可以用来后期登入其他子系统。2.爆破登入邮箱用。</p>
+<p>​    通常邮箱的账号有如下几种生成规律： 比如某公司有员工名叫做“张小三”，它的邮箱可能如下：</p>
+<p><a href="mailto:&#122;&#x68;&#97;&#110;&#103;&#x78;&#x69;&#97;&#111;&#x73;&#97;&#x6e;&#x40;&#120;&#120;&#x78;&#46;&#99;&#x6f;&#109;">&#122;&#x68;&#97;&#110;&#103;&#x78;&#x69;&#97;&#111;&#x73;&#97;&#x6e;&#x40;&#120;&#120;&#x78;&#46;&#99;&#x6f;&#109;</a>     <a href="mailto:&#x78;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#46;&#x7a;&#x68;&#97;&#x6e;&#x67;&#x40;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;">&#x78;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#46;&#x7a;&#x68;&#97;&#x6e;&#x67;&#x40;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;</a>        <a href="mailto:&#122;&#x78;&#105;&#x61;&#x6f;&#115;&#x61;&#110;&#x40;&#120;&#120;&#120;&#x2e;&#99;&#x6f;&#x6d;">&#122;&#x78;&#105;&#x61;&#x6f;&#115;&#x61;&#110;&#x40;&#120;&#120;&#120;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#104;&#114;&#x40;&#x78;&#120;&#120;&#x2e;&#x63;&#111;&#x6d;">&#104;&#114;&#x40;&#x78;&#120;&#120;&#x2e;&#x63;&#111;&#x6d;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
+<p><strong>手工的方式：</strong></p>
+<p>1.可以到百度等搜索引擎上搜索邮箱信息</p>
+<p>2.github等第三方托管平台</p>
+<p>3.社工库</p>
+<p><strong>工具方式：</strong></p>
+<p>​    在邮箱收集领域不得不提一个经典的工具，The Harvester,The Harvester可用于搜索Google、Bing和PGP服务器的电子邮件、主机以及子域名,因此需要翻墙运行该工具。工具下载地址为：<a target="_blank" rel="noopener" href="https://github.com/laramies/theHarvester">https://github.com/laramies/theHarvester</a></p>
+<p>· <strong>注：**</strong>python -m pip install -r requirements.txt**  <strong>导入相关配置，python3.6版本</strong></p>
+<p>使用方式很简单：</p>
+<p>   ./theHarvester.py -d 域名   -1 1000   -b all</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps11.jpg" alt="img"> </p>
+<p><strong>【3】历史漏洞收集</strong></p>
+<p>​    仔细分析，大胆验证，发散思维，对企业的运维、开发习惯了解绝对是有很大的帮助。可以把漏洞保存下来，进行统计，甚至炫一点可以做成词云展示给自己看，看着看着或者就知道会有什么漏洞。</p>
+<p>wooyun 历史漏洞库：<a target="_blank" rel="noopener" href="http://www.anquan.us/">http://www.anquan.us/</a></p>
+<p>漏洞银行：<a target="_blank" rel="noopener" href="https://www.bugbank.cn/">https://www.bugbank.cn/</a></p>
+<p>360补天：<a target="_blank" rel="noopener" href="https://www.butian.net/">https://www.butian.net/</a></p>
+<p>教育行业漏洞报告平台（Beta）<a target="_blank" rel="noopener" href="https://src.edu-info.edu.cn/login/">https://src.edu-info.edu.cn/login/</a></p>
+<p><strong>【4】工具信息收集</strong></p>
+<p>如：7kbscan、破壳Web极速扫描器等</p>
+<h2 id="1-4-第四步-指纹识别、Waf、CDN识别"><a href="#1-4-第四步-指纹识别、Waf、CDN识别" class="headerlink" title="1.4 第四步 指纹识别、Waf、CDN识别"></a>1.4 <strong>第四步 指纹识别、Waf、CDN识别</strong></h2><p>​     在这个过程中，可以加入端口扫描、敏感文件扫描之类的操作，工具可自由选择，如：</p>
+<p>御剑WEB指纹识别系统、whatweb、Wapplyzer等工具。</p>
+<p>​    1、在线识纹识别：</p>
+<p><a target="_blank" rel="noopener" href="http://whatweb.bugscaner.com/look/">http://whatweb.bugscaner.com/look/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.yunsee.cn/finger.html">http://www.yunsee.cn/finger.html</a></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps12.jpg" alt="img"> </p>
+<p>2、Waf识别</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/EnableSecurity/wafw00f">github.com/EnableSecurity/wafw00f</a></p>
+<p>3、CDN识别</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/3xp10it/mytools/master/xcdn.py">https://raw.githubusercontent.com/3xp10it/mytools/master/xcdn.py</a></p>
+<h2 id="1-5-第五步-资产梳理"><a href="#1-5-第五步-资产梳理" class="headerlink" title="1.5 第五步 资产梳理"></a>1.5 <strong>第五步 资产梳理</strong></h2><p>​     有了庞大的域名，接下来就是帮助SRC梳理资产了。域名可以先判断存活，活着的继续进行确定IP环节。根据IP的分布，确定企业的公网网段。这其实是一项不小的工程，精准度比较难以拿捏。不过通过不断实战，肯定可以琢磨出一些东西，所以有人称白帽子可能会比企业的运维更了解资产信息。资产梳理过程中可能需要对相关资产漏洞进行查询、利用、发布等，可能会用到已下相关链接地址：</p>
+<p><strong>SRC众测平台</strong></p>
+<p>国际漏洞提交平台 <a target="_blank" rel="noopener" href="https://www.hackerone.com/">https://www.hackerone.com/</a></p>
+<p>BugX区块链漏洞平台 <a target="_blank" rel="noopener" href="http://www.bugx.org/">http://www.bugx.org/</a></p>
+<p>Gsrc瓜子src <a target="_blank" rel="noopener" href="https://security.guazi.com/">https://security.guazi.com/</a></p>
+<p>区块链安全响应中心 <a target="_blank" rel="noopener" href="https://dvpnet.io/">https://dvpnet.io/</a></p>
+<p>CNVD国家信息安全漏洞平台 <a target="_blank" rel="noopener" href="http://www.cnvd.org.cn/">http://www.cnvd.org.cn/</a></p>
+<p>漏洞银行：<a target="_blank" rel="noopener" href="https://www.bugbank.cn/">https://www.bugbank.cn/</a></p>
+<p>360补天：<a target="_blank" rel="noopener" href="https://www.butian.net/">https://www.butian.net/</a></p>
+<p>教育行业漏洞报告平台（Beta）<a target="_blank" rel="noopener" href="https://src.edu-info.edu.cn/login/">https://src.edu-info.edu.cn/login/</a></p>
+<p><strong>国内平台</strong></p>
+<p>知道创宇Seebug漏洞平台 <a target="_blank" rel="noopener" href="https://www.seebug.org/">https://www.seebug.org/</a></p>
+<p>工控系统行业漏洞平台 <a target="_blank" rel="noopener" href="http://ivd.winicssec.com/">http://ivd.winicssec.com/</a></p>
+<p>打造中文最大exploit库 <a target="_blank" rel="noopener" href="http://www.expku.com/">http://www.expku.com/</a></p>
+<p>为数不多的漏洞管理插件收集平台 <a target="_blank" rel="noopener" href="http://www.bugscan.net/source/template/vulns/">http://www.bugscan.net/source/template/vulns/</a></p>
+<p>一家管理漏洞收集的平台 <a target="_blank" rel="noopener" href="http://www.0daybank.org/">http://www.0daybank.org/</a></p>
+<p><strong>国外平台</strong></p>
+<p>国际漏洞提交平台 <a target="_blank" rel="noopener" href="https://www.hackerone.com/">https://www.hackerone.com/</a></p>
+<p>xss poc  <a target="_blank" rel="noopener" href="http://xssor.io/">http://xssor.io/</a></p>
+<p>oday漏洞库 <a target="_blank" rel="noopener" href="https://www.0day.today/">https://www.0day.today/</a></p>
+<p>路由器漏洞库 <a target="_blank" rel="noopener" href="http://routerpwn.com/">http://routerpwn.com/</a></p>
+<p>cve漏洞平台 <a target="_blank" rel="noopener" href="http://cve.mitre.org/">http://cve.mitre.org/</a></p>
+<p><strong>威胁情报</strong></p>
+<p>安全数据交流平台   <a target="_blank" rel="noopener" href="https://www.secsilo.com/">https://www.secsilo.com/</a></p>
+<p>华为安全情报 <a target="_blank" rel="noopener" href="https://isecurity.huawei.com/sec/web/intelligencePortal.do">https://isecurity.huawei.com/sec/web/intelligencePortal.do</a></p>
+<p>威胁情报共享平台  <a target="_blank" rel="noopener" href="https://www.threatcrowd.org/">https://www.threatcrowd.org/</a></p>
+<p>被黑站点统计 <a target="_blank" rel="noopener" href="http://www.hacked.com.cn/">http://www.hacked.com.cn/</a></p>
+<p><strong>社工库</strong></p>
+<p>微信伪造  <a target="_blank" rel="noopener" href="http://www.jietuyun.com/">http://www.jietuyun.com/</a></p>
+<p>任意邮箱发送  <a target="_blank" rel="noopener" href="http://tool.chacuo.net/mailanonymous%E5%92%8Chttps://emkei.cz/">http://tool.chacuo.net/mailanonymous和https://emkei.cz/</a></p>
+<p>临时邮箱 <a target="_blank" rel="noopener" href="http://www.yopmail.com/">http://www.yopmail.com/</a></p>
+<p>邮箱池群 <a target="_blank" rel="noopener" href="http://veryvp.com/">http://veryvp.com/</a></p>
+<p>社工库 <a target="_blank" rel="noopener" href="http://www.uneihan.com/">http://www.uneihan.com/</a></p>
+<h2 id="1-6-G-oogleHack"><a href="#1-6-G-oogleHack" class="headerlink" title="1.6 G**oogleHack**"></a>1.6 <strong>G**</strong>oogleHack**</h2><h3 id="1-6-1-功能介绍"><a href="#1-6-1-功能介绍" class="headerlink" title="1.6.1 功能介绍"></a>1.6.1 <strong>功能介绍</strong></h3><p>​    使用<a target="_blank" rel="noopener" href="http://baike.haosou.com/doc/108804.html">Google</a>等搜索引擎对某些特定的<a target="_blank" rel="noopener" href="http://baike.haosou.com/doc/3663174.html">网络</a>主机漏洞（通常是服务器上的脚本漏洞）进行搜索，以达到快速找到漏洞主机或特定主机的漏洞的目的。Google毫无疑问是当今世界上最强大的搜索引擎。然而，在黑客手中，它也是一个秘密武器，它能搜索到一些你意想不到的信息。</p>
+<h3 id="1-6-2-部署-指南"><a href="#1-6-2-部署-指南" class="headerlink" title="1.6.2 部署**指南**"></a>1.6.2 <strong>部署**</strong>指南**</h3><p>a) 一台可以正常访问互联网的设备（通常为PC）</p>
+<p>b) 一个常用浏览器（IE、Chrome等等）</p>
+<p>c) 掌握强大的搜索关键词</p>
+<h3 id="1-6-3-实战"><a href="#1-6-3-实战" class="headerlink" title="1.6.3 实战"></a>1.6.3 <strong>实战</strong></h3><p>​    Google搜索引擎之所以强大，关键在于它详细的搜索关键词，以下是几个常用的搜索关键词：（更多详细教程，参见<a target="_blank" rel="noopener" href="http://user.qzone.qq.com/568311803/main%EF%BC%89">http://user.qzone.qq.com/568311803/main）</a></p>
+<p>​    inurl: 用于搜索网页上包含的URL. 这个语法对寻找网页上的搜索,帮助之类的很有用. </p>
+<p>intext: 只搜索网页部分中包含的文字(也就是忽略了标题,URL等的文字).</p>
+<p>site: 可以限制你搜索范围的域名. </p>
+<p>filetype: 搜索文件的后缀或者扩展名</p>
+<p>intitle: 限制你搜索的网页标题.</p>
+<p>allintitle: 搜索所有关键字构成标题的网页. 但是推荐不要使用</p>
+<p>link: 可以得到一个所有包含了某个指定URL的页面列表. 例如🔗<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> 就可以得到所有连接到Google的页面。</p>
+<p><strong>一般常见用法有：</strong></p>
+<p><strong>site</strong>:ooxx.com <strong>filetype</strong>:xls</p>
+<p><strong>site**</strong>:xxx.xxx** <strong>admin</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>login</strong> </p>
+<p><strong>site**</strong>:xxx.xxx** <strong>system</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>管理</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>登录</strong> </p>
+<p><strong>site**</strong>:xxx.xxx** <strong>内部</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>系统</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>邮件</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>email</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>qq</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>群</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>企鹅</strong></p>
+<p><strong>site**</strong>:xxx.xxx** <strong>腾讯</strong></p>
+<p><strong>site:ooxx.com</strong></p>
+<p> <strong>inurl:jmx-console</strong></p>
+<p>实例：</p>
+<ol>
+<li><strong>intext:管理</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps13.jpg" alt="img"> </p>
+<ol start="2">
+<li><strong>filetype:mdb</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps14.jpg" alt="img"> </p>
+<ol start="3">
+<li><strong>inurl:file</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps15.jpg" alt="img"> </p>
+<ol start="4">
+<li><strong>site: baidu.com filetype:txt 查找TXT文件 其他的依次**</strong>类**<strong>推</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps16.jpg" alt="img"> </p>
+<ol start="5">
+<li><strong>site:baidu.com intext:管理</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps17.jpg" alt="img"> </p>
+<ol start="6">
+<li><strong>site:baidu.com inurl:login</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps18.jpg" alt="img"> </p>
+<ol start="7">
+<li><strong>site:baidu.com intitle:后台</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps19.jpg" alt="img"> </p>
+<p>查看服务器使用的程序</p>
+<ol start="8">
+<li><strong>site:baidu.com filetype:asp</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps20.jpg" alt="img"> </p>
+<ol start="9">
+<li><strong>site:baidu.com filetype:php</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps21.jpg" alt="img"> </p>
+<ol start="10">
+<li><strong>site:baidu.com filetype:jsp</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps22.jpg" alt="img"> </p>
+<p>查看上传漏洞：</p>
+<ol start="11">
+<li><strong>site:baidu**</strong>.com** <strong>inurl:file</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps23.jpg" alt="img"> </p>
+<ol start="12">
+<li><strong>site: baidu**</strong>.com** <strong>inurl:load</strong></li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps24.jpg" alt="img"> </p>
+<p>查找注射点：</p>
+<ol start="13">
+<li><strong>site:tw inurl:asp?id=</strong>    这个是找台湾的</li>
+</ol>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps25.jpg" alt="img"> </p>
+<h3 id="1-6-4-Google的优劣势"><a href="#1-6-4-Google的优劣势" class="headerlink" title="1.6.4 Google的优劣势"></a>1.6.4 <strong>Google的优劣势</strong></h3><p>​    优势：</p>
+<p>l 只需一台可以访问Google的联网设备，部署简单；</p>
+<p>l 检索资源库丰富；</p>
+<p>劣势：</p>
+<p>l 搜索关键词多，记忆复杂；</p>
+<p>l GoogleHack需要借助浏览器，属于在线工具，离线不能使用；</p>
+<p>l 国内访问Google需借助VPN等相关手段，增加了上网成本</p>
+<h2 id="1-7-Nmap"><a href="#1-7-Nmap" class="headerlink" title="1.7 Nmap"></a>1.7 <strong>Nmap</strong></h2><p><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_811d9fdd0101ey07.html">http://blog.sina.com.cn/s/blog_811d9fdd0101ey07.html</a>  功能介绍</p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/c4isr/archive/2012/12/07/2807491.html">http://www.cnblogs.com/c4isr/archive/2012/12/07/2807491.html</a> 10种扫描方式解释</p>
+<p>​    由于是在win7上面使用，所以要使用兼容win7的winpcap驱动，这里我们使用最新版4.1.2版</p>
+<p>winpcap4.1.2下载地址：<a target="_blank" rel="noopener" href="http://www.onlinedown.net/soft/2685.htm">http://www.onlinedown.net/soft/2685.htm</a></p>
+<h3 id="1-7-1-功能-介绍"><a href="#1-7-1-功能-介绍" class="headerlink" title="1.7.1 功能**介绍**"></a>1.7.1 <strong>功能**</strong>介绍**</h3><p>Nmap是一个网络连接端口扫描<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/37.htm">软件</a>，用来扫描网上电脑开放的网络连接端口。确定哪些<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/133203.htm">服务</a>运行在哪些连接端口，并且推断计算机运行哪个<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/880.htm">操作系统</a>。它是网络管理员必用的<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/37.htm">软件</a>之一，以及用以评估网络系统安全。</p>
+<p>功能架构图：</p>
+<h3 id="1-2-2-部署指南"><a href="#1-2-2-部署指南" class="headerlink" title="1.2.2 部署指南"></a>1.2.2 <strong>部署指南</strong></h3><p>两种部署方式：</p>
+<p>l Kail集成环境</p>
+<p>l 单独安装（使用yum工具直接安装就可以）</p>
+<h3 id="1-2-3-实战"><a href="#1-2-3-实战" class="headerlink" title="1.2.3 实战"></a>1.2.3 <strong>实战</strong></h3><p>Nmap的参数和选项繁多，功能非常丰富。我们先来看一下Nmap的通用命令格式：（详细教程及下载方式参见：<a target="_blank" rel="noopener" href="http://nmap.org/%EF%BC%89">http://nmap.org/）</a></p>
+<p><strong>Nmap**</strong>&lt;扫描选项&gt;&lt;扫描****目标****&gt;**</p>
+<p>(一) <strong>主机发现</strong></p>
+<h4 id="1-主机发现原理"><a href="#1-主机发现原理" class="headerlink" title="1) 主机发现原理"></a>1) <strong>主机发现原理</strong></h4><p>主机发现的原理与Ping命令类似，发送探测包到目标主机，如果收到回复，那么说明目标主机是开启的。Nmap支持十多种不同的主机探测方式，比如发送ICMP ECHO/TIMESTAMP/NETMASK报文、发送TCPSYN/ACK包、发送SCTP INIT/COOKIE-ECHO包，用户可以在不同的条件下灵活选用不同的方式来探测目标机。</p>
+<h4 id="2-主机发现-的基本用法"><a href="#2-主机发现-的基本用法" class="headerlink" title="2) 主机发现**的基本用法**"></a>2) <strong>主机发现**</strong>的基本用法**</h4><p>l -sL: List Scan 列表扫描，仅将指定的目标的IP列举出来，不进行主机发现。 </p>
+<p>l -sn: Ping Scan 只进行主机发现，不进行端口扫描。 </p>
+<p>l -Pn: 将所有指定的主机视作开启的，跳过主机发现的过程。 </p>
+<p>l -PS/PA/PU/PY[portlist]: 使用TCPSYN/ACK或SCTP INIT/ECHO方式进行发现。 </p>
+<p>l -PE/PP/PM: 使用ICMP echo, timestamp, and netmask 请求包发现主机。</p>
+<p>l -PO[protocollist]: 使用IP协议包探测对方主机是否开启。</p>
+<p>l  -n/-R: -n表示不进行DNS解析；-R表示总是进行DNS解析。 </p>
+<p>l –dns-servers &lt;serv1[,serv2],…&gt;: 指定DNS服务器。 </p>
+<p>l –system-dns: 指定使用系统的DNS服务器 </p>
+<p>l –traceroute: 追踪每个路由节点 </p>
+<h4 id="3-使用-演示"><a href="#3-使用-演示" class="headerlink" title="3) 使用**演示**"></a>3) <strong>使用**</strong>演示**</h4><p>扫描局域网10.1.1.1-10.1.1.100范围内哪些IP的主机是活动的。</p>
+<p>​    命令如下：nmap –sn 10.1.1.1-100</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps26.jpg" alt="img"> </p>
+<p>由图可知：10.1.1.2、10.1.1.100两台主机处于存活状态。</p>
+<p>(二) <strong>端口**</strong>扫描**</p>
+<h4 id="1-端口-扫描原理"><a href="#1-端口-扫描原理" class="headerlink" title="1) 端口**扫描原理**"></a>1) <strong>端口**</strong>扫描原理**</h4><p>端口扫描是Nmap最基本最核心的功能，用于确定目标主机的TCP/UDP端口的开放情况。默认情况下，Nmap会扫描1000个最有可能开放的TCP端口。Nmap通过探测将端口划分为6个状态：<br>open：端口是开放的。<br>closed：端口是关闭的。<br>filtered：端口被防火墙IDS/IPS屏蔽，无法确定其状态。<br>unfiltered：端口没有被屏蔽，但是否开放需要进一步确定。<br>open|filtered：端口是开放的或被屏蔽。<br>closed|filtered ：端口是关闭的或被屏蔽。</p>
+<p>端口扫描方面非常强大，提供了很多的探测方式：</p>
+<p>l TCP SYN scanning</p>
+<p>l TCP connect scanning</p>
+<p>l TCP ACK scanning</p>
+<p>l TCP FIN/Xmas/NULL scanning</p>
+<p>l UDP scanning</p>
+<p>l 其他方式</p>
+<h4 id="2-端口-扫描用法"><a href="#2-端口-扫描用法" class="headerlink" title="2) 端口**扫描用法**"></a>2) <strong>端口**</strong>扫描用法**</h4><p>l -sS/sT/sA/sW/sM:指定使用 TCP SYN/Connect()/ACK/Window/Maimon scans的方式来对目标主机进行扫描。 </p>
+<p>l -sU: 指定使用UDP扫描方式确定目标主机的UDP端口状况。 </p>
+<p>l -sN/sF/sX: 指定使用TCP Null, FIN, and Xmas scans秘密扫描方式来协助探测对方的TCP端口状态。 </p>
+<p>l –scanflags <flags>: 定制TCP包的flags。 </p>
+<p>l -sI &lt;zombiehost[:probeport]&gt;: 指定使用idle scan方式来扫描目标主机（前提需要找到合适的zombie host）</p>
+<p>l -sY/sZ: 使用SCTP INIT/COOKIE-ECHO来扫描SCTP协议端口的开放的情况。 </p>
+<p>l -sO: 使用IP protocol 扫描确定目标机支持的协议类型。</p>
+<p>l -b <FTP relay host>: 使用FTP bounce scan扫描方式 </p>
+<h4 id="3-使用-演示-1"><a href="#3-使用-演示-1" class="headerlink" title="3) 使用**演示**"></a>3) <strong>使用**</strong>演示**</h4><p>在此，我们以主机10.1.1.100为例。命令如下：nmap -sS -sU -T4 -top-ports 300 1.1.1.100</p>
+<p>参数-sS表示使用TCP SYN方式扫描TCP端口；-sU表示扫描UDP端口；-T4表示时间级别配置4级；–top-ports 300表示扫描最有可能开放的300个端口（TCP和UDP分别有300个端口）。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps27.jpg" alt="img"> </p>
+<p>(三) <strong>版本**</strong>侦测**</p>
+<h4 id="1-版本-侦测原理"><a href="#1-版本-侦测原理" class="headerlink" title="1) 版本**侦测原理**"></a>1) <strong>版本**</strong>侦测原理**</h4><p>简要的介绍版本的侦测原理。版本侦测主要分为以下几个步骤：</p>
+<p>l 首先检查open与open|filtered状态的端口是否在排除端口列表内。如果在排除列表，将该端口剔除。</p>
+<p>l 如果是TCP端口，尝试建立TCP连接。尝试等待片刻（通常6秒或更多，具体时间可以查询文件nmap-services-probes中Probe TCP NULL q||对应的totalwaitms）。通常在等待时间内，会接收到目标机发送的“WelcomeBanner”信息。nmap将接收到的Banner与nmap-services-probes中NULL probe中的签名进行对比。查找对应应用程序的名字与版本信息。</p>
+<p>l 如果通过“Welcome Banner”无法确定应用程序版本，那么nmap再尝试发送其他的探测包（即从nmap-services-probes中挑选合适的probe），将probe得到回复包与数据库中的签名进行对比。如果反复探测都无法得出具体应用，那么打印出应用返回报文，让用户自行进一步判定。</p>
+<p>l 如果是UDP端口，那么直接使用nmap-services-probes中探测包进行探测匹配。根据结果对比分析出UDP应用服务类型。</p>
+<p>l 如果探测到应用程序是SSL，那么调用openSSL进一步的侦查运行在SSL之上的具体的应用类型。</p>
+<p>l 如果探测到应用程序是SunRPC，那么调用brute-force RPC grinder进一步探测具体服务。</p>
+<h4 id="2-版本-侦测用法"><a href="#2-版本-侦测用法" class="headerlink" title="2) 版本**侦测用法**"></a>2) <strong>版本**</strong>侦测用法**</h4><p>l -sV: 指定让Nmap进行版本侦测 </p>
+<p>l –version-intensity <level>: 指定版本侦测强度（0-9），默认为7。数值越高，探测出的服务越准确，但是运行时间会比较长。 </p>
+<p>l –version-light: 指定使用轻量侦测方式 (intensity 2) </p>
+<p>l –version-all: 尝试使用所有的probes进行侦测 (intensity 9) </p>
+<p>l –version-trace: 显示出详细的版本侦测过程信息。 </p>
+<h4 id="3-使用-演示-2"><a href="#3-使用-演示-2" class="headerlink" title="3) 使用**演示**"></a>3) <strong>使用**</strong>演示**</h4><p>对主机10.1.1.100进行版本侦测。</p>
+<p>命令如下：nmap –sV 10.1.1.100</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps28.jpg" alt="img"> </p>
+<p>(四) <strong>OS侦测</strong></p>
+<h4 id="1-OS-侦测原理"><a href="#1-OS-侦测原理" class="headerlink" title="1) OS**侦测原理**"></a>1) <strong>OS**</strong>侦测原理**</h4><p>Nmap使用TCP/IP协议栈指纹来识别不同的操作系统和设备。在RFC规范中，有些地方对TCP/IP的实现并没有强制规定，由此不同的TCP/IP方案中可能都有自己的特定方式。Nmap主要是根据这些细节上的差异来判断操作系统的类型的。<br>具体实现方式如下：<br>Nmap内部包含了2600多已知系统的指纹特征（在文件nmap-os-db文件中）。将此指纹数据库作为进行指纹对比的样本库。分别挑选一个open和closed的端口，向其发送经过精心设计的TCP/UDP/ICMP数据包，根据返回的数据包生成一份系统指纹。将探测生成的指纹与nmap-os-db中指纹进行对比，查找匹配的系统。如果无法匹配，以概率形式列举出可能的系统。</p>
+<h4 id="2-OS-侦测用法"><a href="#2-OS-侦测用法" class="headerlink" title="2) OS**侦测用法**"></a>2) <strong>OS**</strong>侦测用法**</h4><p>l -O: 指定Nmap进行OS侦测。 </p>
+<p>l –osscan-limit: 限制Nmap只对确定的主机的进行OS探测（至少需确知该主机分别有一个open和closed的端口）。 </p>
+<p>l –osscan-guess: 大胆猜测对方的主机的系统类型。由此准确性会下降不少，但会尽可能多为用户提供潜在的操作系统。 </p>
+<h4 id="3-使用-演示-3"><a href="#3-使用-演示-3" class="headerlink" title="3) 使用**演示**"></a>3) <strong>使用**</strong>演示**</h4><p>命令：nmap –O 10.1.1.100</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps29.jpg" alt="img"> </p>
+<p>(五) <strong>漏洞扫描</strong></p>
+<p><strong>扫描端口并且标记可以爆破的服务</strong></p>
+<p><strong>nmap</strong> 目标 –script=ftp-brute,imap-brute,smtp-brute,pop3-brute,mongodb-brute,redis-brute,ms-sql-brute,rlogin-brute,rsync-brute,mysql-brute,pgsql-brute,oracle-sid-brute,oracle-brute,rtsp-url-brute,snmp-brute,svn-brute,telnet-brute,vnc-brute,xmpp-brute</p>
+<p><strong>判断常见的漏洞并扫描端口</strong></p>
+<p><strong>nmap</strong> 目标 –script=auth,vuln</p>
+<p><strong>精确判断漏洞并扫描端口</strong></p>
+<p><strong>nmap</strong> 目标 –script=dns-zone-transfer,ftp-anon,ftp-proftpd-backdoor,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221,http-backup-finder,http-cisco-anyconnect,http-iis-short-name-brute,http-put,http-php-version,http-shellshock,http-robots.txt,http-svn-enum,http-webdav-scan,iis-buffer-overflow,iax2-version,memcached-info,mongodb-info,msrpc-enum,ms-sql-info,mysql-info,nrpe-enum,pptp-version,redis-info,rpcinfo,samba-vuln-cve-2012-1182,smb-vuln-ms08-067,smb-vuln-ms17-010,snmp-info,sshv1,xmpp-info,tftp-enum,teamspeak2-version</p>
+<h3 id="1-2-4-Nmap-的优劣势"><a href="#1-2-4-Nmap-的优劣势" class="headerlink" title="1.2.4 Nmap**的优劣势**"></a>1.2.4 <strong>Nmap**</strong>的优劣势**</h3><p>优势：</p>
+<p>l 功能灵活强大，支持多种目标，大量计算机的同时扫描；</p>
+<p>l 开源，相关帮助文档十分详细；</p>
+<p>l 流行，由于其具有强大的扫描机探测功能，，已被成千上万安全专家使用。</p>
+<p>劣势：</p>
+<p>l Nmap参数众多，难以一一记忆；</p>
+<h2 id="1-8-DirB-uster"><a href="#1-8-DirB-uster" class="headerlink" title="1.8 DirB**uster**"></a>1.8 <strong>DirB**</strong>uster**</h2><h3 id="1-8-1-功能-介绍"><a href="#1-8-1-功能-介绍" class="headerlink" title="1.8.1 功能**介绍**"></a>1.8.1 <strong>功能**</strong>介绍**</h3><p>DirBuster是一款路径及网页暴力破解的工具,可以破解出一直没有访问过或者管理员后台的界面路径。</p>
+<h3 id="1-8-2-部署-指南"><a href="#1-8-2-部署-指南" class="headerlink" title="1.8.2 部署**指南**"></a>1.8.2 <strong>部署**</strong>指南**</h3><p>Java运行环境+DirBuster程序包</p>
+<h3 id="1-8-3-实战"><a href="#1-8-3-实战" class="headerlink" title="1.8.3 实战"></a>1.8.3 <strong>实战</strong></h3><p>详细教程，参见：</p>
+<p><a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project">https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project</a></p>
+<p><a target="_blank" rel="noopener" href="http://sourceforge.net/projects/dirbuster/">http://sourceforge.net/projects/dirbuster/</a></p>
+<p>l 双击运行DirBuster.jar</p>
+<p>l 在URL中输入目标URL或者主机IP地址</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps30.jpg" alt="img"> </p>
+<p>l 在file with list of dirs/files 栏后点击browse，选择破解的字典库为directory-list-2.3-small.txt</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps31.jpg" alt="img"> </p>
+<p>l 将File extension中填入正确的文件后缀，默认为php，如果为jsp页面，需要填入jsp</p>
+<p>l 其他选项不变，点击右下角的start，启动目录查找</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps32.jpg" alt="img"> </p>
+<p>l 观察返回结果，可点击右下角的report，生成目录报告</p>
+<h3 id="1-8-4-DirBuster-优缺点"><a href="#1-8-4-DirBuster-优缺点" class="headerlink" title="1.8.4 DirBuster**优缺点**"></a>1.8.4 <strong>DirBuster**</strong>优缺点**</h3><p>优点：</p>
+<p>l 敏感目录发掘能力强</p>
+<p>l OWASP安全机构极力推荐</p>
+<p>缺点：</p>
+<p>l 程序运行线程小</p>
+<p>l 探测目录依赖字典文件</p>
+<h2 id="1-9-指纹识别"><a href="#1-9-指纹识别" class="headerlink" title="1.9 指纹识别"></a>1.9 <strong>指纹识别</strong></h2><p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps33.png" alt="img"></p>
+<h2 id="1-10-扩展：Burp-APP抓包"><a href="#1-10-扩展：Burp-APP抓包" class="headerlink" title="1.10 扩展：Burp APP抓包"></a>1.10 <strong>扩展：Burp APP抓包</strong></h2><p><strong>一、**</strong>手机端配置**</p>
+<p>**1.**让安卓手机和电脑连入同一个WIFI，即是在同一个无线局域网环境下。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps34.jpg" alt="img"> </p>
+<p>**2.**查看电脑的本地IP地址，命令行下输入ipconfig。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps35.jpg" alt="img"> </p>
+<p>无线局域网的IP地址<br>**3.**设置手机代理IP，我这里以oppo系统为例。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps36.jpg" alt="img"> </p>
+<p>代理设置为“手动”，设置主机名为电脑无线局域网IP地址，端口可以随便设置，其他的设置可以默认。</p>
+<p><strong>二、**</strong>电脑端配置**</p>
+<p>**1.**打开Burpsuite，设置Burp suite代理服务器，点击“Proxy”然后“Options”</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps37.jpg" alt="img"> </p>
+<p>点击“add”添加和手机一样的IP地址和端口，要跟手机上设置的那个端口一致。记得勾上前面的括号。<br>**2.**设置好了后，在“Proxy”：〉“Intercept”下开启“Intercept is on”就可以对安卓APP的网络数据进行抓包了。</p>
+<p><strong>三、证书安装</strong></p>
+<p>​    <strong>抓取HTTPS包需要导入Burp的证书。**</strong>特别注意：一个Burp对应一个证书，就是用哪个Burp抓包就导出哪个的证书，并将该证书在手机上安装。非常重要，因为以前抓包安过证书但是用的不是同一个Burp导致抓包失败，浪费了很多时间。**</p>
+<p><strong>导出Burp证书步骤为： Proxy—Options—-import\export CA</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps38.jpg" alt="img"> </p>
+<p><strong>选择第一个，然后next</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps39.jpg" alt="img"> </p>
+<p><strong>选择保存的CA路径，**</strong>文件后缀命名为.cer，非常重要，因为手机只能安装.cer的证书类型，默认的der格式是不能被识别安装的。**</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps40.jpg" alt="img"> </p>
+<p><strong>将证书发送到手机，我是直接微信发送的，然后在微信中下载，并记住下载的目录。</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps41.jpg" alt="img"> </p>
+<p><strong>找到下载的目录，将证书文件复制到手机存储的**</strong>根目录**<strong>。</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps42.jpg" alt="img"> </p>
+<p><strong>打开手机设置–其它设置–安全和隐私–更多安全设置–从SD卡安装</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps43.jpg" alt="img"> </p>
+<p><strong>到根目录下，找到.cer文件，安装.cer证书，重命名个名字</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps44.jpg" alt="img"> </p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps45.jpg" alt="img"> </p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps46.jpg" alt="img"> </p>
+<p><strong>成功安装后，可以在手机—-设置—-安全和隐私—-更多安全设置—-受信任的凭据—-用户—-看到PortSwigger文件。</strong></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps47.jpg" alt="img"> </p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps48.jpg" alt="img"> </p>
+<p><strong>至此，安装完成。全部工作完成，可以打开burp，准备抓包了。</strong></p>
+<h2 id="1-11-扩展-常见信息泄露利用方法"><a href="#1-11-扩展-常见信息泄露利用方法" class="headerlink" title="1.11 扩展:常见信息泄露利用方法"></a>1.11 <strong>扩展:常见信息泄露利用方法</strong></h2><p><strong>一、Git导致文件泄露</strong></p>
+<p>​    由于目前的 web 项目的开发采用前后端完全分离的架构:前端全部使用静态文件，和后端代码完全分离，隶属两个不同的项目。表态文件使用 git 来进行同步发布到服务器，然后使用nginx 指向到指定目录，以达到被公网访问的目的。<br>    在运行git init初始化代码库的时候，会在当前目录下面产生一个.git的隐藏文件，用来记录代码的变更记录等等。在发布代码的时候，把.git这个目录没有删除，直接发布了。使用这个文件，可以用来恢复源代码<br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps49.png" alt="img"> <img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps50.jpg" alt="img"></p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps51.jpg" alt="img"><br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps52.png" alt="img"></p>
+<p><strong>二、DS_store导致文件泄露</strong></p>
+<p>​    .DS_Store是Mac下Finder用来保存如何展示文件//文件夹的数据文件，每个文件夹下对应一个。由于开发/设计人员在发布代码时未删除文件夹中隐藏的.DS_store，可能造成文件目录结构泄漏、源代码文件等敏感信息的泄露。<br>我们可以模仿一个环境，利用phpstudy搭建PHP环境，把.DS_store文件上传到相关目录。</p>
+<p><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps53.jpg" alt="img"><br>然后利用工具进行相关检测<br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps54.jpg" alt="img"><br>工具下载地址：<a target="_blank" rel="noopener" href="https://github.com/lijiejie/ds_store_exp">https://github.com/lijiejie/ds_store_exp</a><br>为了让实验更真实，我们在本地搭建环境，然后建立一个文件夹为admin和一个hello文件夹，利用该工具运行完以后，查看工具文件夹查看有什么结果。<br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps55.png" alt="img"> <img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps56.jpg" alt="img"><br>此文件和我们在一个文件夹内，如果是苹果用户，把文件copy到相关服务器目录以后，都会默认带一个文件.DS_Store。首先访问test.php文件，查看环境是否成功。<br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps57.png" alt="img"> <img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps58.jpg" alt="img"><br>环境搭建成功 <img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps59.jpg" alt="img">我们利用工具进行测试，运行完如上图，运行完以后我们可以到工具目录进行查看<br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps60.png" alt="img"> <img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps61.jpg" alt="img">这是一个.DS_Store文件泄漏利用脚本，它解析.DS_Store文件并递归地下载文件到本地。</p>
+<p><strong>三、SVN导致文件泄露</strong></p>
+<p>​    Subversion，简称SVN，是一个开放源代码的版本控制系统，相对于的RCS、CVS，采用了分支管理系统，它的设计目标就是取代CVS。互联网上越来越多的控制服务从CVS转移到Subversion。<br>    Subversion使用服务端—客户端的结构，当然服务端与客户端可以都运行在同一台服务器上。在服务端是存放着所有受控制数据的Subversion仓库，另一端是Subversion的客户端程序，管理着受控数据的一部分在本地的映射（称为“工作副本”）。在这两端之间，是通过各种仓库存取层（Repository Access，简称RA）的多条通道进行访问的。这些通道中，可以通过不同的网络协议，例如HTTP、SSH等，或本地文件的方式来对仓库进行操作。<br>SVN漏洞在实际渗透测试过程中，利用到也比较多，由于一些开发管理员疏忽造成，原理类似DS_Store漏洞。我们这里不再进行搭建环境，给大家推荐工具，利用方法如下：</p>
+<ol>
+<li>漏洞利用工具： Seay SVN漏洞利用工具</li>
+<li>添加网站url<br>在被利用的网址后面加 /.svn/entries，列出网站目录，甚至下载整站<br><img src="file:///C:\Users\zhangyan\AppData\Local\Temp\ksohtml20604\wps62.jpg" alt="img"><br>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1jGA98jG">https://pan.baidu.com/s/1jGA98jG</a></li>
+</ol>
+<p><strong>四**</strong>、WEB-INF/web.xml泄露**</p>
+<p>WEB-INF是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。</p>
+<p>WEB-INF主要包含一下文件或目录：</p>
+<p>/WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。</p>
+<p>/WEB-INF/classes/：含了站点所有用的 <strong>class</strong> 文件，包括 <strong>servlet</strong> <strong>class</strong> 和非<strong>servlet</strong> <strong>class</strong>，他们不能包含在 .<strong>jar</strong>文件中</p>
+<p>/WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件</p>
+<p>/WEB-INF/src/：源码目录，按照包名结构放置各个java文件。</p>
+<p>/WEB-INF/database.properties：数据库配置文件</p>
+<p>原因：<br>通常一些web应用我们会使用多个web服务器搭配使用，解决其中的一个web服务器的性能缺陷以及做均衡负载的优点和完成一些分层结构的安全策略等。在使用这种架构的时候，由于对静态资源的目录或文件的映射配置不当，可能会引发一些的安全问题，导致web.xml等文件能够被读取</p>
+<h2 id="1-12-扩展-ZoomEye-hack"><a href="#1-12-扩展-ZoomEye-hack" class="headerlink" title="1.12 扩展: ZoomEye hack"></a>1.12 <strong>扩展:</strong> <strong>ZoomEye</strong> <strong>hack</strong></h2><p>​    ZoomEye 支持公网设备指纹检索和 Web指纹检索的网站，指纹检索包括应用名称、版本、前端框架、后端框架、服务端语言、服务器操作系统、网站容器、内容管理系统和数据库等。<br>设备指纹包括应用名、版本、开放端口、操作系统、服务名、地理位置等。</p>
+<p><strong>1**</strong>、实战搜索**</p>
+<p>我们今天主要讲下如何使用他的语法规则去高级搜索，搜索有用信息。</p>
+<p>· <strong>主机设备搜索组件名称</strong><br>app: 组件名<br>ver: 组件版本<br>例1：搜索使用iis6.0主机：app:”Microsoft-IIS” ver”6.0”，可以看到0.6秒搜索到41，781,210左右的使用iis6.0的主机。</p>
+<p>例2：搜索使weblogic主机：app:”weblogic httpd” port:7001，可以看到0.078秒搜索到42万左右的使用weblogic的主机。</p>
+<p>例3：查询开放3389端口的主机：port:3389</p>
+<p>例4：查询操作系统为Linux系统的服务器，os:linux</p>
+<p>例5：查询公网摄像头：service:”routersetup”</p>
+<p>例6：搜索美国的 Apache 服务器：app:Apache country:US  后面还可以接city: 城市名称</p>
+<p>例7：搜索指定ip信息，ip:121.42.173.26</p>
+<p>例8：查询有关taobao.com域名的信息，site:taobao.com</p>
+<p>例9：搜索标题中包含该字符的网站，title:weblogic</p>
+<p>例10：keywords:Nginx</p>
+<h2 id="1-13-扩展-fofa-hack"><a href="#1-13-扩展-fofa-hack" class="headerlink" title="1.13 扩展: fofa hack"></a>1.13 <strong>扩展:</strong> <strong>fofa hack</strong></h2><p>domain=””||ip=””||host=””||title=””||header=””<br>protocol=”https”，搜索指定协议类型</p>
+<p>app=”phpinfo”搜索某些组件相关系统</p>
+<p>host=”oldboyedu.com/“搜索包含有特定字符的URL</p>
+<p>title=”powered by” &amp;&amp; os==windows搜索网页标题中包含有特定字符并且系统是windows的网页</p>
+<p>详细请看官方详细文档; <a target="_blank" rel="noopener" href="https://fofa.so/help">https://fofa.so/help</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Threezh1/JSFinder">https://github.com/Threezh1/JSFinder</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2020/09/12/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">http://example.com/2020/09/12/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%AE%89%E5%85%A8/"># 安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/12/Metasploit/">Metasploit</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
