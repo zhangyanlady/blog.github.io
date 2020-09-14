@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>文件上传、下载 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">文件上传、下载</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 12, 2020&nbsp;&nbsp;20:04:15</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD.png"></p>
+<h2 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h2><h3 id="一、漏洞介绍"><a href="#一、漏洞介绍" class="headerlink" title="一、漏洞介绍"></a>一、漏洞介绍</h3><p>  一些网站由于业务需求，往往需要提供文件查看或文件下载功能，但若对用户查看或下载的文件不做限制，则恶意用户就能够查看或下载任意敏感文件，这就是文件查看与下载漏洞。</p>
+<h3 id="二、利用方式"><a href="#二、利用方式" class="headerlink" title="二、利用方式"></a>二、利用方式</h3><h4 id="一般链接形式"><a href="#一般链接形式" class="headerlink" title="一般链接形式:"></a>一般链接形式:</h4><p>download.php?path=<br>down.php?file=<br>data.php?file=</p>
+<h4 id="或者包含参数"><a href="#或者包含参数" class="headerlink" title="或者包含参数:"></a>或者包含参数:</h4><p>&amp;Src=<br>&amp;Inputfile=<br>&amp;Filepath=<br>&amp;Path=<br>&amp;Data=</p>
+<h3 id="三、利用思路"><a href="#三、利用思路" class="headerlink" title="三、利用思路:"></a>三、利用思路:</h3><p>(1)下载常规的配置文件，例如: ssh,weblogic,ftp,mysql等相关配置</p>
+<p>(2)下载各种.log文件，从中寻找一些后台地址，文件上传点之类的地方，如果运气好的话会获得一些前辈们的后门。</p>
+<p>(3)下载web业务文件进行白盒审计，利用漏洞进一步攻入服务器。<br>      尝试读取/root/.bash_history看自己是否具有root权限。如果没有的话。我们只能按部就班的利用../来回跳转读取一些.ssh下的配置信息文件，读取mysql下的.bash_history文件。来查看是否记录了一些可以利用的相关信息。然后逐个下载我们需要审计的代码文件，但是下载的时候变得很繁琐，我们只能尝试去猜解目录，然后下载一些中间件的记录日志进行分析。</p>
+<h5 id="如果我们遇到的是java-oracle环境"><a href="#如果我们遇到的是java-oracle环境" class="headerlink" title="如果我们遇到的是java+oracle环境"></a>如果我们遇到的是java+oracle环境</h5><p>  可以先下载/WEB-INF/classes/applicationContext.xml 文件，这里面记载的是web服务器的相应配置，然后下载/WEB-INF/classes/xxx/xxx/ccc.class对文件进行反编译，然后搜索文件中的upload关键字看是否存在一些api接口，如果存在的话我们可以本地构造上传页面用api接口将我们的文件传输进服务器</p>
+<h5 id="如果具有root权限"><a href="#如果具有root权限" class="headerlink" title="如果具有root权限"></a>如果具有root权限</h5><p>  在linux中有这样一个命令 locate 是用来查找文件或目录的，它不搜索具体目录，而是搜索一个数据库/var/lib/mlocate/mlocate.db。这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次。当我们不知道路径是什么的情况下，这个可以说是一个核武器了，我们利用任意文件下载漏洞mlocate.db文件下载下来，利用locate命令将数据输出成文件，这里面包含了全部的文件路径信息。</p>
+<p>locate 读取方法: locate mlocate.db admin    //可以将mlocate.db中包含admin文件名的内容全部输出来</p>
+<p>（4）常见利用文件<br>/root/.ssh/authorized_keys<br>/root/.ssh/id_rsa<br>/root/.ssh/id_ras.keystore<br>/root/.ssh/known_hosts //记录每个访问计算机用户的公钥<br>/etc/passwd<br>/etc/shadow<br>/etc/my.cnf //mysql配置文件<br>/etc/httpd/conf/httpd.conf //apache配置文件<br>/root/.bash_history //用户历史命令记录文件<br>/root/.mysql_history //mysql历史命令记录文件<br>/proc/mounts //记录系统挂载设备<br>/porc/config.gz //内核配置文件<br>/var/lib/mlocate/mlocate.db //全文件路径<br>/porc/self/cmdline //当前进程的cmdline参数</p>
+<h3 id="四、漏洞修复"><a href="#四、漏洞修复" class="headerlink" title="四、漏洞修复"></a>四、漏洞修复</h3><p>（1）过滤”.”，使用户在url中不能回溯上级目录</p>
+<p>（2）正则严格判断用户输入参数的格式</p>
+<p>（3）php.ini配置open_basedir限定文件访问范围</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/09/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/">https://zhangyanlady.github.io/2020/09/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/12/CSRF%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/">CSRF跨站请求伪造</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/12/XSS%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/">XSS跨站脚本攻击</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
