@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>vue搭建 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">vue搭建</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 15, 2020&nbsp;&nbsp;19:17:37</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="1-避坑前言"><a href="#1-避坑前言" class="headerlink" title="1. 避坑前言"></a>1. 避坑前言</h4><p>确认node与npm的版本</p>
+<p>将这个放在最前面说是希望大家在搭建前，应该先确保将node更新至6以上，这样能少走一些弯路。下面开始正式介绍整个构建过程。</p>
+<h4 id="2-使用-vue-cli-搭建项目"><a href="#2-使用-vue-cli-搭建项目" class="headerlink" title="2. 使用 vue-cli 搭建项目"></a>2. 使用 vue-cli 搭建项目</h4><p>下面整个过程是基于已经安装node.js和cnpm的基础上，node.js如何安装就不在这里详说了。如何全局化安装cnpm，这里简单提一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>其实对于安装vue-cli，使用npm命令和cnpm命令都是可以的，个人觉得使用npm安装的比较慢，而且很可能会因为网络问题而出错，所以还是觉得使用cnpm稳一点。</p>
+<h6 id="（1）全局安装-vue-cli-，在命令提示窗口执行："><a href="#（1）全局安装-vue-cli-，在命令提示窗口执行：" class="headerlink" title="（1）全局安装 vue-cli ，在命令提示窗口执行："></a>（1）全局安装 vue-cli ，在命令提示窗口执行：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -g vue-cli </span><br></pre></td></tr></table></figure>
+
+<p>安装vue-cli</p>
+<p>出现以上提示表示vue-cli正常安装成功，可以正式创建vue-cli工程项目了。</p>
+<h6 id="（2）安装vue-cli成功后，通过cd命令进入你想放置项目的文件夹，在命令提示窗口执行创建vue-cli工程项目的命令："><a href="#（2）安装vue-cli成功后，通过cd命令进入你想放置项目的文件夹，在命令提示窗口执行创建vue-cli工程项目的命令：" class="headerlink" title="（2）安装vue-cli成功后，通过cd命令进入你想放置项目的文件夹，在命令提示窗口执行创建vue-cli工程项目的命令："></a>（2）安装vue-cli成功后，通过cd命令进入你想放置项目的文件夹，在命令提示窗口执行创建vue-cli工程项目的命令：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue init webpack</span><br></pre></td></tr></table></figure>
+
+<p>创建vue-cli工程项目</p>
+<p>确认创建项目后，后续还需输入一下项目名称、项目描述、作者、打包方式、是否使用ESLint规范代码等等，</p>
+<p>生成文件目录</p>
+<h6 id="（3）生成文件目录后，使用-cnpm-安装依赖："><a href="#（3）生成文件目录后，使用-cnpm-安装依赖：" class="headerlink" title="（3）生成文件目录后，使用 cnpm 安装依赖："></a>（3）生成文件目录后，使用 cnpm 安装依赖：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install </span><br></pre></td></tr></table></figure>
+
+<p>安装依赖</p>
+<h6 id="（4）最后需要执行命令：-npm-run-dev-来启动项目，启动完成后会自动弹出默认网页："><a href="#（4）最后需要执行命令：-npm-run-dev-来启动项目，启动完成后会自动弹出默认网页：" class="headerlink" title="（4）最后需要执行命令： npm run dev  来启动项目，启动完成后会自动弹出默认网页："></a>（4）最后需要执行命令： npm run dev  来启动项目，启动完成后会自动弹出默认网页：</h6><p>到这一步，就算成功利用vue-cli搭建一个vue项目了，撒花 ~</p>
+<h4 id="3-目录结构及其对应作用"><a href="#3-目录结构及其对应作用" class="headerlink" title="3.目录结构及其对应作用"></a>3.目录结构及其对应作用</h4><p>通过vue-cli搭建一个vue项目，会自动生成一系列文件，而这些文件具体是怎样的结构、文件对应起什么作用，可以看看下面的解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">├── build&#x2F;                      # webpack 编译任务配置文件: 开发环境与生产环境</span><br><span class="line">│   └── ...</span><br><span class="line">├── config&#x2F;                     </span><br><span class="line">│   ├── index.js                # 项目核心配置</span><br><span class="line">│   └── ...</span><br><span class="line">├ ── node_module&#x2F;               #项目中安装的依赖模块</span><br><span class="line">   ── src&#x2F;</span><br><span class="line">│   ├── main.js                 # 程序入口文件</span><br><span class="line">│   ├── App.vue                 # 程序入口vue组件</span><br><span class="line">│   ├── components&#x2F;             # 组件</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   └── assets&#x2F;                 # 资源文件夹，一般放一些静态资源文件</span><br><span class="line">│       └── ...</span><br><span class="line">├── static&#x2F;                     # 纯静态资源 (直接拷贝到dist&#x2F;static&#x2F;里面)</span><br><span class="line">├── test&#x2F;</span><br><span class="line">│   └── unit&#x2F;                   # 单元测试</span><br><span class="line">│   │   ├── specs&#x2F;              # 测试规范</span><br><span class="line">│   │   ├── index.js            # 测试入口文件</span><br><span class="line">│   │   └── karma.conf.js       # 测试运行配置文件</span><br><span class="line">│   └── e2e&#x2F;                    # 端到端测试</span><br><span class="line">│   │   ├── specs&#x2F;              # 测试规范</span><br><span class="line">│   │   ├── custom-assertions&#x2F;  # 端到端测试自定义断言</span><br><span class="line">│   │   ├── runner.js           # 运行测试的脚本</span><br><span class="line">│   │   └── nightwatch.conf.js  # 运行测试的配置文件</span><br><span class="line">├── .babelrc                    # babel 配置文件</span><br><span class="line">├── .editorconfig               # 编辑配置文件</span><br><span class="line">├── .gitignore                  # 用来过滤一些版本控制的文件，比如node_modules文件夹 </span><br><span class="line">├── index.html                  # index.html 入口模板文件</span><br><span class="line">└── package.json                # 项目文件，记载着一些命令和依赖还有简要的项目描述信息 </span><br><span class="line">└── README.md                   #介绍自己这个项目的，可参照github上star多的项目。</span><br><span class="line">build&#x2F;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/09/15/vue%E6%90%AD%E5%BB%BA/">https://zhangyanlady.github.io/2020/09/15/vue%E6%90%AD%E5%BB%BA/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%89%8D%E7%AB%AF/"># 前端</a>
+                    
+                        <a href="/tags/vue/"># vue</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/15/web/">web</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/12/%E8%B6%8A%E6%9D%83%E3%80%81%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/">越权、逻辑漏洞</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

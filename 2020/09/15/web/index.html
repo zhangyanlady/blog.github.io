@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>web | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">web</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 15, 2020&nbsp;&nbsp;19:17:37</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="Flask-中请求上下文和应用上下文的区别和作用？"><a href="#Flask-中请求上下文和应用上下文的区别和作用？" class="headerlink" title="Flask 中请求上下文和应用上下文的区别和作用？"></a>Flask 中请求上下文和应用上下文的区别和作用？</h3><p> current_app、g 是应用上下文</p>
+<p> request、session 是请求上下文</p>
+<p>两者区别：</p>
+<p> 请求上下文：保存了客户端和服务器交互的数据。 </p>
+<p>应用上下文：flask 应用程序运行过程中，保存的一些配置信息，比如程序名、数据库连接、应用 信息等。 </p>
+<p>两者作用：</p>
+<p> 请求上下文(request context)： Flask 从客户端收到请求时，要让视图函数能访问一些对象，这样才能处理请求。请求对象是一 个很好的例子，它封装了客户端发送的 HTTP 请求。 要想让视图函数能够访问请求对象，一个显而易见的方式是将其作为参数传入视图函数，不过 这会导致程序中的每个视图函数都增加一个参数，除了访问请求对象,如果视图函数在处理请求时还 要访问其他对象，情况会变得更糟。为了避免大量可有可无的参数把视图函数弄得一团糟，Flask 使用上下文临时把某些对象变为全局可访问。 应用上下文(application context)： 它的字面意思是 应用上下文，但它不是一直存在的，它只是 request context 中的一个对 app 的代理(人)，所谓 local proxy。它的作用主要是帮助 request 获取当前的应用，它是伴 request 而 生，随 request 而灭的。</p>
+<h3 id="Flask-项目中如何实现-session-信息的写入？"><a href="#Flask-项目中如何实现-session-信息的写入？" class="headerlink" title="Flask 项目中如何实现 session 信息的写入？"></a>Flask 项目中如何实现 session 信息的写入？</h3><p> Flask 中有三个 session： </p>
+<ol>
+<li>数据库中的 session，例如:db.session.add() </li>
+<li>在flask_session 扩展中的 session，使用：from flask_session importSession，使用 第三方扩展的 session 可以把信息存储在服务器中，客户端浏览器中只存储 sessionid。 </li>
+<li>flask 自带的session，是一个请求上下文， 使用：from flask import session。自带的 session 把信息加密后都存储在客户端的浏览器 cookie 中。 </li>
+</ol>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="Flask-和-Django-路由映射的区别？"><a href="#Flask-和-Django-路由映射的区别？" class="headerlink" title="Flask 和 Django 路由映射的区别？"></a>Flask 和 Django 路由映射的区别？</h3><p>在 django 中，路由是浏览器访问服务器时，先访问的项目中的 url，再由项目中的 url 找到应用中url，这些 url 是放在一个列表里，遵从从前往后匹配的规则。在 flask 中，路由是通过装饰器给每个视 图函数提供的，而且根据请求方式的不同可以一个 url 用于不同的作用。 </p>
+<p>跨站请求伪造和跨站请求保护的实现？</p>
+<p> Browse 是浏览器，WebServerA 是受信任网站/被攻击网站 A，WebServerB 是恶意网站/点击网站 B。 </p>
+<p>（1）一开始用户打开浏览器，访问受信任网站 A，输入用户名和密码登陆请求登陆网站A。 （2）网站 A 验证用户信息，用户信息通过验证后，网站 A 产生 Cookie 信息并返回给浏览器。</p>
+<p>（3）用户登陆网站 A 成功后，可以正常请求网站 A。 </p>
+<p>（4）用户未退出网站 A 之前，在同一浏览器中，打开一个 TAB 访问网站 B。 </p>
+<p>（5）网站 B 看到有人方式后，他会返回一些攻击性代码。 </p>
+<p>（6）浏览器在接受到这些攻击性代码后，促使用户不知情的情况下浏览器携带 Cookie（包括 sessionId）信息，请求网站 A。这种请求有可能更新密码，添加用户什么的操作。</p>
+<p>从上面 CSRF 攻击原理可以看出，要完成一次 CSRF 攻击，需要被攻击者完成两个步骤： 1.登陆受信任网站 A，并在本地生成 COOKIE。 2.在不登出 A 的情况下，访问危险网站 B。 如果不满足以上两个条件中的一个，就不会受到 CSRF 的攻击，以下情况可能会导致 CSRF： 1.登录了一个网站后，打开一个 tab 页面并访问另外的网站。 2.关闭浏览器了后，本地的 Cookie 尚未过期，你上次的会话还没有已经结束。（事实上，关闭浏 览器不能结束一个会话，但大多数人都会错误的认为关闭浏览器就等于退出登录/结束会话了……） 解决办法：就是在表单中添加 from.csrf_token。</p>
+<p>### Flask(name)中的name可以传入哪些值？ </p>
+<p>可以传入的参数： 1，字符串：‘hello’, 但是‘abc’,不行，因为 abc 是 python 内置的模块 2，name，约定俗成 不可以插入的参数 1，python 内置的模块，re,urllib,abc 等 2，数字 </p>
+<p>Django 创建项目后，项目文件夹下的组成部分（对 mvt 的理解）？ </p>
+<p>项目文件夹下的组成部分： manage.py 是项目运行的入口，指定配置文件路径。 与项目同名的目录，包含项目的配置文件。 _init.py 是一个空文件，作用是这个目录可以被当作包使用,也可以做一些初始化操作。 settings.py 是项目的整体配置文件。 urls.py 是项目的 URL 配置文件。 wsgi.py 是项目与 WSGI 兼容的 Web 服务器。</p>
+<h3 id="对-MVC-MVT-解读的理解？"><a href="#对-MVC-MVT-解读的理解？" class="headerlink" title="对 MVC,MVT 解读的理解？"></a>对 MVC,MVT 解读的理解？</h3><p>MVC</p>
+<p> M：Model，模型，和数据库进行交互 V：View，视图，负责产生 Html 页面 C：Controller，控制器，接收请求，进行处理，与 M 和 V 进行交互，返回应答</p>
+<p> 流程：</p>
+<p>1、 用户点击注按钮，将要注册的信息发送给网站服务器。 </p>
+<p>2、 Controller 控制器接收到用户的注册信息，Controller 会告诉 Model 层将用户的注册信息保 存到数据库 </p>
+<p>3、 Model 层将用户的注册信息保存到数据库</p>
+<p> 4、 数据保存之后将保存的结果返回给 Model 模型，</p>
+<p> 5、 Model 层将保存的结果返回给 Controller 控制器。 </p>
+<p>6、 Controller 控制器收到保存的结果之后，或告诉 View 视图，view 视图产生一个 html 页面。</p>
+<p> 7、 View 将产生的 Html 页面的内容给了 Controller 控制器。</p>
+<p> 8、 Controller 将 Html 页面的内容返回给浏览器。</p>
+<p> 9、 浏览器接受到服务器 Controller 返回的 Html 页面进行解析展示。 </p>
+<p>MVT </p>
+<p>M：Model，模型，和 MVC 中的 M 功能相同，和数据库进行交互。 </p>
+<p>V：view，视图，和 MVC 中的 C 功能相同，接收请求，进行处理，与 M 和 T 进行交互，返回应答。 </p>
+<p>T：Template，模板，和 MVC 中的 V 功能相同，产生 Html 页面 </p>
+<p>流程：</p>
+<p>1、 用户点击注册按钮，将要注册的内容发送给网站的服务器。 </p>
+<p>2、 View 视图，接收到用户发来的注册数据，View 告诉 Model 将用户的注册信息保存进数据库。</p>
+<p> 3、 Model 层将用户的注册信息保存到数据库中。 </p>
+<p>4、 数据库将保存的结果返回给 Model </p>
+<p>5、 Model 将保存的结果给 View 视图。</p>
+<p> 6、 View 视图告诉 Template 模板去产生一个 Html 页面。</p>
+<p> 7、 Template 生成 html 内容返回给 View 视图。 </p>
+<p>8、 View 将 html 页面内容返回给浏览器。 </p>
+<p>9、 浏览器拿到 view 返回的 html 页面内容进行解析，展示。</p>
+<h2 id="谈一下你对-uWSGI-和-nginx-的理解？"><a href="#谈一下你对-uWSGI-和-nginx-的理解？" class="headerlink" title="谈一下你对 uWSGI 和 nginx 的理解？"></a>谈一下你对 uWSGI 和 nginx 的理解？</h2><ol>
+<li>uWSGI 是一个 Web 服务器，它实现了 WSGI 协议、uwsgi、http 等协议。Nginx 中 HttpUwsgiModule 的作用是与 uWSGI 服务器进行交换。WSGI 是一种 Web 服务器网关接口。它是一 个 Web 服务器（如 nginx，uWSGI 等服务器）与 web 应用（如用 Flask 框架写的程序）通信的一种规范。<br>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。 WSGI 是一种通信协议。 uwsgi 是一种线路协议而不是通信协议，在此常用于在 uWSGI 服务器与其他网络服务器的数据通信。 uWSGI 是实现了 uwsgi 和 WSGI 两种协议的 Web 服务器。 </li>
+<li>nginx 是一个开源的高性能的 HTTP 服务器和反向代理：<ul>
+<li>作为 web 服务器，它处理静态文件和索引文件效果非常高；</li>
+<li>它的设计非常注重效率，最大支持 5 万个并发连接，但只占用很少的内存空间；</li>
+<li>稳定性高，配置简洁； </li>
+<li>强大的反向代理和负载均衡功能，平衡集群中各个服务器的负载压力应用。 </li>
+</ul>
+</li>
+</ol>
+<h4 id="说说-nginx-和-uWISG-服务器之间如何配合工作的？"><a href="#说说-nginx-和-uWISG-服务器之间如何配合工作的？" class="headerlink" title="说说 nginx 和 uWISG 服务器之间如何配合工作的？"></a>说说 nginx 和 uWISG 服务器之间如何配合工作的？</h4><p>首先浏览器发起 http 请求到 nginx 服务器，Nginx 根据接收到请求包，进行 url 分析，判断访问的资源类型，如果是静态资源，直接读取静态资源返回给浏览器，如果请求的是动态资源就转交给 uwsgi 服务器，uwsgi 服务器根据自身的 uwsgi 和 WSGI 协议，找到对应的 Django 框架，Django框架下的 应用进行逻辑处理后，将返回值发送到 uwsgi 服务器，然后 uwsgi 服务器再返回给nginx，最后 nginx 将返回值返回给浏览器进行渲染显示给用户。 </p>
+<h4 id="django-开发中数据库做过什么优化"><a href="#django-开发中数据库做过什么优化" class="headerlink" title="django 开发中数据库做过什么优化?"></a>django 开发中数据库做过什么优化?</h4><p>1.设计表时，尽量少使用外键，因为外键约束会影响插入和删除性能； </p>
+<p>2.使用缓存，减少对数据库的访问；</p>
+<p> 3.在 orm 框架下设置表时，能用 varchar 确定字段长度时，就别用 text； </p>
+<p>4.可以给搜索频率高的字段属性，在定义时创建索引；</p>
+<p> 5.Django orm 框架下的 Querysets 本来就有缓存的；</p>
+<p> 6.如果一个页面需要多次连接数据库，最好一次性取出所有需要的数据，减少对数据库的查询次数； </p>
+<p>7.若页面只需要数据库里某一个两个字段时，可以用QuerySet.values()；</p>
+<p> 8.在模板标签里使用 with 标签可以缓存 Qset 的查询结果。 </p>
+<h3 id="验证码过期时间怎么设置？"><a href="#验证码过期时间怎么设置？" class="headerlink" title="验证码过期时间怎么设置？"></a>验证码过期时间怎么设置？</h3><p>将验证码保存到数据库或 session，设置过期时间为 1 分钟，然后页面设置一个倒计时(一般是前端 js 实现 这个计时)的展示，一分钟过后再次点击获取新的信息。 </p>
+<h4 id="Python-中三大框架各自的应用场景？"><a href="#Python-中三大框架各自的应用场景？" class="headerlink" title="Python 中三大框架各自的应用场景？"></a>Python 中三大框架各自的应用场景？</h4><p>django：主要是用来搞快速开发的，他的亮点就是快速开发，节约成本，正常的并发量不过 10000，如果要实现高并发的话，就要对 django 进行二次开发，比如把整个笨重的框架给拆掉，自己写 socket 实现 http 的通信，底层用纯 c，c++写提升效率，ORM 框架给干掉，自己编写封装与数据库交互的框 架，因为啥呢，ORM 虽然面向对象来操作数据库，但是它的效率很低，使用外键来联系表与表之间的 查询； </p>
+<p>flask：轻量级，主要是用来写接口的一个框架，实现前后端分离，提升开发效率，Flask 本身相当于一 个内核，其他几乎所有的功能都要用到扩展（邮件扩展 Flask-Mail，用户认证 Flask-Login），都需要 用第三方的扩展来实现。比如可以用 Flask-extension 加入 ORM、窗体验证工具，文件上传、身份验 证等。Flask 没有默认使用的数据库，你可以选择 MySQL，也可以用 NoSQL。 </p>
+<p>其 WSGI 工具箱采用 Werkzeug（路由模块），模板引擎则使用 Jinja2。这两个也是 Flask 框架 的核心。Python 最出名的框架要数 Django，此外还有 Flask、Tornado 等框架。虽然 Flask 不是最出 名的框架，但是 Flask 应该算是最灵活的框架之一，这也是 Flask 受到广大开发者喜爱的原因。 </p>
+<p>Tornado： Tornado 是一种 Web 服务器软件的开源版本。Tornado 和现在的主流 Web 服务器框架（包括大多数 Python 的框架）有着明显的区别：它是非阻塞式服务器，而且速度相当快。 得利于其非阻塞的方式和对 epoll 的运用，Tornado 每秒可以处理数以千计的连接，因此 Tornado 是实时 Web 服务的一个 理想框架。 </p>
+<h3 id="django-如何提升性能（高并发）？"><a href="#django-如何提升性能（高并发）？" class="headerlink" title="django 如何提升性能（高并发）？"></a>django 如何提升性能（高并发）？</h3><p>对一个后端开发程序员来说，提升性能指标主要有两个一个是并发数，另一个是响应时间网站性能 的优化一般包括 web 前端性能优化，应用服务器性能优化，存储服务器优化。 </p>
+<p>对前端的优化主要有： </p>
+<p>1.减少 http 请求，减少数据库的访问量，比如使用雪碧图。</p>
+<p> 2.使用浏览器缓存，将一些常用的 css，js，logo 图标，这些静态资源缓存到本地浏览器，通过设 置 http 头中的 cache-control 和 expires 的属性，可设定浏览器缓存，缓存时间可以自定义。</p>
+<p> 3 对 html，css，javascript 文件进行压缩，减少网络的通信量。 </p>
+<p>对我个人而言，我做的优化主要是以下三个方面： </p>
+<p>1.合理的使用缓存技术，对一些常用到的动态数据，比如首页做一个缓存，或者某些常用的数据做 个缓存，设置一定得过期时间，这样减少了对数据库的压力，提升网站性能。 </p>
+<p>2.使用 celery 消息队列，将耗时的操作扔到队列里，让 worker 去监听队列里的任务，实现异步操 作，比如发邮件，发短信 </p>
+<p>3.就是代码上的一些优化，补充：nginx 部署项目也是项目优化，可以配置合适的配置参数，提升 效率，增加并发量。 </p>
+<p>4.如果太多考虑安全因素，服务器磁盘用固态硬盘读写，远远大于机械硬盘，这个技术现在没有普 及，主要是固态硬盘技术上还不是完全成熟， 相信以后会大量普及。</p>
+<p> 5.另外还可以搭建服务器集群，将并发访问请求，分散到多台服务器上处理。 </p>
+<p>6.最后就是运维工作人员的一些性能优化技术了。 </p>
+<h4 id="什么是-restful-api，谈谈你的理解"><a href="#什么是-restful-api，谈谈你的理解" class="headerlink" title="什么是 restful api，谈谈你的理解?"></a>什么是 restful api，谈谈你的理解?</h4><p>REST:Representational State Transfer 的缩写，翻译：“具象状态传输”。一般解释为“表现层 状态转换”。 REST 是设计风格而不是标准。是指客户端和服务器的交互形式。我们需要关注的重点是如何设计 REST 风格的网络接口。 </p>
+<p>REST 的特点：</p>
+<p>1.具象的。一般指表现层，要表现的对象就是资源。比如，客户端访问服务器，获取的数据就是资源。比如文字、图片、音视频等。 </p>
+<p>2.表现：资源的表现形式。txt 格式、html 格式、json 格式、jpg格式等。浏览器通过 URL 确定资 源的位置，但是需要在 HTTP 请求头中，用 Accept 和 Content-Type 字段指定，这两个字段是对资源 表现的描述。 </p>
+<p>3.状态转换：客户端和服务器交互的过程。在这个过程中，一定会有数据和状态的转化，这种转化 叫做状态转换。其中，GET 表示获取资源，POST表示新建资源，PUT 表示更新资源，DELETE 表示删 除资源。HTTP 协议中最常用的就是这四种操作方式。 </p>
+<p>RESTful 架构： </p>
+<p>1.每个 URL 代表一种资源； </p>
+<p>2.客户端和服务器之间，传递这种资源的某种表现层； </p>
+<p>3.客户端通过四个 http 动词，对服务器资源进行操作，实现表现层状态转换。 </p>
+<h3 id="如何设计符合-RESTful-风格的-API"><a href="#如何设计符合-RESTful-风格的-API" class="headerlink" title="如何设计符合 RESTful 风格的 API"></a>如何设计符合 RESTful 风格的 API</h3><p>一、域名： 将 api 部署在专用域名下： <a target="_blank" rel="noopener" href="http://api.example.com/">http://api.example.com</a> 或者将 api 放在主域名下： </p>
+<p><a target="_blank" rel="noopener" href="http://www.example.com/api/">http://www.example.com/api/</a> </p>
+<p>二、版本： 将 API 的版本号放在 url 中。 <a target="_blank" rel="noopener" href="http://www.example.com/app/1.0/info">http://www.example.com/app/1.0/info</a> <a target="_blank" rel="noopener" href="http://www.example.com/app/1.2/info">http://www.example.com/app/1.2/info</a> </p>
+<p>三、路径： 路径表示 API 的具体网址。每个网址代表一种资源。 资源作为网址，网址中不能有动词只能有 名词，一般名词要与数据库的表名对应。而且名词要使用复数。 </p>
+<p>错误示例： <a target="_blank" rel="noopener" href="http://www.example.com/getGoods">http://www.example.com/getGoods</a> <a target="_blank" rel="noopener" href="http://www.example.com/listOrders">http://www.example.com/listOrders</a> </p>
+<p>正确示例： </p>
+<p>获取单个商品 </p>
+<p><a target="_blank" rel="noopener" href="http://www.example.com/app/goods/1">http://www.example.com/app/goods/1</a> </p>
+<p>获取所有商品 </p>
+<p><a target="_blank" rel="noopener" href="http://www.example.com/app/goods">http://www.example.com/app/goods</a> </p>
+<p>四、使用标准的 HTTP 方法： 对于资源的具体操作类型，由 HTTP 动词表示。 常用的 HTTP 动词有四个。 GET SELECT ：从服务器获取资源。 POST CREATE ：在服务器新建资源。 PUT UPDATE ：在服务器更新资源。 DELETE DELETE ：从服务器删除资源。 </p>
+<p>示例： </p>
+<p>获取指定商品的信息 </p>
+<p>GET <a target="_blank" rel="noopener" href="http://www.example.com/goods/ID">http://www.example.com/goods/ID</a> </p>
+<p>新建商品的信息</p>
+<p>POST <a target="_blank" rel="noopener" href="http://www.example.com/goods">http://www.example.com/goods</a> </p>
+<p>更新指定商品的信息 </p>
+<p>PUT <a target="_blank" rel="noopener" href="http://www.example.com/goods/ID">http://www.example.com/goods/ID</a> </p>
+<p>删除指定商品的信息 </p>
+<p>DELETE <a target="_blank" rel="noopener" href="http://www.example.com/goods/ID">http://www.example.com/goods/ID</a> </p>
+<p>五、过滤信息： 如果资源数据较多，服务器不能将所有数据一次全部返回给客户端。API 应该提供参数，过滤返 回结果。 </p>
+<p>实例： </p>
+<p>指定返回数据的数量</p>
+<p><a target="_blank" rel="noopener" href="http://www.example.com/goods?limit=10">http://www.example.com/goods?limit=10</a> </p>
+<p>指定返回数据的开始位置 </p>
+<p><a target="_blank" rel="noopener" href="http://www.example.com/goods?o%01set=10">http://www.example.com/goods?oset=10</a> </p>
+<h4 id="指定第几页，以及每页数据的数量"><a href="#指定第几页，以及每页数据的数量" class="headerlink" title="指定第几页，以及每页数据的数量"></a>指定第几页，以及每页数据的数量</h4><p><a target="_blank" rel="noopener" href="http://www.example.com/goods?page=2&amp;per_page=20">http://www.example.com/goods?page=2&amp;per_page=20</a> </p>
+<p>六、状态码： 服务器向用户返回的状态码和提示信息，</p>
+<p>常用的有： 200 OK ：服务器成功返回用户请求的数据 201 CREATED ：用户新建或修改数据成功。 202 Accepted：表示请求已进入后台排队。 400 INVALID REQUEST ：用户发出的请求有错误。 401 Unauthorized ：用户没有权限。 403 Forbidden ：访问被禁止。 404 NOT FOUND ：请求针对的是不存在的记录。 406 Not Acceptable ：用户请求的的格式不正确。 500 INTERNAL SERVER ERROR ：服务器发生错误。 </p>
+<p>七、错误信息： 一般来说，服务器返回的错误信息，以键值对的形式返回。 { error: ‘Invalid API KEY’ } 八、响应结果： </p>
+<p>针对不同结果，服务器向客户端返回的结果应符合以下规范。 </p>
+<p>返回商品列表 </p>
+<p>GET <a target="_blank" rel="noopener" href="http://www.example.com/goods">http://www.example.com/goods</a> </p>
+<p>返回单个商品 </p>
+<p>GET <a target="_blank" rel="noopener" href="http://www.example.com/goods/cup">http://www.example.com/goods/cup</a> </p>
+<p>返回新生成的商品 </p>
+<p>POST <a target="_blank" rel="noopener" href="http://www.example.com/goods">http://www.example.com/goods</a> </p>
+<p>返回一个空文档 </p>
+<p>DELETE <a target="_blank" rel="noopener" href="http://www.example.com/goods">http://www.example.com/goods</a> 九、使用链接关联相关的资源： 在返回响应结果时提供链接其他 API 的方法，使客户端很方便的获取相关联的信息。 十、其他： 服务器返回的数据格式，应该尽量使用 JSON，避免使用 XML。 </p>
+<h4 id="什么-csrf-攻击原理？如何解决？"><a href="#什么-csrf-攻击原理？如何解决？" class="headerlink" title="什么 csrf 攻击原理？如何解决？"></a>什么 csrf 攻击原理？如何解决？</h4><p>简单来说就是: 你访问了信任网站 A，然后 A 会用保存你的个人信息并返回给你的浏览器一个cookie，然后呢，在 cookie 的过期时间之内，你去访问了恶意网站 B，它给你返回一些恶意请求代码， 要求你去访问网站 A，而你的浏览器在收到这个恶意请求之后，在你不知情的情况下，会带上保存在本 地浏览器的 cookie 信息去访问网站 A，然后网站 A 误以为是用户本身的操作，导致来自恶意网站 C 的 攻击代码会被执：发邮件，发消息，修改你的密码，购物，转账，偷窥你的个人信息，导致私人信息泄 漏和账户财产安全收到威胁</p>
+<h4 id="有过部署经验？用的什么技术？可以满足多少压力？"><a href="#有过部署经验？用的什么技术？可以满足多少压力？" class="headerlink" title="有过部署经验？用的什么技术？可以满足多少压力？"></a>有过部署经验？用的什么技术？可以满足多少压力？</h4><p>1.有部署经验，在阿里云服务器上部署的 2.技术有：nginx + uwsgi 的方式来部署 Django 项目 3.无标准答案（例：压力测试一两千） </p>
+<h4 id="Django-中哪里用到了线程-哪里用到了协程-哪里用到了进程？"><a href="#Django-中哪里用到了线程-哪里用到了协程-哪里用到了进程？" class="headerlink" title="Django 中哪里用到了线程?哪里用到了协程?哪里用到了进程？"></a>Django 中哪里用到了线程?哪里用到了协程?哪里用到了进程？</h4><p>1.Django 中耗时的任务用一个进程或者线程来执行，比如发邮件，使用 celery。 2.部署 django 项目的时候，配置文件中设置了进程和协程的相关配置。 </p>
+<h4 id="代码优化从哪些方面考虑？有什么想法？"><a href="#代码优化从哪些方面考虑？有什么想法？" class="headerlink" title="代码优化从哪些方面考虑？有什么想法？"></a>代码优化从哪些方面考虑？有什么想法？</h4><p>1、优化算法时间 ：算法的时间复杂度对程序的执行效率影响最大，在 Python 中可以通过选择合适的数据结构来优化 时间复杂度，如 list 和 set 查找某一个元素的时间复杂度分别是 O(n)和 O(1)。不同的场景有不同的 优化方式，总得来说，一般有分治，分支界限，贪心，动态规划等思想。 </p>
+<p>2、循环优化 ：每种编程语言都会强调需要优化循环。当使用 Python 的时候，你可以依靠大量的技巧使得循环运行得更快。然而，开发者经常漏掉的一个方法是： 避免在一个循环中使用点操作。每一次你调用方法str.upper，Python 都会求该方法的值。然而， 如果你用一个变量代替求得的值，值就变成了已知的，Python 就可以更快地执行任务。优化循环的关 键，是要减少 Python 在循环内部执行的工作量，因为 Python 原生的解释器在那种情况下，真的会 减缓执行的速度。（注意：优化循环的方法有很多，这只是其中的一个。例如，许多程序员都会说，列 表推导是在循环中提高执行速度的最好方式。这里的关键是，优化循环是程序取得更高的执行速度的更 好方式之一。） </p>
+<p>3、函数选择 ：在循环的时候使用 xrange 而不是 range；使用 xrange 可以节省大量的系统内存，因为 xrange() 在序列中每次调用只产生一个整数元素。而 range()將直接返回完整的元素列表，用于循环时会有不必要的开销。在 python3 中 xrange 不再存在，里面 range 提供一个可以遍历任意长度的范围的iterator。</p>
+<p> 4、并行编程： 因为 GIL 的存在，Python 很难充分利用多核 CPU 的优势。但是，可以通过内置的模块 multiprocessing 实现下面几种并行模式： 多进程：对于 CPU 密集型的程序，可以使用 multiprocessing 的 Process，Pool 等封装好的类， 通过多进程的方式实现并行计算。但是因为进程中的通信成本比较大，对于进程之间需要大量数据交互 的程序效率未必有大的提高。 多线程：对于 IO 密集型的程序，multiprocessing.dummy 模块使用 multiprocessing 的接口封 装 threading，使得多线程编程也变得非常轻松(比如可以使用 Pool 的 map 接口，简洁高效)。 布式： multiprocessing 中的 Managers 类提供了可以在不同进程之共享数据的方式，可以在此 基础上开发出分布式的程序。 不同的业务场景可以选择其中的一种或几种的组合实现程序性能的优化。 </p>
+<p>5、使用性能分析工具： 除了上面在 ipython 使用到的 timeit 模块，还有 cProfile。cProfile 的使用方式也非常简单： python-mcProfilefilename.py，filename.py 是要运行程序的文件名，可以在标准输出中看到每一个 函数被调用的次数和运行的时间，从而找到程序的性能瓶颈，然后可以有针对性地优化。 </p>
+<p>6、set 的用法： set 的 union，intersection，dierence 操作要比 list 的迭代要快。因此如果涉及到求 list 交 集，并集或者差的问题可以转换为 set 来操作。</p>
+<p> 7、PyPy </p>
+<p>PyPy 是用 RPython(CPython 的子集)实现的 Python，根据官网的基准测试数据，它比 CPython 实现的 Python 要快 6 倍以上。快的原因是使用了 Just-in-Time(JIT)编译器，即动态编译器，与静态 编译器(如 gcc，javac 等)不同，它是利用程序运行的过程的数据进行优化。由于历史原因，目前 pypy 中还保留着 GIL，不过正在进行的 STM 项目试图将 PyPy 变成没有 GIL 的 Python。如果 python 程序中含有 C 扩展(非 c 的方式)，JIT 的优化效果会大打折扣，甚至比 CPython 慢（比Numpy）。 所以在 PyPy 中最好用纯 Python 或使用 c 扩展。</p>
+<h4 id="有用过-Django-REST-framework-吗？"><a href="#有用过-Django-REST-framework-吗？" class="headerlink" title="有用过 Django REST framework 吗？"></a>有用过 Django REST framework 吗？</h4><p>Django REST framework 是一个强大而灵活的 Web API 工具。使用 RESTframework 的理由有： Web browsable API 对开发者有极大的好处 包括 OAuth1a 和 OAuth2 的认证策略 支持 ORM 和非 ORM 数据资源的序列化 全程自定义开发——如果不想使用更加强大的功能，可仅仅使用常规的 function-based views 额外的文档和强大的社区支持</p>
+<h4 id="Celery-分布式任务队列？"><a href="#Celery-分布式任务队列？" class="headerlink" title="Celery 分布式任务队列？"></a>Celery 分布式任务队列？</h4><p>情景：用户发起 request，并等待 response 返回。在本些 views 中，可能需要执行一段耗时的程序，那么用户就会等待很长时间，造成不好的用户体验，比如发送邮件、手机验证码等。 使用 celery 后，情况就不一样了。解决：将耗时的程序放到 celery 中执行。 将多个耗时的任务添加到队列 queue 中，也就是用 redis 实现 broker 中间人，然后用多个 worker 去监听队列里的任务去执行。 </p>
+<p>任务 task：就是一个 Python 函数。 队列 queue：将需要执行的任务加入到队列中。 工人worker：在一个新进程中，负责执行队列中的任务。 代理人 broker：负责调度，在布置环境中使 用 redis。 </p>
+<h4 id="Jieba-分词"><a href="#Jieba-分词" class="headerlink" title="Jieba 分词"></a>Jieba 分词</h4><p>Jieba 分词支持三种分词模式： 精确模式：试图将句子最精确地切开，适合文本分析； 全模式：把句子中所有的可以成词的词语都扫描出来， 速度非常快，但是不能解决歧义； 搜索引擎模式：在精确模式的基础上，对长词再次切分，提高召回率，适合用于搜索引擎分词 功能： 分词，添加自定义词典，关键词提取，词性标注，并行分词，Tokenize：返回词语在原文的起始位 置，ChineseAnalyzer for Whoosh 搜索引擎。 </p>
+<h4 id="ngnix-的正向代理与反向代理"><a href="#ngnix-的正向代理与反向代理" class="headerlink" title="ngnix 的正向代理与反向代理?"></a>ngnix 的正向代理与反向代理?</h4><p>web 开发中，部署方式大致类似。简单来说，使用 Nginx 主要是为了实现分流、转发、负载均衡，以及分担服务器的压力。Nginx 部署简单，内存消耗少，成本低。Nginx 既可以做正向代理，也可以做反向代理。 </p>
+<p>正向代理：请求经过代理服务器从局域网发出，然后到达互联网上的服务器。 特点：服务端并不知道真正的客户端是谁。 </p>
+<p>反向代理：请求从互联网发出，先进入代理服务器，再转发给局域网内的服务器。 特点：客户端并不知道真正的服务端是谁。 区别：正向代理的对象是客户端。反向代理的对象是服务端。</p>
+<h3 id="简述-Django-下的（内建的）缓存机制"><a href="#简述-Django-下的（内建的）缓存机制" class="headerlink" title="简述 Django 下的（内建的）缓存机制?"></a>简述 Django 下的（内建的）缓存机制?</h3><p>一个动态网站的基本权衡点就是，它是动态的。 每次用户请求页面，服务器会重新计算。从开销处 理的角度来看，这比你读取一个现成的标准文件的代价要昂贵的多。 这就是需要缓存的地方。 Django 自带了一个健壮的缓存系统来保存动态页面这样避免对于每次请求都重新计算。方便起见， Django 提供了不同级别的缓存粒度：可以缓存特定视图的输出、可以仅仅缓存那些很难生产出来的部 分、或者可以缓存整个网站 Django 也能很好的配合那些“下游”缓存， 比如 Squid 和基于浏览器 的缓存。这里有一些缓存不必要直接去控制但是可以提供线索， (via HTTPheaders)关于网站哪些部分 需要缓存和如何缓存。 设置缓存： 缓存系统需要一些设置才能使用。 也就是说，你必须告诉他你要把数据缓存在哪里- 是数据库中， 文件系统或者直接在内存中。 这个决定很重要，因为它会影响你的缓存性能，是的，一些缓存类型要比 其他的缓存类型更快速。 你的缓存配置是通过 setting 文件的 CACHES 配置来实现的。这里有 CACHES 所有可配置的变量 值。</p>
+<h3 id="请简述浏览器是如何获取一枚网页的？"><a href="#请简述浏览器是如何获取一枚网页的？" class="headerlink" title="请简述浏览器是如何获取一枚网页的？"></a>请简述浏览器是如何获取一枚网页的？</h3><p>1.在用户输入目的 URL 后，浏览器先向 DNS 服务器发起域名解析请求； 2.在获取了对应的 IP 后向服务器发送请求数据包； 3.服务器接收到请求数据后查询服务器上对应的页面，并将找到的页面代码回复给客户端； 4.客户端接收到页面源代码后，检查页面代码中引用的其他资源，并再次向服务器请求该资源； 5.在资源接收完成后，客户端浏览器按照页面代码将页面渲染输出显示在显示器上；</p>
+<h3 id="对-cookie-与-session-的了解？他们能单独用吗？"><a href="#对-cookie-与-session-的了解？他们能单独用吗？" class="headerlink" title="对 cookie 与 session 的了解？他们能单独用吗？"></a>对 cookie 与 session 的了解？他们能单独用吗？</h3><p>Session 采用的是在服务器端保持状态的方案，而 Cookie 采用的是在客户端保持状态的方案。但 是禁用 Cookie 就不能得到 Session。因为 Session 是用 Session ID 来确定当前对话所对应的服务 器Session，而 Session ID 是通过 Cookie 来传递的，禁用 Cookie 相当于失去了 SessionID，也 就得不到 Session</p>
+<h3 id="Django-HTTP-请求的处理流程"><a href="#Django-HTTP-请求的处理流程" class="headerlink" title="Django HTTP 请求的处理流程?"></a>Django HTTP 请求的处理流程?</h3><p>Django 和其他 Web 框架的 HTTP 处理的流程大致相同，Django 处理一个 Request 的过程 是首先通过中间件，然后再通过默认的 URL 方式进行的。我们可以在 Middleware 这个地方把所有 Request 拦截住，用我们自己的方式完成处理以后直接返回 Response。</p>
+<ol>
+<li>加载配置 Django 的配置都在 “Project/settings.py” 中定义，可以是 Django 的配置，也可以是自定义 的配置，并且都通过 django.conf.settings 访问，非常方便。</li>
+</ol>
+<ol start="2">
+<li>启动 最核心动作的是通过 django.core.management.commands.runfcgi 的 Command 来启动， 它运行 django.core.servers.fastcgi 中的 runfastcgi，runfastcgi 使用了 flup 的 WSGIServer 来 启动 fastcgi 。而 WSGIServer 中携带了 django.core.handlers.wsgi 的 WSGIHandler 类的一个 实例，通过 WSGIHandler 来处理由 Web 服务器（比如 Apache， Lighttpd 等）传过来的请求，此 时才是真正进入 Django 的世界。</li>
+</ol>
+<ol>
+<li><p>处理 Request 当有 HTTP 请求来时，WSGIHandler 就开始工作了，它从 BaseHandler 继承而来。 WSGIHandler 为每个请求创建一个 WSGIRequest 实例，而 WSGIRequest 是从 http.HttpRequest 继承而来。接下来就开始创建 Response 了。</p>
+</li>
+<li><p>创建 Response BaseHandler 的 get_response 方法就是根据 request 创建 response，而具体生成 response 的动作就是执行 urls.py 中对应的 view 函数了，这也是 Django 可以处理“友好 URL ” 的关键步骤，每个这样的函数都要返回一个 Response 实例。此时一般的做法是通过 loader 加载template 并生成页面内容，其中重要的就是通过 ORM 技术从数据库中取出数据，并渲染到 Template 中，从而生成具体的页面了。</p>
+</li>
+</ol>
+<ol>
+<li>处理 Response Django 返回 Response 给 flup，flup 就取出 Response 的内容返回给 Web服务器，由后 者返回给浏览器。 总之，Django 在 fastcgi 中主要做了两件事：处理 Request 和创建 Response，而它们对应 的核心就是“ urls 分析”、“模板技术”和“ ORM 技术”。 如图所示，一个 HTTP 请求，首先被转化成一个 HttpRequest 对象，然后该对象被传递给 Request 中间件处理，如果该中间件返回了 Response，则直接传递给 Response 中间件做收尾处理。 否则的话 Request 中间件将访问 URL 配置，确定哪个 view 来处理，在确定了哪个 view 要执行，但是还没有执行该 view 的时候，系统会把 request 传递给 view 中间件处理器进行处理，如果该中 间件返回了 Response，那么该 Response 直接被传递给 Response 中间件进行后续处理，否则将执 行确定的 view 函数处理并返回 Response，在这个过程中如果引发了异常并抛出，会被 Exception 中间件处理器进行处理。</li>
+</ol>
+<h3 id="Django-里-QuerySet-的-get-和-filter-方法的区别？"><a href="#Django-里-QuerySet-的-get-和-filter-方法的区别？" class="headerlink" title="Django 里 QuerySet 的 get 和 filter 方法的区别？"></a>Django 里 QuerySet 的 get 和 filter 方法的区别？</h3><ol>
+<li>输入参数 get 的参数只能是 model 中定义的那些字段，只支持严格匹配。 filter 的参数可以是字段，也可以是扩展的 where 查询关键字，如 in，like 等。 2) 返回值 get 返回值是一个定义的 model 对象。 filter 返回值是一个新的 QuerySet 对象，然后可以对 QuerySet 在进行查询返回新的 QuerySet 对象，支持链式操作，QuerySet 一个集合对象，可使用迭代或者遍历，切片等，但是不等于 list 类型 (使用一定要注意)。 3) 异常 get 只有一条记录返回的时候才正常，也就说明 get 的查询字段必须是主键或者唯一约束的字段。 当返回多条记录或者是没有找到记录的时候都会抛出异常 filter 有没有匹配的记录都可以django 中当一个用户登录 A 应用服务器（进入登录状态），然后下次请求被nginx代理到 B 应用服务器会出现什么影响？</li>
+</ol>
+<p>如果用户在 A 应用服务器登陆的 session 数据没有共享到 B 应用服务器，那么之前的登录状态就没有了。</p>
+<h3 id="跨域请求问题-django-怎么解决的（原理）"><a href="#跨域请求问题-django-怎么解决的（原理）" class="headerlink" title="跨域请求问题 django 怎么解决的（原理）"></a>跨域请求问题 django 怎么解决的（原理）</h3><p>启用中间件    post 请求    验证码 表单中添加 csrf_token 标签</p>
+<h3 id="查询集返回列表的过滤器有哪些？"><a href="#查询集返回列表的过滤器有哪些？" class="headerlink" title="查询集返回列表的过滤器有哪些？"></a>查询集返回列表的过滤器有哪些？</h3><p>all() ：返回所有的数据 filter()：返回满足条件的数据 exclude()：返回满足条件之外的数据，相当于 sql 语句中 where 部分的 not 关键字 order_by()：排序</p>
+<h3 id="判断查询集正是否有数据？"><a href="#判断查询集正是否有数据？" class="headerlink" title="判断查询集正是否有数据？"></a>判断查询集正是否有数据？</h3><p>exists()：判断查询集中否有数据，如果有则返回 True，没有则返回 False。</p>
+<h3 id="Django-本身提供了-runserver，为什么不能用来部署？"><a href="#Django-本身提供了-runserver，为什么不能用来部署？" class="headerlink" title="Django 本身提供了 runserver，为什么不能用来部署？"></a>Django 本身提供了 runserver，为什么不能用来部署？</h3><p>runserver 方法是调试 Django 时经常用到的运行方式，它使用 Django 自带的 WSGI Server 运行，主要在测试和开发中使用，并且 runserver 开启的方式也是单进程 。</p>
+<p>uWSGI 是一个 Web 服务器，它实现了 WSGI 协议、uwsgi、http 等协议。注意 uwsgi 是一种 通信协议，而 uWSGI 是实现 uwsgi 协议和 WSGI 协议的 Web 服务器。uWSGI 具有超快的性能、 低内存占用和多 app 管理等优点，并且搭配着 Nginx 就是一个生产环境了，能够将用户访问请求与应 用 app 隔离开，实现真正的部署。相比来讲，支持的并发量更高，方便管理多进程，发挥多核的优势，提升性能。</p>
+<h3 id="apache-和-nginx-的区别？"><a href="#apache-和-nginx-的区别？" class="headerlink" title="apache 和 nginx 的区别？"></a>apache 和 nginx 的区别？</h3><p>Nginx 相对 Apache 的优点：</p>
+<p>轻量级，同样起 web 服务，比 apache 占用更少的内存及资源； 抗并发，nginx 处理请求是异步非阻塞的，支持更多的并发连接，而 apache 则是阻塞型的，在高 并发下 nginx 能保持低资源低消耗高性能； 配置简洁； 高度模块化的设计，编写模块相对简单； 社区活跃。</p>
+<p>Apache 相对 Nginx 的优点：</p>
+<p>rewrite ，比 nginx 的 rewrite 强大； 模块超多，基本想到的都可以找到； 少 bug ，nginx 的 bug 相对较多； 超稳定。</p>
+<h3 id="varchar-与-char-的区别？"><a href="#varchar-与-char-的区别？" class="headerlink" title="varchar 与 char 的区别？"></a>varchar 与 char 的区别？</h3><p>char 长度是固定的，不管你存储的数据是多少他都会都固定的长度。而 varchar 则处可变长度但他要在总长度上加 1 字符，这个用来存储位置。所以在处理速度上 char 要比 varchar 快速很多，但是对 费存储空间，所以对存储不大，但在速度上有要求的可以使用 char 类型，反之可以用 varchar 类型。</p>
+<h3 id="查询集两大特性？惰性执行？"><a href="#查询集两大特性？惰性执行？" class="headerlink" title="查询集两大特性？惰性执行？"></a>查询集两大特性？惰性执行？</h3><p>惰性执行、缓存 。 创建查询集不会访问数据库，直到调用数据时，才会访问数据库，调用数据的情况包括迭代、序列化、 与 if 合用</p>
+<h3 id="git-常用命令"><a href="#git-常用命令" class="headerlink" title="git 常用命令?"></a>git 常用命令?</h3><p>git clone 克隆指定仓库 git status 查看当前仓库状态 git di 比较版本的区别 git log 查看 git 操作日志 git reset 回溯历史版本 git add 将文件添加到暂存区 git commit 将文件提交到服务器 git checkout 切换到指定分支 git rm 删除指定文件</p>
+<h3 id="电商网站库存问题"><a href="#电商网站库存问题" class="headerlink" title="电商网站库存问题"></a>电商网站库存问题</h3><p>一般团购，秒杀，特价之类的活动，这样会使访问量激增，很多人抢购一个商品，作为活动商品， 库存肯定是很有限的。控制库存问题，数据库的事务功能是控制库存超卖的有效方式。 1.在秒杀的情况下，肯定不能如此频率的去读写数据库，严重影响性能问题，必须使用缓存，将需 要秒杀的商品放入缓存中，并使用锁来处理并发情况，先将商品数量增减（加锁、解析）后在进行其他 方面的处理，处理失败再将数据递增（加锁、解析）,否则表示交易成功。 2.这个肯定不能直接操作数据库的，会挂的。直接读库写库对数据库压力太大了，要用到缓存。 3.首先，多用户并发修改同一条记录时，肯定是后提交的用户将覆盖掉前者提交的结果了。这个直 接可以使用加乐观锁的机制去解决高并发的问题。 </p>
+<h3 id="Django-日志管理"><a href="#Django-日志管理" class="headerlink" title="Django 日志管理"></a>Django 日志管理</h3><p>import logging logger=logging.getLogger(name) # 为 loggers 中定义的名称 logger.info(“some info …) 可用函数有：logger.debug() logger.info() logger.warning() logger.error() Django 文件管理：对于 jdango 老说，项目中的 css，js,图片都属于静态文件，我们一般会将静态 文件放到一个单独的目录中，以方便管理，在 html 页面调用时，也需要指定静态文件的路径。静态文 件可以放在项目根目录下，也可以放在应用的目录下，由于这些静态文件在项目中是通用的，所以推荐 放在项目的根目录下。 在生产中，只要和静态文件相关的，所有访问，基本上没有 django 什么事，一般都是由 nignx 软 件代劳了，为什么？因为 nginx 就是干这个的。</p>
+<h3 id="Tornado-的核是什么？"><a href="#Tornado-的核是什么？" class="headerlink" title="Tornado 的核是什么？"></a>Tornado 的核是什么？</h3><p>Tornado 的核心是 ioloop 和 iostream 这两个模块，前者提供了一个高效的 I/O 事件循环，后 者则封装了 一个无阻塞的 socket 。通过向 ioloop 中添加网络 I/O 事件，利用无阻塞的 socket ， 再搭配相应的回调函数，便可达到梦寐以求的高效异步执行。 </p>
+<h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/09/15/web/">https://zhangyanlady.github.io/2020/09/15/web/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%BC%80%E5%8F%91/"># 开发</a>
+                    
+                        <a href="/tags/web/"># web</a>
+                    
+                        <a href="/tags/%E9%9D%A2%E8%AF%95/"># 面试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/15/linux%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/">linux命令大全</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/15/vue%E6%90%AD%E5%BB%BA/">vue搭建</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
