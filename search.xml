@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CSRF跨站请求伪造</title>
+    <url>/2020/09/12/CSRF%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/</url>
+    <content><![CDATA[<h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/CSRF%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0.png"></p>
+<h2 id="1、用自己的语言描述csrf攻击原理"><a href="#1、用自己的语言描述csrf攻击原理" class="headerlink" title="1、用自己的语言描述csrf攻击原理"></a>1、用自己的语言描述csrf攻击原理</h2><p>当用户登录某个网站时，产生会话，然后去点击带有csrf攻击程序的web，CSRF攻击利用网站对于用户网页浏览器的信任，挟持用户当前已登陆的Web应用程序，去执行并非用户本意的操作。</p>
+<h2 id="2、csrf攻击分类"><a href="#2、csrf攻击分类" class="headerlink" title="2、csrf攻击分类"></a>2、csrf攻击分类</h2><p><strong>CSRF漏洞一般分为站外和站内两种类型。</strong></p>
+<p><strong>CSRF站外类型</strong>的漏洞本质上就是传统意义上的外部提交数据问题。通常程序员会考虑给一些留言或者评论的表单加上水印以防止SPAM问题（这里，SPAM可以简单的理解为垃圾留言、垃圾评论，或者是带有站外链接的恶意回复），但是有时为了提高用户的体验性，可能没有对一些操作做任何限制，所以攻击者可以事先预测并设置请求的参数，在站外的Web页面里编写脚本伪造文件请求，或者和自动提交的表单一起使用来实现GET、POST请求，当用户在会话状态下点击链接访问站外Web页面，客户端就被强迫发起请求。</p>
+<p> <strong>CSRF站内类型</strong>的漏洞在一定程度上是由于程序员滥用<code>$_REQUEST</code>类变量造成的。在一些敏感的操作中（如修改密码、添加用户等），本来要求用户从表单提交发起POST请求传递参数给程序，但是由于使用了$_REQUEST等变量，程序除支持接收POST请求传递的参数外也支持接收GET请求传递的参数，这样就会为攻击者使用CSRF攻击创造条件。一般攻击者只要把预测的请求参数放在站内一个贴子或者留言的图片链接里，受害者浏览了这样的页面就会被强迫发起这些请求。</p>
+<h2 id="3、csrf漏洞检测方法。"><a href="#3、csrf漏洞检测方法。" class="headerlink" title="3、csrf漏洞检测方法。"></a>3、csrf漏洞检测方法。</h2><p>1、抓取一个正常请求的数据包，去掉Referer字段后再重新提交，如果该提交还有效，那么基本上可以确定存在CSRF漏洞</p>
+<p>2、扫描器扫描，但误报较高，后台登录，修改密码等可能扫不出csrf漏洞</p>
+<h2 id="4、完成csrf脱库、添加帐号、更新密码实验"><a href="#4、完成csrf脱库、添加帐号、更新密码实验" class="headerlink" title="4、完成csrf脱库、添加帐号、更新密码实验"></a>4、完成csrf脱库、添加帐号、更新密码实验</h2><p><strong>Csrf脱库</strong>：一般xiaz开源代码去观看路径一般不会改变；一级目录可以在url中看到</p>
+<p>在搭建好的DZ注册普通，然后发帖，插入远程图片，URL为：</p>
+<p><code>http://192.168.0.106:8080/dzcrst/uc_server/admin.php?m=db&amp;a=operate&amp;t=export&amp;appid=0&amp;backupdir=xxxx%26backupfilename%3Daaaa</code></p>
+<p>此链接为数据库备份操作</p>
+<p>然后管理员点进去便会执行可以写一些吸引管理员的文字</p>
+<p><img src="/image/csrf/1.jpg"></p>
+<p><img src="/image/csrf/2.jpg" alt="2"></p>
+<p>此时，我们可以访问默认备份路径及我们重命名的文件夹和文件名：<a href="http://192.168.1.224:8082/dzcsrt/uc_server/data/backup/xxxx/aaaa-1.sql">http://192.168.1.224:8082/dzcsrt/uc_server/data/backup/xxxx/aaaa-1.sql</a></p>
+<p><img src="/image/csrf/3.jpg"></p>
+<p><strong>添加帐号：</strong></p>
+<p><img src="/image/csrf/4.jpg"></p>
+<p><img src="/image/csrf/5.jpg" alt="5"></p>
+<p><strong>修改密码：</strong></p>
+<p>当我们登录DVWA后，在CSRF中：</p>
+<p>LOW级别时：直接修改密码即可。</p>
+<p>medium级别时：Referer得为网站修改页面的路径。否则会修改失败</p>
+<h2 id="5、csrf防范方法"><a href="#5、csrf防范方法" class="headerlink" title="5、csrf防范方法"></a>5、csrf防范方法</h2><p>目前业界服务器端防御CSRF攻击主要有5种策略：</p>
+<p>1验证HTTP Referer字段（可以突破）</p>
+<p>根据HTTP协议，在HTTP头中有一个字段叫Referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限页面的请求必须来自于同一个网站。</p>
+<p>2、在请求地址中添加token并验证</p>
+<p>在请求中放入攻击者所不能伪造的信息，并且该信息不存在于Cookie之中。鉴于此，系统开发者可以在HTTP请求中以参数的形式加入一个随机产生的token，并在服务器端建立一个拦截器来验证这个token，如果请求中没有token或者token内容不正确，则认为可能是CSRF攻击而拒绝该请求。</p>
+<p>3、在HTTP头中自定义属性并验证</p>
+<p>自定义属性的方法也是使用token并进行验证，和前一种方法不同的是，这里并不是把token以参数的形式置于HTTP请求之中，而是把它放到HTTP头中自定义的属性里。通过XMLHttpRequest这个类，可以一次性给所有该类请求加上csrftoken这个HTTP头属性，并把token值放入其中。这样解决了前一种方法在请求中加入token的不便，同时，通过这个类请求的地址不会被记录到浏览器的地址栏，也不用担心token会通过Referer泄露到其他网站。</p>
+<p>4、在服务端区严格区分好POST与GET的数据请求</p>
+<p>如在asp中不要使用Request来直接获取数据。同时建议不要用GET请求来执行持久性操作，如：<a href="https://links.jianshu.com/go?to=http://www.yeeyan.com/space/deleteEvent/16824">http://www.yeeyan.com/space/deleteEvent/16824</a>。</p>
+<p>5、使用验证码或者密码确认方式进行</p>
+<p>6、用户端防御</p>
+<p>用户养成良好的上网习惯，则能够很大程度上减少CSRF攻击的危害</p>
+<p>7、安全设备防御</p>
+<p>用户可以借助第三方的专业安</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>渗透测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Metasploit</title>
     <url>/2020/09/12/Metasploit/</url>
     <content><![CDATA[<h2 id="msf的使用"><a href="#msf的使用" class="headerlink" title="msf的使用"></a>msf的使用</h2><p>Msfconsole:是一个一体化集中控制台，允许你访问到几乎所有的MSF框架选项**</p>
@@ -236,55 +285,6 @@
 <h2 id="MSF之meterpreter后期攻击使用方法"><a href="#MSF之meterpreter后期攻击使用方法" class="headerlink" title="MSF之meterpreter后期攻击使用方法"></a>MSF之meterpreter后期攻击使用方法</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
   </entry>
   <entry>
-    <title>CSRF跨站请求伪造</title>
-    <url>/2020/09/12/CSRF%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/</url>
-    <content><![CDATA[<h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/CSRF%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0.png"></p>
-<h2 id="1、用自己的语言描述csrf攻击原理"><a href="#1、用自己的语言描述csrf攻击原理" class="headerlink" title="1、用自己的语言描述csrf攻击原理"></a>1、用自己的语言描述csrf攻击原理</h2><p>当用户登录某个网站时，产生会话，然后去点击带有csrf攻击程序的web，CSRF攻击利用网站对于用户网页浏览器的信任，挟持用户当前已登陆的Web应用程序，去执行并非用户本意的操作。</p>
-<h2 id="2、csrf攻击分类"><a href="#2、csrf攻击分类" class="headerlink" title="2、csrf攻击分类"></a>2、csrf攻击分类</h2><p><strong>CSRF漏洞一般分为站外和站内两种类型。</strong></p>
-<p><strong>CSRF站外类型</strong>的漏洞本质上就是传统意义上的外部提交数据问题。通常程序员会考虑给一些留言或者评论的表单加上水印以防止SPAM问题（这里，SPAM可以简单的理解为垃圾留言、垃圾评论，或者是带有站外链接的恶意回复），但是有时为了提高用户的体验性，可能没有对一些操作做任何限制，所以攻击者可以事先预测并设置请求的参数，在站外的Web页面里编写脚本伪造文件请求，或者和自动提交的表单一起使用来实现GET、POST请求，当用户在会话状态下点击链接访问站外Web页面，客户端就被强迫发起请求。</p>
-<p> <strong>CSRF站内类型</strong>的漏洞在一定程度上是由于程序员滥用<code>$_REQUEST</code>类变量造成的。在一些敏感的操作中（如修改密码、添加用户等），本来要求用户从表单提交发起POST请求传递参数给程序，但是由于使用了$_REQUEST等变量，程序除支持接收POST请求传递的参数外也支持接收GET请求传递的参数，这样就会为攻击者使用CSRF攻击创造条件。一般攻击者只要把预测的请求参数放在站内一个贴子或者留言的图片链接里，受害者浏览了这样的页面就会被强迫发起这些请求。</p>
-<h2 id="3、csrf漏洞检测方法。"><a href="#3、csrf漏洞检测方法。" class="headerlink" title="3、csrf漏洞检测方法。"></a>3、csrf漏洞检测方法。</h2><p>1、抓取一个正常请求的数据包，去掉Referer字段后再重新提交，如果该提交还有效，那么基本上可以确定存在CSRF漏洞</p>
-<p>2、扫描器扫描，但误报较高，后台登录，修改密码等可能扫不出csrf漏洞</p>
-<h2 id="4、完成csrf脱库、添加帐号、更新密码实验"><a href="#4、完成csrf脱库、添加帐号、更新密码实验" class="headerlink" title="4、完成csrf脱库、添加帐号、更新密码实验"></a>4、完成csrf脱库、添加帐号、更新密码实验</h2><p><strong>Csrf脱库</strong>：一般xiaz开源代码去观看路径一般不会改变；一级目录可以在url中看到</p>
-<p>在搭建好的DZ注册普通，然后发帖，插入远程图片，URL为：</p>
-<p><code>http://192.168.0.106:8080/dzcrst/uc_server/admin.php?m=db&amp;a=operate&amp;t=export&amp;appid=0&amp;backupdir=xxxx%26backupfilename%3Daaaa</code></p>
-<p>此链接为数据库备份操作</p>
-<p>然后管理员点进去便会执行可以写一些吸引管理员的文字</p>
-<p><img src="/image/csrf/1.jpg"></p>
-<p><img src="/image/csrf/2.jpg" alt="2"></p>
-<p>此时，我们可以访问默认备份路径及我们重命名的文件夹和文件名：<a href="http://192.168.1.224:8082/dzcsrt/uc_server/data/backup/xxxx/aaaa-1.sql">http://192.168.1.224:8082/dzcsrt/uc_server/data/backup/xxxx/aaaa-1.sql</a></p>
-<p><img src="/image/csrf/3.jpg"></p>
-<p><strong>添加帐号：</strong></p>
-<p><img src="/image/csrf/4.jpg"></p>
-<p><img src="/image/csrf/5.jpg" alt="5"></p>
-<p><strong>修改密码：</strong></p>
-<p>当我们登录DVWA后，在CSRF中：</p>
-<p>LOW级别时：直接修改密码即可。</p>
-<p>medium级别时：Referer得为网站修改页面的路径。否则会修改失败</p>
-<h2 id="5、csrf防范方法"><a href="#5、csrf防范方法" class="headerlink" title="5、csrf防范方法"></a>5、csrf防范方法</h2><p>目前业界服务器端防御CSRF攻击主要有5种策略：</p>
-<p>1验证HTTP Referer字段（可以突破）</p>
-<p>根据HTTP协议，在HTTP头中有一个字段叫Referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限页面的请求必须来自于同一个网站。</p>
-<p>2、在请求地址中添加token并验证</p>
-<p>在请求中放入攻击者所不能伪造的信息，并且该信息不存在于Cookie之中。鉴于此，系统开发者可以在HTTP请求中以参数的形式加入一个随机产生的token，并在服务器端建立一个拦截器来验证这个token，如果请求中没有token或者token内容不正确，则认为可能是CSRF攻击而拒绝该请求。</p>
-<p>3、在HTTP头中自定义属性并验证</p>
-<p>自定义属性的方法也是使用token并进行验证，和前一种方法不同的是，这里并不是把token以参数的形式置于HTTP请求之中，而是把它放到HTTP头中自定义的属性里。通过XMLHttpRequest这个类，可以一次性给所有该类请求加上csrftoken这个HTTP头属性，并把token值放入其中。这样解决了前一种方法在请求中加入token的不便，同时，通过这个类请求的地址不会被记录到浏览器的地址栏，也不用担心token会通过Referer泄露到其他网站。</p>
-<p>4、在服务端区严格区分好POST与GET的数据请求</p>
-<p>如在asp中不要使用Request来直接获取数据。同时建议不要用GET请求来执行持久性操作，如：<a href="https://links.jianshu.com/go?to=http://www.yeeyan.com/space/deleteEvent/16824">http://www.yeeyan.com/space/deleteEvent/16824</a>。</p>
-<p>5、使用验证码或者密码确认方式进行</p>
-<p>6、用户端防御</p>
-<p>用户养成良好的上网习惯，则能够很大程度上减少CSRF攻击的危害</p>
-<p>7、安全设备防御</p>
-<p>用户可以借助第三方的专业安</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>渗透测试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PHP及mysql数据库</title>
     <url>/2020/09/12/PHP%E5%8F%8Amysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>1.数据库的五个基本单位：数据库服务器，数据库，数据表，字段（数据列），数据行</p>
@@ -428,9 +428,55 @@
       </tags>
   </entry>
   <entry>
-    <title>XXE</title>
-    <url>/2020/09/12/XXE/</url>
-    <content><![CDATA[]]></content>
+    <title>SSRF服务端请求伪造</title>
+    <url>/2020/09/12/SSRF%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/</url>
+    <content><![CDATA[<h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/SSRF%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0.png"></p>
+<h2 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h2><p>      服务器端请求伪造：是一种由攻击者构造形成，由服务端发起请求的一个安全漏洞。一般情况下，ssrf是要目标网站的内部系统，因为他是从内部系统访问的，所有可能通过它攻击外网无法访问的内部系统，也就是说把目标网站当中间人</p>
+<h2 id="形成原因："><a href="#形成原因：" class="headerlink" title="形成原因："></a>形成原因：</h2><p>       大都是由于服务器提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤和限制</p>
+<p>       比如从指定url获取网页文本内容，加载指定网站的图片，文档等</p>
+<h2 id="漏洞的挖掘："><a href="#漏洞的挖掘：" class="headerlink" title="漏洞的挖掘："></a>漏洞的挖掘：</h2><h3 id="1、通过web功能寻找"><a href="#1、通过web功能寻找" class="headerlink" title="1、通过web功能寻找"></a>1、通过web功能寻找</h3><p>1）分享：通过URL地址分享网页内容</p>
+<p>2）转码服务</p>
+<p>3）在线翻译</p>
+<p>4）图片加载与下载：通过URL地址加载或下载图片</p>
+<p>5）图片、文章收藏功能</p>
+<p>6）未公开的api实现以及其他调用URL的功能</p>
+<h3 id="2、通过url关键字寻找share"><a href="#2、通过url关键字寻找share" class="headerlink" title="2、通过url关键字寻找share"></a>2、通过url关键字寻找share</h3><ul>
+<li>wap</li>
+<li>url</li>
+<li>link</li>
+<li>src</li>
+<li>source</li>
+<li>target</li>
+<li>u</li>
+<li>3g</li>
+<li>display</li>
+<li>sourceURl</li>
+<li>imageURL</li>
+<li>domain</li>
+</ul>
+<h3 id="3、通过扫描器工具寻找"><a href="#3、通过扫描器工具寻找" class="headerlink" title="3、通过扫描器工具寻找"></a>3、通过扫描器工具寻找</h3><h2 id="绕过方法："><a href="#绕过方法：" class="headerlink" title="绕过方法："></a>绕过方法：</h2><ol>
+<li><p>更改ip地址写法：转换进制</p>
+</li>
+<li><p>利用解析url出现的问题</p>
+<p><a href="http://www.oldboyedu.com@192.168.0.1/">httP://www.oldboyedu.com@192.168.0.1/</a></p>
+<p>不正确的正则匹配：http之后到com之前</p>
+</li>
+<li><p>利用协议</p>
+</li>
+</ol>
+<h2 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h2><p>（黑名单）</p>
+<p>（1）过滤10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、localhost私有地址、IPv6地址</p>
+<p>（2）过滤file:///、dict://、gopher://、ftp:// 危险schema</p>
+<p>（3）对返回的内容进行识别</p>
+<p>（4）内网服务开启鉴权（Memcached, Redis, Elasticsearch and MongoDB）</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>渗透测试</tag>
+      </tags>
   </entry>
   <entry>
     <title>XSS跨站脚本攻击</title>
@@ -543,6 +589,11 @@
         <tag>网络安全</tag>
         <tag>渗透测试</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>XXE</title>
+    <url>/2020/09/12/XXE/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>sql注入</title>
@@ -796,67 +847,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SSRF服务端请求伪造</title>
-    <url>/2020/09/12/SSRF%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/</url>
-    <content><![CDATA[<h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/SSRF%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0.png"></p>
-<h2 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h2><p>      服务器端请求伪造：是一种由攻击者构造形成，由服务端发起请求的一个安全漏洞。一般情况下，ssrf是要目标网站的内部系统，因为他是从内部系统访问的，所有可能通过它攻击外网无法访问的内部系统，也就是说把目标网站当中间人</p>
-<h2 id="形成原因："><a href="#形成原因：" class="headerlink" title="形成原因："></a>形成原因：</h2><p>       大都是由于服务器提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤和限制</p>
-<p>       比如从指定url获取网页文本内容，加载指定网站的图片，文档等</p>
-<h2 id="漏洞的挖掘："><a href="#漏洞的挖掘：" class="headerlink" title="漏洞的挖掘："></a>漏洞的挖掘：</h2><h3 id="1、通过web功能寻找"><a href="#1、通过web功能寻找" class="headerlink" title="1、通过web功能寻找"></a>1、通过web功能寻找</h3><p>1）分享：通过URL地址分享网页内容</p>
-<p>2）转码服务</p>
-<p>3）在线翻译</p>
-<p>4）图片加载与下载：通过URL地址加载或下载图片</p>
-<p>5）图片、文章收藏功能</p>
-<p>6）未公开的api实现以及其他调用URL的功能</p>
-<h3 id="2、通过url关键字寻找share"><a href="#2、通过url关键字寻找share" class="headerlink" title="2、通过url关键字寻找share"></a>2、通过url关键字寻找share</h3><ul>
-<li>wap</li>
-<li>url</li>
-<li>link</li>
-<li>src</li>
-<li>source</li>
-<li>target</li>
-<li>u</li>
-<li>3g</li>
-<li>display</li>
-<li>sourceURl</li>
-<li>imageURL</li>
-<li>domain</li>
-</ul>
-<h3 id="3、通过扫描器工具寻找"><a href="#3、通过扫描器工具寻找" class="headerlink" title="3、通过扫描器工具寻找"></a>3、通过扫描器工具寻找</h3><h2 id="绕过方法："><a href="#绕过方法：" class="headerlink" title="绕过方法："></a>绕过方法：</h2><ol>
-<li><p>更改ip地址写法：转换进制</p>
-</li>
-<li><p>利用解析url出现的问题</p>
-<p><a href="http://www.oldboyedu.com@192.168.0.1/">httP://www.oldboyedu.com@192.168.0.1/</a></p>
-<p>不正确的正则匹配：http之后到com之前</p>
-</li>
-<li><p>利用协议</p>
-</li>
-</ol>
-<h2 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h2><p>（黑名单）</p>
-<p>（1）过滤10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、localhost私有地址、IPv6地址</p>
-<p>（2）过滤file:///、dict://、gopher://、ftp:// 危险schema</p>
-<p>（3）对返回的内容进行识别</p>
-<p>（4）内网服务开启鉴权（Memcached, Redis, Elasticsearch and MongoDB）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>渗透测试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>waf绕过</title>
-    <url>/2020/09/12/waf%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>中间人攻击</title>
-    <url>/2020/09/12/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>vue搭建</title>
     <url>/2020/09/15/vue%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h4 id="1-避坑前言"><a href="#1-避坑前言" class="headerlink" title="1. 避坑前言"></a>1. 避坑前言</h4><p>确认node与npm的版本</p>
@@ -888,6 +878,16 @@
         <tag>前端</tag>
         <tag>vue</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>中间人攻击</title>
+    <url>/2020/09/12/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>waf绕过</title>
+    <url>/2020/09/12/waf%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>代码执行与反序列化</title>
@@ -970,13 +970,8 @@
       </tags>
   </entry>
   <entry>
-    <title>旁注、目录越权、跨库、CDN绕过</title>
-    <url>/2020/09/12/%E6%97%81%E6%B3%A8%E3%80%81%E7%9B%AE%E5%BD%95%E8%B6%8A%E6%9D%83%E3%80%81%E8%B7%A8%E5%BA%93%E3%80%81CDN%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>暴力破解</title>
-    <url>/2020/09/12/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
+    <title>内网渗透</title>
+    <url>/2020/09/12/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -1037,31 +1032,6 @@
 <p>500Internal Server Error。本状态码表示服务器在执行请求时遇到错误。当提交无法预料的输人、在应用程序处理过程中造成无法处理的错误时，通常会收到本状态码。应该仔细检查服务器响应的所有内容，了解与错误性质有关的详情。</p>
 <p>503Service Unavailable。通常，本状态码表示尽管Web服务器运转正常.并且能够响应请求，但服务器访问的应用程序还是无法作出响应。应该进行核实，是否因为执行了某种行为而造成这个结果。</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>社工、APT</title>
-    <url>/2020/09/12/%E7%A4%BE%E5%B7%A5%E3%80%81APT/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>内网渗透</title>
-    <url>/2020/09/12/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>越权、逻辑漏洞</title>
-    <url>/2020/09/12/%E8%B6%8A%E6%9D%83%E3%80%81%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>编辑器漏洞</title>
-    <url>/2020/09/12/%E7%BC%96%E8%BE%91%E5%99%A8%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>脚本后门分析</title>
-    <url>/2020/09/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>文件包含</title>
@@ -1162,6 +1132,36 @@
         <tag>网络安全</tag>
         <tag>渗透测试</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>暴力破解</title>
+    <url>/2020/09/12/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>旁注、目录越权、跨库、CDN绕过</title>
+    <url>/2020/09/12/%E6%97%81%E6%B3%A8%E3%80%81%E7%9B%AE%E5%BD%95%E8%B6%8A%E6%9D%83%E3%80%81%E8%B7%A8%E5%BA%93%E3%80%81CDN%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>社工、APT</title>
+    <url>/2020/09/12/%E7%A4%BE%E5%B7%A5%E3%80%81APT/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>脚本后门分析</title>
+    <url>/2020/09/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>编辑器漏洞</title>
+    <url>/2020/09/12/%E7%BC%96%E8%BE%91%E5%99%A8%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>越权、逻辑漏洞</title>
+    <url>/2020/09/12/%E8%B6%8A%E6%9D%83%E3%80%81%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>文件上传、下载</title>
@@ -1386,8 +1386,8 @@
 <p><strong>【2】邮箱信息收集</strong></p>
 <p>​    收集邮箱信息主要有两个作用：1.通过发现目标系统账号的命名规律，可以用来后期登入其他子系统。2.爆破登入邮箱用。</p>
 <p>​    通常邮箱的账号有如下几种生成规律： 比如某公司有员工名叫做“张小三”，它的邮箱可能如下：</p>
-<p><a href="mailto:&#x7a;&#104;&#97;&#110;&#103;&#x78;&#x69;&#97;&#x6f;&#x73;&#x61;&#x6e;&#64;&#120;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;">&#x7a;&#104;&#97;&#110;&#103;&#x78;&#x69;&#97;&#x6f;&#x73;&#x61;&#x6e;&#64;&#120;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;</a>     <a href="mailto:&#120;&#x69;&#97;&#111;&#x73;&#x61;&#110;&#x2e;&#122;&#104;&#97;&#110;&#x67;&#64;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#x6d;">&#120;&#x69;&#97;&#111;&#x73;&#x61;&#110;&#x2e;&#122;&#104;&#97;&#110;&#x67;&#64;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#x6d;</a>        <a href="mailto:&#122;&#120;&#x69;&#x61;&#111;&#x73;&#97;&#110;&#x40;&#120;&#x78;&#x78;&#46;&#99;&#111;&#109;">&#122;&#120;&#x69;&#x61;&#111;&#x73;&#97;&#110;&#x40;&#120;&#x78;&#x78;&#46;&#99;&#111;&#109;</a></p>
-<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#104;&#114;&#x40;&#x78;&#120;&#x78;&#x2e;&#99;&#111;&#x6d;">&#104;&#114;&#x40;&#x78;&#120;&#x78;&#x2e;&#99;&#111;&#x6d;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
+<p><a href="mailto:&#122;&#104;&#x61;&#x6e;&#x67;&#120;&#105;&#x61;&#x6f;&#115;&#x61;&#x6e;&#x40;&#x78;&#120;&#x78;&#46;&#99;&#x6f;&#x6d;">&#122;&#104;&#x61;&#x6e;&#x67;&#120;&#105;&#x61;&#x6f;&#115;&#x61;&#x6e;&#x40;&#x78;&#120;&#x78;&#46;&#99;&#x6f;&#x6d;</a>     <a href="mailto:&#120;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#46;&#122;&#x68;&#97;&#x6e;&#103;&#64;&#120;&#x78;&#120;&#46;&#99;&#111;&#x6d;">&#120;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#46;&#122;&#x68;&#97;&#x6e;&#103;&#64;&#120;&#x78;&#120;&#46;&#99;&#111;&#x6d;</a>        <a href="mailto:&#122;&#x78;&#x69;&#x61;&#111;&#115;&#97;&#x6e;&#x40;&#120;&#120;&#120;&#46;&#x63;&#111;&#109;">&#122;&#x78;&#x69;&#x61;&#111;&#115;&#97;&#x6e;&#x40;&#120;&#120;&#120;&#46;&#x63;&#111;&#109;</a></p>
+<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#x68;&#x72;&#64;&#120;&#x78;&#120;&#46;&#x63;&#x6f;&#x6d;">&#x68;&#x72;&#64;&#120;&#x78;&#120;&#46;&#x63;&#x6f;&#x6d;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
 <p><strong>手工的方式：</strong></p>
 <p>1.可以到百度等搜索引擎上搜索邮箱信息</p>
 <p>2.github等第三方托管平台</p>

@@ -122,6 +122,75 @@
     </nav>
 
 </header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
 
 <script>
     var mobileBtn = function f() {
@@ -294,8 +363,8 @@
 <p><strong>【2】邮箱信息收集</strong></p>
 <p>​    收集邮箱信息主要有两个作用：1.通过发现目标系统账号的命名规律，可以用来后期登入其他子系统。2.爆破登入邮箱用。</p>
 <p>​    通常邮箱的账号有如下几种生成规律： 比如某公司有员工名叫做“张小三”，它的邮箱可能如下：</p>
-<p><a href="mailto:&#x7a;&#104;&#97;&#110;&#103;&#x78;&#x69;&#97;&#x6f;&#x73;&#x61;&#x6e;&#64;&#120;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;">&#x7a;&#104;&#97;&#110;&#103;&#x78;&#x69;&#97;&#x6f;&#x73;&#x61;&#x6e;&#64;&#120;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;</a>     <a href="mailto:&#120;&#x69;&#97;&#111;&#x73;&#x61;&#110;&#x2e;&#122;&#104;&#97;&#110;&#x67;&#64;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#x6d;">&#120;&#x69;&#97;&#111;&#x73;&#x61;&#110;&#x2e;&#122;&#104;&#97;&#110;&#x67;&#64;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#x6d;</a>        <a href="mailto:&#122;&#120;&#x69;&#x61;&#111;&#x73;&#97;&#110;&#x40;&#120;&#x78;&#x78;&#46;&#99;&#111;&#109;">&#122;&#120;&#x69;&#x61;&#111;&#x73;&#97;&#110;&#x40;&#120;&#x78;&#x78;&#46;&#99;&#111;&#109;</a></p>
-<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#104;&#114;&#x40;&#x78;&#120;&#x78;&#x2e;&#99;&#111;&#x6d;">&#104;&#114;&#x40;&#x78;&#120;&#x78;&#x2e;&#99;&#111;&#x6d;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
+<p><a href="mailto:&#122;&#104;&#x61;&#x6e;&#x67;&#120;&#105;&#x61;&#x6f;&#115;&#x61;&#x6e;&#x40;&#x78;&#120;&#x78;&#46;&#99;&#x6f;&#x6d;">&#122;&#104;&#x61;&#x6e;&#x67;&#120;&#105;&#x61;&#x6f;&#115;&#x61;&#x6e;&#x40;&#x78;&#120;&#x78;&#46;&#99;&#x6f;&#x6d;</a>     <a href="mailto:&#120;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#46;&#122;&#x68;&#97;&#x6e;&#103;&#64;&#120;&#x78;&#120;&#46;&#99;&#111;&#x6d;">&#120;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#46;&#122;&#x68;&#97;&#x6e;&#103;&#64;&#120;&#x78;&#120;&#46;&#99;&#111;&#x6d;</a>        <a href="mailto:&#122;&#x78;&#x69;&#x61;&#111;&#115;&#97;&#x6e;&#x40;&#120;&#120;&#120;&#46;&#x63;&#111;&#109;">&#122;&#x78;&#x69;&#x61;&#111;&#115;&#97;&#x6e;&#x40;&#120;&#120;&#120;&#46;&#x63;&#111;&#109;</a></p>
+<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#x68;&#x72;&#64;&#120;&#x78;&#120;&#46;&#x63;&#x6f;&#x6d;">&#x68;&#x72;&#64;&#120;&#x78;&#120;&#46;&#x63;&#x6f;&#x6d;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
 <p><strong>手工的方式：</strong></p>
 <p>1.可以到百度等搜索引擎上搜索邮箱信息</p>
 <p>2.github等第三方托管平台</p>
