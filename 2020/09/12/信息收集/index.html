@@ -44,7 +44,7 @@
         
     
 
-@import "_partial/search"
+
 
 
 	<!--动态线条背景-->
@@ -54,6 +54,10 @@
 <body>
     <div class="wrapper">
         <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
     <nav class="navbar">
         <div class="container">
             <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
@@ -71,11 +75,20 @@
                 
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
-                    <a class="menu-item" href="/search">Search</a>
-                
                 <input id="switch_default" type="checkbox" class="switch_default">
+				
                 <label for="switch_default" class="toggleBtn"></label>
-            </div>
+    <div class="search bar7">
+		<form id="search-form"> <!-- 搜索框相关 -->
+			<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+			<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+		</form>
+		<div id="local-search-result"></div> <!-- 搜索结果区 -->
+		<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+	</div>
+
+
+
         </div>
     </nav>
 
@@ -102,13 +115,14 @@
                 
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
-                    <a class="menu-item" href="/search">Search</a>
-                
             </div>
+
+
         </div>
     </nav>
 
 </header>
+
 <script>
     var mobileBtn = function f() {
         var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
@@ -280,8 +294,8 @@
 <p><strong>【2】邮箱信息收集</strong></p>
 <p>​    收集邮箱信息主要有两个作用：1.通过发现目标系统账号的命名规律，可以用来后期登入其他子系统。2.爆破登入邮箱用。</p>
 <p>​    通常邮箱的账号有如下几种生成规律： 比如某公司有员工名叫做“张小三”，它的邮箱可能如下：</p>
-<p><a href="mailto:&#122;&#x68;&#x61;&#x6e;&#x67;&#120;&#105;&#x61;&#x6f;&#115;&#x61;&#x6e;&#x40;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#109;">&#122;&#x68;&#x61;&#x6e;&#x67;&#120;&#105;&#x61;&#x6f;&#115;&#x61;&#x6e;&#x40;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#109;</a>     <a href="mailto:&#120;&#105;&#x61;&#111;&#115;&#x61;&#x6e;&#46;&#x7a;&#x68;&#x61;&#110;&#x67;&#64;&#120;&#x78;&#x78;&#x2e;&#99;&#111;&#x6d;">&#120;&#105;&#x61;&#111;&#115;&#x61;&#x6e;&#46;&#x7a;&#x68;&#x61;&#110;&#x67;&#64;&#120;&#x78;&#x78;&#x2e;&#99;&#111;&#x6d;</a>        <a href="mailto:&#x7a;&#120;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#64;&#x78;&#120;&#120;&#x2e;&#99;&#111;&#109;">&#x7a;&#120;&#105;&#x61;&#111;&#115;&#97;&#x6e;&#64;&#x78;&#120;&#120;&#x2e;&#99;&#111;&#109;</a></p>
-<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#x68;&#114;&#x40;&#120;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;">&#x68;&#114;&#x40;&#120;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
+<p><a href="mailto:&#122;&#104;&#97;&#x6e;&#103;&#120;&#105;&#97;&#x6f;&#115;&#x61;&#110;&#64;&#120;&#x78;&#120;&#46;&#99;&#111;&#109;">&#122;&#104;&#97;&#x6e;&#103;&#120;&#105;&#97;&#x6f;&#115;&#x61;&#110;&#64;&#120;&#x78;&#120;&#46;&#99;&#111;&#109;</a>     <a href="mailto:&#x78;&#x69;&#97;&#x6f;&#115;&#97;&#x6e;&#x2e;&#x7a;&#x68;&#97;&#110;&#x67;&#x40;&#x78;&#x78;&#x78;&#x2e;&#99;&#111;&#x6d;">&#x78;&#x69;&#97;&#x6f;&#115;&#97;&#x6e;&#x2e;&#x7a;&#x68;&#97;&#110;&#x67;&#x40;&#x78;&#x78;&#x78;&#x2e;&#99;&#111;&#x6d;</a>        <a href="mailto:&#x7a;&#x78;&#x69;&#97;&#111;&#115;&#x61;&#110;&#64;&#x78;&#x78;&#x78;&#x2e;&#x63;&#x6f;&#109;">&#x7a;&#x78;&#x69;&#97;&#111;&#115;&#x61;&#110;&#64;&#x78;&#x78;&#x78;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>​    当我们收集几个邮箱之后，便会大致猜出对方邮箱的命名规律。除了员工的邮箱之外，通过公司会有一些共有的邮箱，比如人力的邮箱、客服的邮箱，<a href="mailto:&#104;&#114;&#x40;&#x78;&#x78;&#120;&#46;&#99;&#x6f;&#x6d;">&#104;&#114;&#x40;&#x78;&#x78;&#120;&#46;&#99;&#x6f;&#x6d;</a>/kefu@xxx.com,这种邮箱有时会存在弱口令，在渗透时可额外留意一下。我们可以通过手工或者工具的方式来确定搜集邮箱：</p>
 <p><strong>手工的方式：</strong></p>
 <p>1.可以到百度等搜索引擎上搜索邮箱信息</p>
 <p>2.github等第三方托管平台</p>
@@ -686,5 +700,7 @@
 	<script type="text/javascript"
 	color="175,127,187" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
 	</script>
+
+	
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

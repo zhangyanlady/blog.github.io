@@ -44,7 +44,7 @@
         
     
 
-@import "_partial/search"
+
 
 
 	<!--动态线条背景-->
@@ -54,6 +54,10 @@
 <body>
     <div class="wrapper">
         <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
     <nav class="navbar">
         <div class="container">
             <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
@@ -71,11 +75,20 @@
                 
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
-                    <a class="menu-item" href="/search">Search</a>
-                
                 <input id="switch_default" type="checkbox" class="switch_default">
+				
                 <label for="switch_default" class="toggleBtn"></label>
-            </div>
+    <div class="search bar7">
+		<form id="search-form"> <!-- 搜索框相关 -->
+			<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+			<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+		</form>
+		<div id="local-search-result"></div> <!-- 搜索结果区 -->
+		<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+	</div>
+
+
+
         </div>
     </nav>
 
@@ -102,13 +115,14 @@
                 
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
-                    <a class="menu-item" href="/search">Search</a>
-                
             </div>
+
+
         </div>
     </nav>
 
 </header>
+
 <script>
     var mobileBtn = function f() {
         var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
@@ -217,5 +231,7 @@
 	<script type="text/javascript"
 	color="175,127,187" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
 	</script>
+
+	
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
