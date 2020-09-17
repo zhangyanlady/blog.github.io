@@ -17,7 +17,11 @@ type: book
 
 <a target="_blank" href="python高级/index.html">公众号</a>
 
-<a target="_blank" href="https://v3u.com/book">python开发面试要点</a>
+<a target="_blank" href="https://v3u.com/book">悦哥-python开发面试要点</a>
+
+<a target="_blank" href="面试总结/index.html">个人面试总结</a>
+
+<a target="_blank" href="前端/index.html">前端</a>
 
 <a target="_blank" href="celery/index.html">celery</a>
 

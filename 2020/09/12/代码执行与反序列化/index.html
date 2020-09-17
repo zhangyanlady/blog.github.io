@@ -45,6 +45,8 @@
     
 
 
+	<!--动态线条背景-->
+
 <meta name="generator" content="Hexo 5.1.1"></head>
 
 <body>
@@ -64,6 +66,8 @@
                     <a class="menu-item" href="/about">About</a>
                 
                     <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
@@ -92,6 +96,8 @@
                 
                     <a class="menu-item" href="/book">Book</a>
                 
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
             </div>
         </div>
     </nav>
@@ -114,6 +120,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -131,12 +199,87 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            
+            <h1 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h1><p><img src="/image/%E8%84%91%E5%9B%BE/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96.png"></p>
+<h2 id="远程命令"><a href="#远程命令" class="headerlink" title="远程命令"></a>远程命令</h2><p><strong>执行原理</strong>：应用系统从设计上需要给用户提供指定的远程命令操作的接口，比如我们常见的路由器、防火墙、入侵检测等设备的web管理界面上</p>
+<p>一般会给用户提供一个ping操作的web界面，用户从web界面输入目标IP，提交后，后台会对该IP地址进行一次ping测试，并返回测试结果。而如果设计者在完成该功能时，没有做严格的安全控制，则可能会导致攻击者通过该接口提交“意想不到”的命令，从而让后台进行执行，从而控制整个后台服务器。</p>
+<h2 id="远程代码"><a href="#远程代码" class="headerlink" title="远程代码"></a>远程代码</h2><p><strong>执行漏洞原理</strong>：为需求设计,后台有时候也会把用户的输入作为代码的一部分进行执行,也就造成了远程代码执行漏洞。不管是使用了代码执行的函数,还是使用了不安全的反序列化等等。</p>
+<p>​      因此，如果需要给前端用户提供操作类的API接口，一定需要对接口输入的内容进行严格的判断，比如实施严格的白名单策略会是一个比较好的方法。</p>
+<h2 id="php执行系统及代码命令常用函数"><a href="#php执行系统及代码命令常用函数" class="headerlink" title="php执行系统及代码命令常用函数"></a>php执行系统及代码命令常用函数</h2><p>1）<strong>执行系统命令:</strong></p>
+<p>assert,system,passthru,exec,pcntl_exec,shell_exec,popen,proc_open,``(反单引号）</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.2cto.com/kf/web/php/">PHP</a>执行<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.2cto.com/os/">系统</a>命令的有几个常用的函数,如有:system函数、exec函数、popen函数,passthru,shell_exec函数他们都可以执行系统命令,不过前提时必须系统给了权限了哦。</p>
+<p><strong>system</strong>函数</p>
+<p>说明：执行外部程序并显示输出资料。</p>
+<p>语法：string system(string command, int</p>
+<p>[return_var]);</p>
+<p>返回值: 字符串详细介绍：本函数就像是 C 语中的函数 system(),用来执行指令,并输出结果,若是 return_var 参数存在,则执行 command 之后的状态会填入 return_var 中,同样值得注意的是若需要处理用户输入的资料,而又要防止用户耍花招<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.2cto.com/article/jiami/">破解</a>系统,则可以使用 EscapeShellCmd(),若 PHP 以模块式的执行,本函数会在每一行输出后自动更新 Web 服务器的输出缓冲暂存区,若需要完整的返回字符串,且不想经过不必要的其它中间的输出界面,可以使用 PassThru()。</p>
+<p> <strong>exec</strong>函数</p>
+<p>说明：执行外部程序。</p>
+<p>语法：string exec(string command,</p>
+<p>string [array], int [return_var]);</p>
+<p>返回值: 字符串</p>
+<p>详细介绍：本函数执行输入 command 的外部程序或外部指令。它的返回字符串只是外部程序执行后返回的最后一行；若需要完整的返回字符串，可以使用PassThru() 这个函数。</p>
+<p>要是参数 array 存在，command 会将 array 加到参数中执行，若不欲 array 被处理，可以在执行 exec() 之前呼叫 unset()。若是 return_var 跟 array 二个参数都存在，则执行 command 之后的状态会填入 return_var 中。</p>
+<p>值得注意的是若需要处理使用者输入的资料，而又要防止使用者耍花招破解系统，则可以使用EscapeShellCmd()</p>
+<p><strong>popen</strong>函数</p>
+<p>说明：打开文件。</p>
+<p>语法：int popen(string command, string</p>
+<p>mode);</p>
+<p>返回值: 整数</p>
+<p>详细介绍：本函数执行指令开档，而该文件是用管道方式处理的文件。用本函数打开的文件只能是单向的(只能读或只能写)，而且一定要用pclose() 关闭。在文件操作上可使用 fgets()、fgetss() 与 fputs()。若是开档发生错误，返回 false 值。</p>
+<p><strong>反撇号</strong>`（和~在同一个键）执行系统外部命令,</p>
+<p>代码如下:echo</p>
+<p><code>dir</code>;</p>
+<p>知识点：在使用这种方法执行系统外部命令时，你要确保shell_exec函数可用，否则是无法使用这种反撇号执行系统外部命令的。</p>
+<p><strong>安全性说明</strong>:当你使用这些函数执行命令时，如果是根据用户提交数据作为执行命令的话，你需要考虑<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.2cto.com/article/xitong/">系统安全</a>性，可以使用escapeshellcmd()和escapeshellarg()函数阻止用户恶意在系统上执行命令，escapeshellcmd()针对的是执行的系统命令，而escapeshellarg()针对的是执行系统命令的参数。这两个参数有点类似addslashes()的功能。</p>
+<h2 id="完成dvwa三个级别实验"><a href="#完成dvwa三个级别实验" class="headerlink" title="完成dvwa三个级别实验"></a>完成dvwa三个级别实验</h2><p><strong>Low级别</strong></p>
+<p>当dvwa级别为low时可以看源代码没做过滤</p>
+<p>我们便可以通过加&amp;&amp;、；、|、等符号入侵（当有&amp;&amp;时前面ip必须为真‘否则后面的命令不会执行当自有&amp;时前面ip为假那么命令便会在web存在的服务器执行）</p>
+<p>我们便可以通过127.0.0.1&amp;&amp;ipconfig（各种命令）来执行命令</p>
+<p><strong>Medium级别</strong></p>
+<p>当在medium级别时我们可以看源代码将&amp;&amp;、；、过滤了</p>
+<p>这时我们可以使用添加&amp;加空格或&amp;;&amp;    进行入侵</p>
+<p><strong>High级别</strong></p>
+<p>在high级别时我们可以看到源代码对以下做了过滤</p>
+<p>此时我们可以添加|| （代码里面的|后有一个空格）进行入侵</p>
+<p><strong>Impossible级别</strong>的代码加入了Anti-CSRF token，同时对参数ip进行了严格的限制，只有诸如“数字.数字.数字.数字”的输入才会被接收执行，因此不存在命令注入漏洞。</p>
+<h2 id="struts2-048、045、052、057实验"><a href="#struts2-048、045、052、057实验" class="headerlink" title="struts2 048、045、052、057实验"></a>struts2 048、045、052、057实验</h2><p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43625577/article/details/97111575">https://blog.csdn.net/weixin_43625577/article/details/97111575</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sinesafe.com/article/20180823/struts2057.html">https://www.sinesafe.com/article/20180823/struts2057.html</a></p>
+<h4 id="Struts2-045实验"><a href="#Struts2-045实验" class="headerlink" title="Struts2 045实验"></a>Struts2 045实验</h4><p>使用k8工具</p>
+<p>执行添加账号命令</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1.jpg" alt="img"></p>
+<p>上传木马小马</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/2.jpg" alt="img"></p>
+<p>链接小马上传大马</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/3.jpg" alt="img"></p>
+<h4 id="Struts2-048实验"><a href="#Struts2-048实验" class="headerlink" title="Struts2 048实验"></a>Struts2 048实验</h4><p>使用方法struts2_S2-048.py <url>  <cmd></p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/4.jpg" alt="img"></p>
+<h4 id="Struts2-052实验"><a href="#Struts2-052实验" class="headerlink" title="Struts2 052实验"></a>Struts2 052实验</h4><p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Hi-blog/p/7510987.html">https://www.cnblogs.com/Hi-blog/p/7510987.html</a></p>
+<p>针对版本Ubuntu 16.04 、Apache/2.4.18、Struts2.5 –</p>
+<p>Struts2.5.12版本。：struts2-rest-showcase因为我的版本无漏洞就先把操作过程如下</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/5.jpg" alt="img"></p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/6.jpg" alt="img"></p>
+<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>就是把一个对象变成可以传输的字符串，目的就是为了方便传输。假设，我们写了一个class，这个class里面存有一些变量。当这个class被实例化了之后，在使用过程中里面的一些变量值发生了改变。以后在某些时候还会用到这个变量，如果我们让这个class一直不销毁，等着下一次要用它的时候再一次被调用的话，浪费系统资源。当我们写一个小型的项目可能没有太大的影响，但是随着项目的壮大，一些小问题被放大了之后就会产生很多麻烦。这个时候PHP就和我们说，你可以把这个对象序列化了，存成一个字符串，当你要用的时候再放他出来就好了。在我们讲PHP反序列化的时候，基本都是围绕着serialize()，unserialize()这两个函数。</p>
+<p><strong>详细参考</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</a></p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>serialize()和 unserialize() 在 PHP内部实现上是没有漏洞的，之所以会产生反序列化漏洞是因为应用程序在处理对象、魔术函数以及序列化相关问题的时候导致的。</p>
+<p>当传给 unserialize() 的参数可控时，那么用户就可以注入精心构造的 payload。当进行反序列化的时候就有可能会触发对象中的一些魔术方法，造成意想不到的危害。</p>
+<h4 id="完成反序列化pikachu实试"><a href="#完成反序列化pikachu实试" class="headerlink" title="完成反序列化pikachu实试"></a>完成反序列化pikachu实试</h4><p>在线反序列化工具：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.w3cschool.cn/tools/index?name=unserialize">https://www.w3cschool.cn/tools/index?name=unserialize</a></p>
+<p>输入payload：O:1:”S”:1:{s:4:”test”;s:29:”alert(‘xss’)”;}</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/7.jpg" alt="img"></p>
+
         </div>
 
         
@@ -173,6 +316,12 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
                 </span>
             </div>
             <div>
@@ -202,5 +351,8 @@
 </footer>
 
     </div>
-</body>
+	<script type="text/javascript"
+	color="175,127,187" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+	</script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
