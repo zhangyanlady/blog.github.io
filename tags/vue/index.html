@@ -76,13 +76,17 @@
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
-				
+				<label for="switch_default" class="toggleBtn"></label>
          
       <div class="search bar7">
 							<form id="search-form"> <!-- 搜索框相关 -->
 								<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+								<button type="submit" class="search-form-submit"></button>
 								<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
 							</form>
+							        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
 							<div id="local-search-result"></div> <!-- 搜索结果区 -->
 							<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
 						</div>
