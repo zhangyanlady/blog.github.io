@@ -78,18 +78,18 @@
                 <input id="switch_default" type="checkbox" class="switch_default">
 				<label for="switch_default" class="toggleBtn"></label>
          
-      <div class="search bar7">
-							<form id="search-form"> <!-- 搜索框相关 -->
-								<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
-								<button type="submit" class="search-form-submit"></button>
-								<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
-							</form>
-							        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-							<div id="local-search-result"></div> <!-- 搜索结果区 -->
-							<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
-						</div>
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
 
 
         </div>
@@ -212,6 +212,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -234,7 +296,74 @@
         </header>
 
         <div class="post-content">
-            
+            <h1 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h1><p><img src="/image/%E8%84%91%E5%9B%BE/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3.png"></p>
+<h1 id="一个网站登录的地方有那些漏洞，用自己的语言做一个总结。"><a href="#一个网站登录的地方有那些漏洞，用自己的语言做一个总结。" class="headerlink" title="一个网站登录的地方有那些漏洞，用自己的语言做一个总结。"></a>一个网站登录的地方有那些漏洞，用自己的语言做一个总结。</h1><p>1、 用户是否设置了复杂的密码</p>
+<p>2、网站是否存在验证码</p>
+<p>3、 网站尝试登录的行为是否有限制</p>
+<p>4、 网站是否双因素认证（一般在管理后台登陆使用）</p>
+<p>5、 网站是否设置了Token值</p>
+<p>6、提示用户名错误或者提示密码错误会泄露信息（真确的应该为提示用户名或密码错误）</p>
+<p>7、注册账号时可以批量注册账号</p>
+<p>8、 修改密码时不需要提供旧密码</p>
+<p>9、注册用户时不存在唯一性可以注册多个同名账号</p>
+<p>10、 密码未加密明文传输</p>
+<p>11、  源代码框架存在密码</p>
+<p><strong>C/S与B/S的结构区别：</strong> </p>
+<p>硬件环境不同，C/S通常是建立在专用的网络上，小范围的网络环境。而B/S是建立在广域网上的，适应范围强，通常有操作系统和浏览器就行； </p>
+<p>安全要求不同，C/S结构比B/S结构更安全，因为用户群相对固定，对信息的保护更强；而B/S结构面向的范围广，所以安全性比较低； </p>
+<p>系统维护不同，B/S结构维护升级比较简单，而C/S结构维护升级相对困难。</p>
+<h1 id="（b-s）（浏览器-客户端）验证码暴力破解（on-client、on-server、Token）实验"><a href="#（b-s）（浏览器-客户端）验证码暴力破解（on-client、on-server、Token）实验" class="headerlink" title="（b/s）（浏览器/客户端）验证码暴力破解（on client、on server、Token）实验"></a>（b/s）（浏览器/客户端）验证码暴力破解（on client、on server、Token）实验</h1><p>on server:我们可以看见当我们输入错误的验证码时验证码输入错误</p>
+<p>on server常见问题：验证码在后台不过期，导致长期使用(php默认session是24分钟过期)；验证码校验不严格，逻辑出现问题；验证码设计的太过简单和有规律的被猜解</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/1.jpg"></p>
+<p>当我们正确的时候提示我们账号或密码错误所以我们可以去爆破验证码并没有被替换</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/2.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/3.jpg"></p>
+<p>on client：常见问题：不安全的前端js实现验证码；不安全的将验证码在cookie中泄露；不安全的将验证码在前端源代码中泄露</p>
+<p>我们可以看到我们抓包输入错误的验证码并没有提示验证码错误而提示用户名或密码错误因为这是客户端验证只是欺骗前端我们可以直接把验证码去掉进行爆破</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/4.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/5.jpg"></p>
+<p>Token：由于token值输出在前端源代码中，容易被获取，因此也就失去了防暴力破解的意义，一般Token在防止CSRF上会有比较好的功郊。</p>
+<p>我们使用音叉攻击注意：线程数设为1；Grep-Extract设置好开始token”value=”  结束为”</p>
+<p>/&gt; ；有郊载荷设为递归搜索</p>
+<p>“token” value=”</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/6.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/7.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/8.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/9.jpg"></p>
+<h1 id="验证码识别实验"><a href="#验证码识别实验" class="headerlink" title="验证码识别实验"></a>验证码识别实验</h1><p>因为我们的使用工具还不能抓包所以</p>
+<p>1.Burp抓包，然后复制URL、数据包到Pkav。</p>
+<p>\2. 设置密码标记、验证码标记、配置、加载外部字典、配置验证码、发包。</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/10.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/11.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/13.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/20.jpg"></p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/14.jpg"></p>
+<h1 id="Bruter、hydra对smb、ssh、mysql等进行密码暴破"><a href="#Bruter、hydra对smb、ssh、mysql等进行密码暴破" class="headerlink" title="Bruter、hydra对smb、ssh、mysql等进行密码暴破"></a>Bruter、hydra对smb、ssh、mysql等进行密码暴破</h1><p>Bruter(使用字典时不能有中文目录)</p>
+<p>Bruter对mysql破解</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/15.jpg"></p>
+<p>Bruter对mysql破解：（mysql不能使用ip地址连接）所以我这里用本地连接</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/16.jpg"></p>
+<p>Bruter对ssh破解</p>
+<p><img src="/image/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/17.jpg"></p>
+<h1 id="hydra对smb、ssh、mysql破解"><a href="#hydra对smb、ssh、mysql破解" class="headerlink" title="hydra对smb、ssh、mysql破解"></a>hydra对smb、ssh、mysql破解</h1><h2 id="对smb破解："><a href="#对smb破解：" class="headerlink" title="对smb破解："></a>对smb破解：</h2><p># hydra -l administrator -P top100.txt 192.168.0.102 smb</p>
+<h3 id="对ssh破解1-破解ssh："><a href="#对ssh破解1-破解ssh：" class="headerlink" title="对ssh破解1.破解ssh："></a>对ssh破解1.破解ssh：</h3><p># hydra -l 用户名 -p 密码字典 -t 线程-vV -e ns ip ssh</p>
+<p># hydra -l 用户名 -p 密码字典 -t 线程-o save.log -vV ip ssh</p>
+<p>root@kali:~# hydra -L user.txt -P top100.txt -t 1 -vV -e ns</p>
+<p>-o save.log 192.168.0.109 ssh</p>
+<h3 id="对mysql破解"><a href="#对mysql破解" class="headerlink" title="对mysql破解"></a>对mysql破解</h3><p>root@kali:~# hydra -L user.txt -P</p>
+<p>top100.txt -t 2 -vV -e ns -o save.log 192.168.0.113 mysql</p>
+<h1 id="暴力破解及验证码安全防范"><a href="#暴力破解及验证码安全防范" class="headerlink" title="暴力破解及验证码安全防范"></a>暴力破解及验证码安全防范</h1><p>\1. 密码长度8位及以上。</p>
+<ol start="2">
+<li><p>不允许以自己的手机号码、QQ、邮箱等关键“特征”为密码。</p>
+</li>
+<li><p>用户名与密码不能有任何联系，如用户名为“admin”，密码为“admin888”。</p>
+</li>
+</ol>
+<p>\4. 密码密码复杂度要求：字符、大小写、数字等。</p>
+<p>\5. 设置验证码过期时间、使用了马上失效等，加大验证码复杂度：颜色干扰、符号干扰等。</p>
+<p>有时间的同学看一下<a target="_blank" rel="noopener" href="http://drops.leesec.com/#!/drops/525.%E9%AA%8C%E8%AF%81%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB">http://drops.leesec.com/#!/drops/525.%E9%AA%8C%E8%AF%81%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB</a></p>
+<p>看一下验证码总结文章，可以结合这个站<a target="_blank" rel="noopener" href="http://wooyun.2xss.cc/">http://wooyun.2xss.cc/</a>  查看攻击过程</p>
+
         </div>
 
         
@@ -282,40 +411,14 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/09/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/">脚本后门分析</a>
+                <a class="prev" rel="prev" href="/2020/09/15/vue%E6%90%AD%E5%BB%BA/">vue搭建</a>
             
             
-            <a class="next" rel="next" href="/2020/09/12/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/">中间人攻击</a>
+            <a class="next" rel="next" href="/2020/09/10/WhatWeb%E4%BD%BF%E7%94%A8/">WhatWeb使用</a>
             
         </section>
-
+			</br>
 			
-				<section id="comments" class="comments">
-				  <style>
-					.comments{margin:30px;padding:10px;background:#fff}
-					@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
-				  </style>
-				  <div class="valine_comment"></div>
-<!--载入js，在</body>之前插入即可-->
-<!--Leancloud 操作库:-->
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<!--Valine 的核心代码库-->
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  new Valine({
-      el: '.valine_comment',
-      app_id: 'NPCHd1fJsUTbGHIYTNPIQlhL-gzGzoHsz',
-      app_key: 'r2xephzOBctMbVvqPFoBCJwY',
-      placeholder: '这里留言。。',
-      notify: 'true',
-      verify: 'true',
-    });
-</script>
-
-    </article>
-	
-    </section>
-
 
 </div>
 
@@ -332,9 +435,7 @@
 </script>
 
     </div>
-	<script type="text/javascript"
-	color="175,127,187" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
-	</script>
+
 
 	
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>

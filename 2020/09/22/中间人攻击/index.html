@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>中间人攻击 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">中间人攻击</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 22, 2020&nbsp;&nbsp;20:56:31</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/09/22/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/" class="leancloud-visitors view" data-flag-title="中间人攻击">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="什么是ARP协议"><a href="#什么是ARP协议" class="headerlink" title="什么是ARP协议"></a>什么是ARP协议</h1><blockquote>
+<p>ARP（Address Resolution Protocol）地址解析协议，目的是实现IP地址到MAC地址的转换。<br>在计算机间通信的时候，计算机要知道目的计算机是谁（就像我们人交流一样，要知道对方是谁），这中间需要涉及到MAC地址，而MAC是真正的电脑的唯一标识符。<br>为什么需要ARP协议呢？因为在OSI七层模型中，对数据从上到下进行封装发送出去，然后对数据从下到上解包接收，但是上层（网络层）关心的IP地址，下层关心的是MAC地址，这个时候就需要映射IP和MAC。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ARP命令常见用法：</span><br><span class="line">1、arp -s Ip 物理地址</span><br><span class="line"></span><br><span class="line">可以向ARp高速缓存中人工输入一个静态项目。该项目在计算机引导过程中将保持有效状态，或者在出现错误时，人工配置的物理地址将自动更新该项目。</span><br><span class="line"></span><br><span class="line">2、arp -a或arp –g</span><br><span class="line"></span><br><span class="line">用于查看高速缓存中的所有项目。-a和-g参数的结果是一样的，多年来-g一直是UNIX平台上用来显示ARp高速缓存中所有项目的选项，而Windows用的是arp -a（-a可被视为all，即全部的意思），但它也可以接受比较传统的-g选项。</span><br><span class="line"></span><br><span class="line">3、arp -d Ip</span><br><span class="line">使用该命令能够人工删除一个静态项目。</span><br></pre></td></tr></table></figure>
+
+<h1 id="ARP欺骗的危害"><a href="#ARP欺骗的危害" class="headerlink" title="ARP欺骗的危害"></a>ARP欺骗的危害</h1><blockquote>
+<p>ARP欺骗可以造成内部网络的混乱，让某些被欺骗的计算机无法正常访问内外网，让网关无法和客户端正常通信，也可以截取全网络数据包等。实际上他的危害还不仅仅如此，一般来说IP地址的冲突我们可以通过多种方法和手段来避免，而ARP协议工作在更低层，隐蔽性更高。系统并不会判断ARP缓存的正确与否，无法像IP地址冲突那样给出提示。</p>
+</blockquote>
+<h1 id="ARP欺骗原理也叫中间人欺骗"><a href="#ARP欺骗原理也叫中间人欺骗" class="headerlink" title="ARP欺骗原理也叫中间人欺骗"></a>ARP欺骗原理也叫中间人欺骗</h1><blockquote>
+<p>设爱丽丝（Alice）希望与鲍伯（Bob）通信。同时，马洛里（Mallory）希望拦截窃会话以进行窃听并可能在某些时候传送给鲍伯一个虚假的消息。<br>首先，爱丽丝会向鲍勃索取他的公钥。如果Bob将他的公钥发送给Alice，并且此时马洛里能够拦截到这个公钥，就可以实施中间人攻击。马洛里发送给爱丽丝一个伪造的消息，声称自己是鲍伯，并且附上了马洛里自己的公钥（而不是鲍伯的）。<br>爱丽丝收到公钥后相信这个公钥是鲍伯的，于是爱丽丝将她的消息用马洛里的公钥（爱丽丝以为是鲍伯的）加密，并将加密后的消息回给鲍伯。马洛里再次截获爱丽丝回给鲍伯的消息，并使用马洛里自己的私钥对消息进行解密，如果马洛里愿意，她也可以对消息进行修改，然后马洛里使用鲍伯原先发给爱丽丝的公钥对消息再次加密。当鲍伯收到新加密后的消息时，他会相信这是从爱丽丝那里发来的消息。<br>我们的身份就是Mallory，我们希望欺骗Alice和Bob，让其认为我们是交互的正确目标，从而来获取他们之间交流的信息</p>
+</blockquote>
+<p><img src="/image/arp.jpg"></p>
+<h1 id="ARP安全防范"><a href="#ARP安全防范" class="headerlink" title="ARP安全防范"></a>ARP安全防范</h1><p>1、不要随意登录免费的WIFI，没人知道免费的WIFI是不是有恶意的攻击者在搞鬼；</p>
+<p>2:使用ARP绑定， 避免被ARP欺骗；</p>
+<p>3:开启电脑管家或者360安全卫士的ARP防火墙或金山贝壳或彩影ARP防火墙；</p>
+<p>4:使用https协议或者其他有保密协议的连接访问外网，避免被坑。<br>5、手工静态绑定<br>编写一个批处理文件命名为xx.bat，将批处理文件放到“Windows→开始→程序→启动”中，如果需要立即生效，请运行此文件。批处理文件内容如下：<br>@echo off<br>arp －d<br>arp -s 192.168.0.115 00-16-36-f7-bd-5e  //ip与MAC地址根据具体情况修改。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/09/22/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/">https://zhangyanlady.github.io/2020/09/22/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/09/20/python-web-%E5%AE%89%E5%85%A8%E6%80%BB%E7%BB%93/">python-web-安全总结</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

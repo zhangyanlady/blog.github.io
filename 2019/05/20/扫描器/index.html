@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>扫描器 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">扫描器</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 20, 2019&nbsp;&nbsp;22:44:57</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/05/20/%E6%89%AB%E6%8F%8F%E5%99%A8/" class="leancloud-visitors view" data-flag-title="扫描器">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h1><p><img src="/image/%E6%89%AB%E6%8F%8F.png"></p>
+<h1 id="👺国外各web与系统漏洞扫描器优缺点"><a href="#👺国外各web与系统漏洞扫描器优缺点" class="headerlink" title="👺国外各web与系统漏洞扫描器优缺点"></a><strong>👺国外各web与系统漏洞扫描器优缺点</strong></h1><p><strong>🦄AWVS</strong></p>
+<p>漏洞扫描速度较快，准确率较高，漏洞规则库较为全面。漏洞验证可查看请求响应代码，但无中文界面。报表功能完整。有多重漏洞的验证工具。</p>
+<p><strong>🦄Appscan</strong></p>
+<p>漏洞扫描速度一般，准确率最高，漏洞规则库最全面。漏洞验证可查看请求相应代码，拥有较完整的漏洞修复建议。报表功能完整。全中文界面</p>
+<p><strong>🦄H**</strong>P WebInspect**</p>
+<p>漏洞扫描速度一般，准确率较高，扫描类型较多。报表功能强大。可查看请求响应代码。无中文界面。</p>
+<p><strong>🦄WebCruiser</strong></p>
+<p>此工具偏向渗透利用工具，扫描功能较弱。仅有轻量级SQL注入和XSS漏洞的扫描功能。具有SQL注入漏洞利用功能。</p>
+<p><strong>🦄Nexpose</strong></p>
+<p>扫描速度快，能扫描系统层和web层2类漏洞，但web漏洞发现能力不如appscan，系统扫描能力不如Nessus。</p>
+<p><strong>🦄Nmap</strong></p>
+<p>主要用于端口扫描和主机发现，不能实现web扫描和系统层扫描。对渗透测试起帮助作用。</p>
+<p><strong>👺国内各web和系统漏洞扫描器优缺点</strong></p>
+<p><strong>🦄杭州安恒</strong></p>
+<p>漏洞扫描和事件监测是单一产品实现。漏洞扫描速度较慢；发现漏洞类型较多，结果准确。漏洞验证功能较好。综合展示界面直观；报表功能完整，支持任务结果多角度对比。支持开放接口。漏洞验证提供了快速验证，测试等功能，可查看请求响应代码，方便技术人员确认漏洞。但无法批量验证。</p>
+<p><strong>🦄知道创宇</strong></p>
+<p>漏洞扫描和事件监测是单一产品实现。漏洞扫描速度很快；发现漏洞类型关注高中风险，结果准确；能识别网站防护设备。支持漏洞验证。综合展示界面直观，有专用于展示的界面；报表功能完整；支持开放接口。</p>
+<p><strong>🦄绿盟科技</strong></p>
+<p>漏洞扫描和事件监测是两套产品实现。漏洞扫描速度较快；发现漏洞类型较多；结果准确。支持漏洞验证，支持批量验证。综合展示界面一般。报表功能较为完整，以任务为单位。支持开放接口。</p>
+<p><strong>🦄安塞科技</strong></p>
+<p>具备漏洞扫描，事件监测不完整，挂马监测需要确认。</p>
+<p>漏洞扫描速度很快，发现漏洞类型较多，结果较为准确；支持漏洞验证；综合展示界面和报表功能较为简单。</p>
+<p><strong>🦄国舜科技</strong></p>
+<p>漏洞扫描和事件监测是单一产品实现。</p>
+<p>漏洞扫描速度很快，发现漏洞类型较少，结果误差较大。不支持漏洞验证。综合展示界面直观，报表功能较为完整。</p>
+<p><strong>🦄安域领创</strong></p>
+<p>仅有漏洞扫描功能，无事件监测功能。</p>
+<p>漏洞扫描速度很快，发现漏洞类型一般，结果较为准确；支持漏洞验证，不支持误报修正；综合展示和报表功能较为简单。支持开放接口。</p>
+<p><strong>🦄启明星辰</strong></p>
+<p>漏洞扫描不支持集群部署，不具备事件监测功能。</p>
+<p>漏洞扫描速度一般，发现漏洞类型一般，结果准确性一般。不支持漏洞验证。</p>
+<h1 id="👀nessus安装与使用"><a href="#👀nessus安装与使用" class="headerlink" title="👀nessus安装与使用"></a>👀nessus安装与使用</h1><p>下载地址<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://zh-cn.tenable.com/products/nessus?tns_redirect=true">https://zh-cn.tenable.com/products/nessus?tns_redirect=true</a></p>
+<p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/1.png"></p>
+<h1 id="Nessus-v8-10系列并激活成无IP限制版本"><a href="#Nessus-v8-10系列并激活成无IP限制版本" class="headerlink" title="Nessus v8.10系列并激活成无IP限制版本"></a>Nessus v8.10系列并激活成无IP限制版本</h1><p>详细链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1d95550ffc81">https://www.jianshu.com/p/1d95550ffc81</a></p>
+<h1 id="appscan使用"><a href="#appscan使用" class="headerlink" title="appscan使用"></a>appscan使用</h1><p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/2.png"></p>
+<h1 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h1><p><img src="/image/nmap.jpg"></p>
+<h2 id="0x01-介绍"><a href="#0x01-介绍" class="headerlink" title="0x01 介绍"></a>0x01 介绍</h2><p>Nmap，也就是Network Mapper，中文为“网络映射器”。</p>
+<p>Nmap是一款开源的网络探测和安全审核的工具，它的设计目标是快速地扫描大型网络。</p>
+<p>它是网络管理员必用的软件之一，以及用以评估网络系统保安。</p>
+<h3 id="1-1-基本功能"><a href="#1-1-基本功能" class="headerlink" title="1.1 基本功能"></a>1.1 基本功能</h3><p>（1）探测一组主机是否在线</p>
+<p>（2）扫描主机端口，嗅探所提供的网络服务</p>
+<p>（3）推断主机所用的操作系统</p>
+<h3 id="1-2-工作原理"><a href="#1-2-工作原理" class="headerlink" title="1.2 工作原理"></a>1.2 工作原理</h3><p>Nmap对目标主机进行一系列的测试，利用测试结果建立相应目标主机的Nmap指纹，然后Nmap会对指纹进行匹配，最终输出相应的结果。</p>
+<h3 id="1-3-语法格式"><a href="#1-3-语法格式" class="headerlink" title="1.3 语法格式"></a>1.3 语法格式</h3><p>Nmap的固定语法格式如下：</p>
+<p>Nmap【空格】【选项|多选项|协议】【空格】【目标】</p>
+<h2 id="0x02-常用参数"><a href="#0x02-常用参数" class="headerlink" title="0x02 常用参数"></a>0x02 常用参数</h2><p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/5.jpg"></p>
+<h3 id="2-1-全面扫描"><a href="#2-1-全面扫描" class="headerlink" title="2.1 全面扫描"></a>2.1 全面扫描</h3><p>全面扫描指定IP或域名的所有端口及其目标系统信息等。所需时间较长</p>
+<p>nmap  -A  192.168.0.12</p>
+<p>扫描结果：目标主机MAC地址、设备类型、操作系统、中央处理单元、主机详细资料、网络距离等</p>
+<h3 id="2-2-简单扫描"><a href="#2-2-简单扫描" class="headerlink" title="2.2 简单扫描"></a>2.2 简单扫描</h3><p>该扫描方式可以针对IP或者域名进行扫描，扫描方式迅速，可以很方便地发现目    标端口的开放情况及主机在线情况。</p>
+<p>nmap   192.168.0.12</p>
+<p>简单扫描结果：（只能扫描工具规定的一些常见端口）</p>
+<h3 id="2-3-其他举例"><a href="#2-3-其他举例" class="headerlink" title="2.3 其他举例"></a>2.3 其他举例</h3><p>指定扫描一个网段：nmap  192.168.0.0/24  或者  nmap  192.168.0.1-200（扫描1-200的主机）</p>
+<p>扫描部分网段（逗号隔开）：nmap  192.168.0.1,2,3,4 或 nmap 192.168.0,1,2,3,4.1</p>
+<p>扫描指定IP所开放的端口：nmap -p 1-65535 -v 127.0.0.1</p>
+<p>扫描C段存活主机：nmap 192.168.1.0/24</p>
+<p>指定端口扫描：nmap -p 80,1433,22,1521 192.168.1.1</p>
+<p>探测主机操作系统：nmap -O 192.168.1.1</p>
+<p>全面的系统探测：nmap -v -A 192.168.1.1（Nmap默认扫描主机1000个高危端口）</p>
+<p>穿透防火墙进行扫描：nmap -Pn -A 192.168.1.1（禁止用ping的）</p>
+<p>使用脚本扫描Web敏感目录：nmap -p 80 –script=http-enum.nse 192.168.1.1</p>
+<h2 id="0x03-主机发现"><a href="#0x03-主机发现" class="headerlink" title="0x03 主机发现"></a>0x03 主机发现</h2><p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/6.jpg"></p>
+<h3 id="3-1-Ping扫描"><a href="#3-1-Ping扫描" class="headerlink" title="3.1 Ping扫描"></a>3.1 Ping扫描</h3><p>Ping扫描只进行ping，然后显示出在线的主机。使用该选项扫描可以轻易获取目标信息而不会被轻易发现。</p>
+<p>在默认情况下，Nmap会发送一个ICMP回声请求和一个TCP报文到目标端口。Ping扫描的优点是不会返回太多的信息影响对结果的分析，并且扫描方式高效。</p>
+<p>nmap -sP 192.168.0.0/24</p>
+<h3 id="3-2-无Ping扫描"><a href="#3-2-无Ping扫描" class="headerlink" title="3.2 无Ping扫描"></a>3.2 无Ping扫描</h3><p>无ping扫描通常用于防火墙禁止ping的情况下，它能确定正在运行的机器。</p>
+<p>默认情况下，nmap只对正在运行的主机进行高强度的探测，如端口扫描，版本探测或者操作系统探测。</p>
+<p>用-P0禁止主机发现会使nmap对每一个特定的目标IP地址进行所要求的扫描，这可以穿透防火墙，也可以避免被防火墙发现。</p>
+<p>nmap -P0 192.168.0.12</p>
+<h3 id="3-3-TCP-SYN-Ping-扫描"><a href="#3-3-TCP-SYN-Ping-扫描" class="headerlink" title="3.3 TCP SYN Ping 扫描"></a>3.3 TCP SYN Ping 扫描</h3><p>通常情况下，nmap默认是使用TCP ACK 和 ICMP Echo 请求对目标进行是否存活的响应，当目标主机的防火墙阻止这些请求时，可以使用TCP SYN Ping扫描来判断主机是否存活。</p>
+<p>-PS 选项发送一个设置了SYN标志位的空TCP报文。默认端口为80。</p>
+<p>但不同的端口也可以作为选项指定，甚至可以指定一个以逗号分隔的端口列表（如-PS22,23,25,80,115,3306,3389），在这种情况下，每个端口会被并发地扫描</p>
+<p>nmap  -PS  -v  192.168.0.12</p>
+<p>上面结果可得知Nmap是通过SYN/ACK和RST响应来对目标主机是否存活进行判断，但在特定情况下防火墙会丢弃RST包。</p>
+<p>这时结果会不准确，我们需要指定一个端口或端口范围来避免这种情况。</p>
+<p>nmap  -PS80,100-200  -v  192.168.0.12</p>
+<h3 id="3-4-TCP-ACK-Ping-扫描"><a href="#3-4-TCP-ACK-Ping-扫描" class="headerlink" title="3.4 TCP ACK Ping 扫描"></a>3.4 TCP ACK Ping 扫描</h3><p>使用-PA选项可以进行TCP ACK Ping扫描，它与TCP SYN Ping扫描非常类似，区别在于设置的TCP标志位是ACK而不是SYN，使用这种方式扫描可以探测阻止SYN包或ICMP Echo请求的主机。</p>
+<p>nmap  -PA  -v  192.168.0.12</p>
+<p>同时使用-SP与-PA选项命令如下：</p>
+<p>nmap  -PA  -PS  192.168.0.12</p>
+<h3 id="3-5-UDP-Ping扫描"><a href="#3-5-UDP-Ping扫描" class="headerlink" title="3.5 UDP Ping扫描"></a>3.5 UDP Ping扫描</h3><p>使用UDP Ping扫描时Nmap会发送一个空UDP包到目标之间，如果目标主机相应则返回一个ICMP端口不可达错误，如果目标主机不是存活状态则会返回各自ICMP错误信息。</p>
+<p>nmap  -PU  -v  192.168.0.12</p>
+<h3 id="3-6-ICMP-Ping-Types-扫描"><a href="#3-6-ICMP-Ping-Types-扫描" class="headerlink" title="3.6 ICMP Ping Types 扫描"></a>3.6 ICMP Ping Types 扫描</h3><p>ICMP是控制报文协议。nmap发送一个ICMP type8（回声请求）报文到目标ip地址，从运行的主机得到一个type0（回声相应）报文。</p>
+<p>-PE选项简单的来说是通过向目标发送ICMP Echo数据包来探测目标主机是否在线，使用-PE选项打开该回声请求功能。</p>
+<p>-PP选项是ICMP时间戳ping扫描，-PM选项可以进行icmp地址掩码ping扫描</p>
+<p>nmap-PE-v192.168.0.12nmap-PP-v192.168.0.12nmap-PM-v192.168.0.12</p>
+<h3 id="3-7-ARP-Ping扫描"><a href="#3-7-ARP-Ping扫描" class="headerlink" title="3.7 ARP Ping扫描"></a>3.7 ARP Ping扫描</h3><p>-PR 通常在扫描局域网时使用，在内网的情况下，使用ARP ping扫描方式是最有效的，在本地局域网中防火墙不会禁止ARP请求，这就使得它比其他ping扫描都更加高效。</p>
+<p>nmap -PR 192.168.0.12</p>
+<h3 id="3-8-扫描列表"><a href="#3-8-扫描列表" class="headerlink" title="3.8 扫描列表"></a>3.8 扫描列表</h3><p>列表扫描时主机发现的退化形式，它仅仅列出指定网络上的每台主机，不发送任何报文到目标主机。</p>
+<p>默认情况下，Nmap仍然对主机进行反向域名解析以获取它们的名字。</p>
+<p>nmap -sL 192.168.0.0/24</p>
+<h3 id="3-9-禁止反向域名解析"><a href="#3-9-禁止反向域名解析" class="headerlink" title="3.9 禁止反向域名解析"></a>3.9 禁止反向域名解析</h3><p>如果单纯扫描一段IP，使用该选项可以大幅度减少目标主机的相应时间，从而更快的得到结果。</p>
+<p>namp  -n -sL  192.168.0.0/24</p>
+<h3 id="3-10反向域名解析"><a href="#3-10反向域名解析" class="headerlink" title="3.10反向域名解析"></a>3.10反向域名解析</h3><p>nmap -R -sL *. 192.168.0.0/24</p>
+<h3 id="3-11-扫描TPv6地址"><a href="#3-11-扫描TPv6地址" class="headerlink" title="3.11 扫描TPv6地址"></a>3.11 扫描TPv6地址</h3><p>nmap -6 fe80::20c:29ff:fee0:2e76</p>
+<h4 id="3-12-路由跟踪"><a href="#3-12-路由跟踪" class="headerlink" title="3.12 路由跟踪"></a>3.12 路由跟踪</h4><p>通过此选项可以轻松地查找出本地计算机到目标之间所经过的网络节点，并可以看到通过各个节点的时间。</p>
+<p>nmap  –traceroute  -v  <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></p>
+<h3 id="3-13-SCTP-INIT-Ping扫描"><a href="#3-13-SCTP-INIT-Ping扫描" class="headerlink" title="3.13 SCTP INIT Ping扫描"></a>3.13 SCTP INIT Ping扫描</h3><p>SCTP（流控制传输协议）是IETF在2000年定义的一个传输层协议。</p>
+<p>SCTP可以看作是TCP协议的改进，它改进了TCP的一些不足，SCTP INIT Ping扫描通过向目标发送INIT包，根据目标主机的相应判断目标主机是否存活。</p>
+<p>nmap  -PY  -v  192.168.0.12</p>
+<h2 id="0x04-端口扫描"><a href="#0x04-端口扫描" class="headerlink" title="0x04 端口扫描"></a>0x04 端口扫描</h2><p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/7.jpg"></p>
+<h3 id="4-1-从nmap识别端口状态"><a href="#4-1-从nmap识别端口状态" class="headerlink" title="4.1 从nmap识别端口状态"></a>4.1 从nmap识别端口状态</h3><p>Open：对外开放Closed：端口关闭状态Filtered：防火墙过滤或者网络堵塞Unfiltered：未被过滤，端口可访问，但是无法判断是开放还是关闭状态Open|Filtered：开放还是被过滤Closed|Filtered：不能确定是关闭还是被过滤，只可能出现在IPID Idle扫描中。</p>
+<h3 id="4-2-时序选项"><a href="#4-2-时序选项" class="headerlink" title="4.2 时序选项"></a>4.2 时序选项</h3><p>在nmap中使用-T（0-5）可以启用时序选项，对于时序选项这里有0~5不同选项。</p>
+<p>-T0（偏执的）：非常慢的扫描，用于IDS逃避。-T1（鬼祟的）：缓慢的扫描，用于IDS逃避。-T2（文雅的）：降低速度以降低对带宽的消耗，此选项不常用。-T3（普通的）：默认，根据目标的反应自动调整时间。-T4（野蛮的）：快速扫描，常用扫描方式，需要在很好的网络环境下进行扫描，请求可能会淹没目标。-T5（疯狂的）：极速扫描，这种扫描方式以牺牲准确度来提示扫描速度。</p>
+<h3 id="4-3-TCP-SYN-扫描"><a href="#4-3-TCP-SYN-扫描" class="headerlink" title="4.3 TCP SYN 扫描"></a>4.3 TCP SYN 扫描</h3><p>半开放扫描，扫描速度快，扫描方式隐蔽。（在SYN扫描不能用时，TCP连接扫描会使用默认的TCP扫描）</p>
+<p>nmap -sS 192.168.0.12</p>
+<h3 id="4-4-TCP-连接扫描"><a href="#4-4-TCP-连接扫描" class="headerlink" title="4.4 TCP 连接扫描"></a>4.4 TCP 连接扫描</h3><p>端口扫描中最基础，最稳定的扫描方式</p>
+<p>nmap  -sT  192.168.0.12</p>
+<h3 id="4-5-UDP扫描"><a href="#4-5-UDP扫描" class="headerlink" title="4.5 UDP扫描"></a>4.5 UDP扫描</h3><p>UDP扫描非常缓慢，UDP端口扫描通过发送UDP数据包到目标主机并等待响应，它将判断目标端口是否开放状态，如果目标返回ICMP不可达的错误，说明端口是关闭的，如果得到正确的适当的响应，这说明端口是开放的。</p>
+<p>nmap  -sU -p 80-500 192.168.0.12</p>
+<h3 id="4-6-隐蔽扫描"><a href="#4-6-隐蔽扫描" class="headerlink" title="4.6 隐蔽扫描"></a>4.6 隐蔽扫描</h3><p>-sN是Null扫描，是通过发送非常规的TCP通信数据包对计算机进行探测，很多情况下Null扫描与Xmas扫描恰好相反，因为Null扫描不会标记任何数据包，若目标主机的相应端口是关闭的，会响应一个RST数据包，若目标端口是开放的则不会响应任何信息。</p>
+<p>nmap -sN 192.168.0.12</p>
+<p>-sF是FIN扫描，当我们使用TCP SYN扫描时可能会被目标主机的防火墙发现，会阻止SYN数据包，这时我们使用TCP FIN扫描方式会有很好的穿透效果，因为TCP FIN扫描并不需要完成TCP握手。TCP FIN扫描就是向目标端口发送一个FIN包，如果收到目标响应的RST包，则说明目标端口是开放的，如果没有收到RST包则说明目标端口是关闭的。</p>
+<p>nmap -sF 192.168.0.12</p>
+<p>-sX是Xmas扫描，数据包的FIN、PSH和URG标记位置打开，既标志位1，根据RFC 793规定如果目标主机端口是开放的则会响应一个RST标志包。</p>
+<p>nmap -sX 192.168.0.12</p>
+<h3 id="4-7-TCP-ACK-扫描"><a href="#4-7-TCP-ACK-扫描" class="headerlink" title="4.7 TCP ACK 扫描"></a>4.7 TCP ACK 扫描</h3><p>使用该扫描不能确定端口是否是开放还是被过滤的。</p>
+<p>nmap -sA -v 192.168.0.12</p>
+<h3 id="4-8-TCP-窗口扫描"><a href="#4-8-TCP-窗口扫描" class="headerlink" title="4.8 TCP 窗口扫描"></a>4.8 TCP 窗口扫描</h3><p>当收到RST包时，根据TCP窗口的值是正数还是0来判断目标端口是开放还是关闭的。</p>
+<p>从输出结果来看是不准确的，如果扫描的端口都是开放状态或者只有少数几个是关闭状态就很不准确。</p>
+<p>nmap  -sW  -v  -F  192.168.0.12</p>
+<h3 id="4-9-TCP-Maimon扫描"><a href="#4-9-TCP-Maimon扫描" class="headerlink" title="4.9 TCP Maimon扫描"></a>4.9 TCP Maimon扫描</h3><p>探测报文是FIN/ACK 根据 RFC 793(TCP)，无论端口开放或者关闭，都应该对这样的探测响应RST报文，如果端口开放，许多基于BSD的系统只是丢弃该探测报文。</p>
+<p>nmap  -sM  -T4  192.168.0.12</p>
+<h3 id="4-10-自定义TCP扫描"><a href="#4-10-自定义TCP扫描" class="headerlink" title="4.10 自定义TCP扫描"></a>4.10 自定义TCP扫描</h3><p>可以通过指定任意的TCP标志位来进行扫描。</p>
+<p>nmap -sT –scanflags SYNURG 192.168.0.12</p>
+<h3 id="4-11-空闲扫描"><a href="#4-11-空闲扫描" class="headerlink" title="4.11 空闲扫描"></a>4.11 空闲扫描</h3><p>空闲扫描允许端口完全欺骗扫描。可以使攻击者能够不使用自己的IP向目标主机发送数据包，它可以利用不活跃的僵尸主机反弹给攻击者一个旁通信道，从而进行端口扫描。IDS会把不活跃的僵尸主机当做攻击者，这是一种非常隐蔽的扫描方法。</p>
+<p>nmap -sI  <a target="_blank" rel="noopener" href="http://www.0day.co/">www.0day.co:80</a>  192.168.0.12</p>
+<p>这是利用僵尸主机为<a target="_blank" rel="noopener" href="http://www.0day.co的主机对192.168.0.12进行空闲扫描,如果有ids,ids则会把www.0day.co当做扫描者.选择的端口必须不能被自己的nmap主机或目标主机过滤掉并且必须为开放的./">www.0day.co的主机对192.168.0.12进行空闲扫描，如果有IDS，IDS则会把www.0day.co当做扫描者。选择的端口必须不能被自己的nmap主机或目标主机过滤掉并且必须为开放的。</a></p>
+<h3 id="4-12-IP协议扫描"><a href="#4-12-IP协议扫描" class="headerlink" title="4.12 IP协议扫描"></a>4.12 IP协议扫描</h3><p>扫描IP协议号。IP协议扫描可以帮助用户确定目标主机哪些是支持IP协议的，例如TCP,ICMP.IGMP。虽然它遍历的是IP协议号并不是TCP或UDP端口，但仍可以使用-p选项选择需要扫描的协议号。它不是在UDP报文的端口域上循环，而时在IP协议域的2位上循环，发送空的IP报文头。</p>
+<p>nmap -sO -T4 192.168.0.12</p>
+<h3 id="4-13-FTP-Bounce扫描"><a href="#4-13-FTP-Bounce扫描" class="headerlink" title="4.13 FTP Bounce扫描"></a>4.13 FTP Bounce扫描</h3><p>使用-b选项就可以进行FTP Bounce Scan扫描。它允许用户连接到一台FTP服务器，然后要求文件送到一台第三方服务器，这种扫描方式被支持较少，但可绕过防火墙。</p>
+<p>nmap  -b  192.168.0.12</p>
+<h2 id="0x05-指纹识别与探测"><a href="#0x05-指纹识别与探测" class="headerlink" title="0x05 指纹识别与探测"></a>0x05 指纹识别与探测</h2><p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/8.jpg"></p>
+<h3 id="5-1-设置扫描强度"><a href="#5-1-设置扫描强度" class="headerlink" title="5.1 设置扫描强度"></a>5.1 设置扫描强度</h3><p>使用Nmap进行扫描的时候，Nmap发送一系列探测报文，–version-intensity选项可以为每个报文赋予1~9之间的值。</p>
+<p>被赋予较低值的探测报文对大范围的常见服务有效，而被赋予较高值的报文一般没有实际作用，强度水平说明了应该使用哪些探测报文。</p>
+<p>当我们赋予的值越高，服务越有可能被正确识别，但是这也会牺牲相当长的一段实际，强度必须在0~9，默认的强度是7。</p>
+<p>nmap -sV –version-intensity  1  192.168.0.12</p>
+<h3 id="5-2-RPC扫描"><a href="#5-2-RPC扫描" class="headerlink" title="5.2 RPC扫描"></a>5.2 RPC扫描</h3><p>该选项对用于与其他端口扫描选项相结合使用，它对所有被发现开放的TCP/UDP端口执行SunRPC程序NULL命令，来试图确定它们是否为RPC端口，如果是RPC端口，则返回程序和版本号。</p>
+<p>nmap  -sS  -sR  192.168.0.12</p>
+<p>5.3 对指定的目标进行操作系统检测</p>
+<p>使用–osscan-limit选项可以对指定的目标进行操作系统检测。</p>
+<p>Nmap只对满足“具有打开和关闭的端口”条件的主机进行操作系统检测，这样可以节约时间，特别是在使用-P0扫描多个主机时。</p>
+<p>这个选项仅在使用-O或-A进行操作系统检测时起作用。</p>
+<p>nmap -O –osscan-limit  192.168.0.0/24</p>
+<h2 id="0x06-躲避防火墙"><a href="#0x06-躲避防火墙" class="headerlink" title="0x06 躲避防火墙"></a>0x06 躲避防火墙</h2><p>nmap-f -v192.168.1.131#报文分段，将TCP头分段在几个包中，IDS及其他工具监测更加困难nmap –mtu16192.168.1.131#指定偏移大小，设置TCP/IP协议传输数据报时的最大传输单元，需要注意的是偏移量必须是8的倍数nmap -D192.168.1.20,192.168.1.21,192.168.1.22,ME192.168.1.131#IP欺骗，在进行版本检测或者TCP扫描的时候诱饵是无效的-D，指定诱饵ip，多个ip用逗号隔开ME，指定真实IPnmap -sI <a href="http://www.baidu.com:80192.168.1.131#源地址欺骗nmap">www.baidu.com:80192.168.1.131#源地址欺骗nmap</a> –source-port88192.168.1.131#源端口欺骗，指定一个比较安全的端口，nmap就可以从这些端口中发送数据nmap –data-length30192.168.1.131#指定发包长度，通常TCP包是40字节，ICMP Echo是28字节nmap -sT -PN –spoof-mac0192.168.1.131#MAC地址欺骗0，随机MAC地址MAC Address，手动指定MAC地址Vendor Name，指定厂商生成MAC地址</p>
+<h2 id="0x07-保存与输出"><a href="#0x07-保存与输出" class="headerlink" title="0x07 保存与输出"></a>0x07 保存与输出</h2><p>#标准保存nmap-F-oNtest1.txt192.168.0.12#XML保存nmap-F-oXtest1.xml192.168.0.12#133t保存namp-F-oStest2.txt192.168.0.12#Grep保存nmap-F-oGtest3.txt192.168.0.12#保存到所有格式nmap-F-oAtestA192.168.0.12#补充保存文件nmap-F–append-output-oNtest1.txt192.168.0.12</p>
+<h2 id="0x08-Nmap高级用法"><a href="#0x08-Nmap高级用法" class="headerlink" title="0x08 Nmap高级用法"></a>0x08 Nmap高级用法</h2><h2 id="0x09-使用Nmap进行渗透测试"><a href="#0x09-使用Nmap进行渗透测试" class="headerlink" title="0x09 使用Nmap进行渗透测试"></a>0x09 使用Nmap进行渗透测试</h2><p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/9.jpg"></p>
+<h1 id="DirBuster使用"><a href="#DirBuster使用" class="headerlink" title="DirBuster使用"></a>DirBuster使用</h1><h2 id="工具说明"><a href="#工具说明" class="headerlink" title="工具说明"></a><strong>工具说明</strong></h2><p><strong>目录扫描工具</strong>DirBuster支持全部的Web目录扫描方式。它既支持网页爬虫方式扫描，也支持基于字典暴力扫描，还支持纯暴力扫描。该工具使用Java语言编写，提供命令行（Headless）和图形界面（GUI）两种模式。其中，图形界面模式功能更为强大。用户不仅可以指定纯暴力扫描的字符规则，还可以设置以URL模糊方式构建网页路径。同时，用户还对网页解析方式进行各种定制，提高网址解析效率。</p>
+<p>下载链接</p>
+<p><strong><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/dirbuster/files/latest/download">https://sourceforge.net/projects/dirbuster/files/latest/download</a></strong></p>
+<h2 id="工具用法"><a href="#工具用法" class="headerlink" title="工具用法"></a><strong>工具用法</strong></h2><p>1 .打开终端输入</p>
+<p>dirbuster</p>
+<p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/10.jpg"></p>
+<p>2 .  填写扫描信息</p>
+<p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/11.jpg"></p>
+<p><strong>设置fuzz的时候，因为{dir}是个变量，可以自由变换。</strong></p>
+<p><strong>/{dir}<a target="_blank" rel="noopener" href="http://xxx.com/%7Bdir%7D">http://xxx.com/{dir}</a>   这个{dir} 对应的就是字典的每一行进行爆破</strong></p>
+<p><strong>可以加目录</strong></p>
+<p><strong>/admin/{dir}.php    这样就是爆破admin目录下所有php文件</strong></p>
+<p>3 . 查看扫描信息</p>
+<p><img src="/image/%E6%89%AB%E6%8F%8F%E5%99%A8/12.jpg"></p>
+<p><strong>字典分享</strong></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/rootphantomer/Blasting_dictionary">https://github.com/rootphantomer/Blasting_dictionary</a></p>
+<p>信息收集</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/05/20/%E6%89%AB%E6%8F%8F%E5%99%A8/">https://zhangyanlady.github.io/2019/05/20/%E6%89%AB%E6%8F%8F%E5%99%A8/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/05/28/hydra/">hydra</a>
+            
+            
+            <a class="next" rel="next" href="/2019/03/20/owasp-top10/">owasp-top10</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

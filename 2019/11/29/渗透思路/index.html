@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>渗透思路 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">渗透思路</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 29, 2019&nbsp;&nbsp;23:26:36</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>注意：分割线下面内容来自知乎，原文来自I春秋</p>
+<p>第一，搜集目标网站信息。windows下用爱站whois去查相关信息。kali用whois + url去查。</p>
+<p>第二，查旁站。</p>
+<p>第三，查目标网站真实IP，有的网站有CDN，无法知道真实IP，所以，利用多ping去判断分析真实IP。</p>
+<p>第四，知道真实IP，就可以端口扫描，看一些敏感端口。要么端口爆破，要么嗅探。</p>
+<p><strong>1)信息收集，</strong></p>
+<p>1，获取域名的whois信息,获取注册者邮箱姓名电话等。</p>
+<p>2，查询服务器旁站以及子域名站点，因为主站一般比较难，所以先看看旁站有没有通用性的cms或者其他漏洞。</p>
+<p>3，查看服务器操作系统版本，web中间件，看看是否存在已知的漏洞，比如IIS，APACHE,NGINX的解析漏洞</p>
+<p>4，查看IP，进行IP地址端口扫描，对响应的端口进行漏洞探测，比如 rsync,心脏出血，mysql,ftp,ssh弱口令等。</p>
+<p>5，扫描网站目录结构，看看是否可以遍历目录，或者敏感文件泄漏，比如php探针</p>
+<p>6，google hack 进一步探测网站的信息，后台，敏感文件</p>
+<p><strong>2）漏洞扫描</strong></p>
+<p>开始检测漏洞，如XSS,XSRF,sql注入，代码执行，命令执行，越权访问，目录读取，任意文件读取，下载，文件包含，</p>
+<p>远程命令执行，弱口令，上传，编辑器漏洞，暴力破解等</p>
+<p>3）漏洞利用</p>
+<p>利用以上的方式拿到webshell，或者其他权限</p>
+<p>4）权限提升</p>
+<p>提权服务器，比如windows下mysql的udf提权，serv-u提权，windows低版本的漏洞，如iis6,pr,巴西烤肉，</p>
+<p>linux藏牛漏洞，linux内核版本漏洞提权，linux下的mysql system提权以及oracle低权限提权</p>
+<ol start="5">
+<li>日志清理</li>
+</ol>
+<p>6）总结报告及修复方案</p>
+<p><strong>sqlmap，怎么对一个注入点注入？</strong></p>
+<p>1）如果是get型号，直接，sqlmap -u “诸如点网址”.</p>
+<ol start="2">
+<li>如果是post型诸如点，可以sqlmap -u “注入点网址” –data=”post的参数”</li>
+</ol>
+<p>3）如果是cookie，X-Forwarded-For等，可以访问的时候，用burpsuite抓包，注入处用*号替换，放到文件里，然后sqlmap -r “文件地址”</p>
+<p><strong>nmap，扫描的几种方式</strong></p>
+<p><strong>sql注入的几种类型？</strong></p>
+<p>1）报错注入</p>
+<p>2）bool型注入</p>
+<p>3）延时注入</p>
+<p>4）宽字节注入</p>
+<p><strong>报错注入的函数有哪些？</strong></p>
+<p>1）and extractvalue(1, concat(0x7e,(select @@version),0x7e))】】】—————-</p>
+<p>2）通过floor报错 向下取整</p>
+<p>3）+and updatexml(1, concat(0x7e,(secect @@version),0x7e),1)</p>
+<p>4）.geometrycollection()select * from test where id=1 and geometrycollection((select * from(select * from(select user())a)b));</p>
+<p>5）.multipoint()select * from test where id=1 and multipoint((select * from(select * from(select user())a)b));</p>
+<p>6）.polygon()select * from test where id=1 and polygon((select * from(select * from(select user())a)b));</p>
+<p>7）.multipolygon()select * from test where id=1 and multipolygon((select * from(select * from(select user())a)b));</p>
+<p>8）.linestring()select * from test where id=1 and linestring((select * from(select * from(select user())a)b));</p>
+<p>9）.multilinestring()select * from test where id=1 and multilinestring((select * from(select * from(select user())a)b));</p>
+<p>10）.exp()select * from test where id=1 and exp(~(select * from(select user())a));</p>
+<p>延时注入如何来判断？</p>
+<p>if(ascii(substr(“hello”, 1, 1))=104, sleep(5), 1)</p>
+<p><strong>盲注和延时注入的共同点？</strong></p>
+<p>都是一个字符一个字符的判断</p>
+<p><strong>如何拿一个网站的webshell？</strong></p>
+<p>上传，后台编辑模板，sql注入写文件，命令执行，代码执行，</p>
+<p>一些已经爆出的cms漏洞，比如dedecms后台可以直接建立脚本文件，wordpress上传插件包含脚本文件zip压缩包等</p>
+<p><strong>sql注入写文件都有哪些函数？</strong></p>
+<p>select ‘一句话’ into outfile ‘路径’</p>
+<p>select ‘一句话’ into dumpfile ‘路径’</p>
+<p>select ‘’ into dumpfile ‘d:\wwwroot[<a href="http://baidu.com](https://links.jianshu.com/go?to=http%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttp%3A%2F%2Fbaidu.com)*\nvhack.php&#39;">http://baidu.com](https://links.jianshu.com/go?to=http%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttp%3A%2F%2Fbaidu.com)*\nvhack.php&#39;</a>;*</p>
+<p><strong>如何防止CSRF?</strong></p>
+<p>1,验证referer</p>
+<p>2，验证token</p>
+<p>详细：<a href="https://links.jianshu.com/go?to=http://link.zhihu.com/?target=http://cnodejs.org/topic/5533dd6e9138f09b629674fd">浅谈cnode社区如何防止csrf攻击 - CNode技术社区</a></p>
+<p><strong>owasp 漏洞都有哪些？</strong></p>
+<p>1、SQL注入防护方法：</p>
+<p>2、失效的身份认证和会话管理</p>
+<p>3、跨站脚本攻击XSS</p>
+<p>4、直接引用不安全的对象</p>
+<p>5、安全配置错误</p>
+<p>6、敏感信息泄露</p>
+<p>7、缺少功能级的访问控制</p>
+<p>8、跨站请求伪造CSRF</p>
+<p>9、使用含有已知漏洞的组件</p>
+<p>10、未验证的重定向和转发</p>
+<p><strong>SQL注入防护方法？</strong></p>
+<p>1、使用安全的API</p>
+<p>2、对输入的特殊字符进行Escape转义处理</p>
+<p>3、使用白名单来规范化输入验证方法</p>
+<p>4、对客户端输入进行控制，不允许输入SQL注入相关的特殊字符</p>
+<p>5、服务器端在提交数据库进行SQL查询之前，对特殊字符进行过滤、转义、替换、删除。</p>
+<p><strong>代码执行，文件读取，命令执行的函数都有哪些？</strong></p>
+<p>1，代码执行：eval,preg_replace+/e,assert,call_user_func,call_user_func_array,create_function</p>
+<p>2，文件读取：file_get_contents(),highlight_file(),fopen(),read file(),fread(),fgetss(), fgets(),parse_ini_file(),show_source(),file()等</p>
+<p>3，命令执行：system(), exec(), shell_exec(), passthru() ,pcntl_exec(), popen(),proc_open()</p>
+<p>img标签除了onerror属性外，还有其他获取管理员路径的办法吗？</p>
+<p>src指定一个远程的脚本文件，获取referer</p>
+<p>img标签除了onerror属性外，并且src属性的后缀名，必须以.jpg结尾，怎么获取管理员路径。</p>
+<p>1,远程服务器修改apache配置文件，配置.jpg文件以php方式来解析</p>
+<p>AddType application/x-httpd-php .jpg</p>
+<p>会以php方式来解析</p>
+<p><strong>代码审计</strong></p>
+<p>eval,preg_replace+/e,assert,call_user_func,call_user_func_array,create_function</p>
+<p>文件读取：file_get_contents(),highlight_file(),fopen(),read file(),fread(),fgetss(), fgets(),parse_ini_file(),show_source(),file()等</p>
+<p>命令执行：system(), exec(), shell_exec(), passthru() ,pcntl_exec(), popen(),proc_open()</p>
+<p><strong>绕过waf</strong></p>
+<p>1、关键字可以用%（只限IIS系列）。比如select，可以sel%e%ct。原理：网络层waf对SEL%E%CT进行url解码后变成SEL%E%CT，匹配select失败，而进入asp.dll对SEL%E%CT进行url解码却变成select。IIS下的asp.dll文件在对asp文件后参数串进行url解码时，会直接过滤掉09-0d（09是tab键,0d是回车）、20（空格）、%(后两个字符有一个不是十六进制)字符。xss也是同理。</p>
+<p>2、通杀的，内联注释。安全狗不拦截，但是安全宝、加速乐、D盾等，看到/<em>!/就Fack了，所以只限于安全狗。比如：/</em>!select*/</p>
+<p>3、编码。这个方法对waf很有效果，因为一般waf会解码，但是我们利用这个特点，进行两次编码，他解了第一次但不会解第二次，就bypass了。腾讯waf、百度waf等等都可以这样bypass的。</p>
+<p>4，绕过策略一：伪造搜索引擎</p>
+<p>早些版本的安全狗是有这个漏洞的，就是把User-Agent修改为搜索引擎</p>
+<p>5，360webscan脚本存在这个问题，就是判断是否为admin dede install等目录，如果是则不做拦截</p>
+<p>\1. GET /pen/news.php?id=1 union select user,password from mysql.user</p>
+<p>\1. GET /pen/news.php/admin?id=1 union select user,password from mysql.user</p>
+<p>\1. GET /pen/admin/..\news.php?id=1 union select user,password from mysql.user</p>
+<p>6，multipart请求绕过，在POST请求中添加一个上传文件，绕过了绝大多数WAF。</p>
+<p>7，参数绕过，复制参数，id=1&amp;id=1</p>
+<p>用一些特殊字符代替空格，比如在mysql中%0a是换行，可以代替空格，这个方法也可以部分绕过最新版本的安全狗，在sqlserver中可以用/**/代替空格</p>
+<p>8,内联注释，</p>
+<p>文件上传，复制文件包一份再加一份</p>
+<p>在 form-data;后面增加一定的字符</p>
+<p>宽字符注入</p>
+<p>宽字符：解 决方法：就是在初始化连接和字符集之后，使用SET character_set_client=binary来设定客户端的字符集是二进制的。修改Windows下的MySQL配置文件一般是 my.ini，Linux下的MySQL配置文件一般是my.cnf，比如：mysql_query(“SETcharacter_set_client=binary”);。character_set_client指定的是SQL语句的编码，如果设置为 binary，MySQL就以二进制来执行，这样宽字节编码问题就没有用武之地了。</p>
+<p>渗透测试思路</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/11/29/%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF/">https://zhangyanlady.github.io/2019/11/29/%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/18/PHP%E5%8F%8Amysql%E6%95%B0%E6%8D%AE%E5%BA%93/">PHP及mysql数据库</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/20/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E/">web常见漏洞</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

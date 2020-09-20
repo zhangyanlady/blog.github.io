@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>web常见漏洞 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">web常见漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 20, 2019&nbsp;&nbsp;22:41:36</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/11/20/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E/" class="leancloud-visitors view" data-flag-title="web常见漏洞">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>1. 暴力猜解用户名及密码</strong></p>
+<p>   第一步肯定是要做这个工作的，不提供测试账号，当然要暴力猜解一下了。尝试一些弱口令如admin:admin, test:test, weblogic:weblogic, root:passwd等等，如以下在渗透测试过程中遇到的口令test:test。</p>
+<p><strong>2. 扫敏感目录及备份文件</strong></p>
+<p>   扫目录是一门很大的学问，扫目录扫好了，很多大型站点就因敏感目录、备份文件、上传文件及编辑器页面而沦陷。下面举一个渗透实例，下面这个网址一看给人无从下手的感觉，于是扫了一下它的目录，扫出来一个废弃页面，而这个页面恰好存在struts漏洞。</p>
+<p><img src="/image/web/1.jpg"></p>
+<p>一看是报错的，其实丢到工具里测试一下，Struts</p>
+<p><img src="/image/web/2.jpg"></p>
+<p>接着扫描发现网站根目还有一个Web.rar文件。</p>
+<p><img src="/image/web/3.jpg"></p>
+<p>发现门户网站存在敏感文件下载漏洞，测试人员通过下载Web.rar文件可获取MSSQLSSA连接用户名密码,通过测试数据库可远程连接。</p>
+<p><strong>3</strong>. PhpMyadmin的万能密码</p>
+<p>​    这是某会议值守时遇到一个phpmyadmin的万能密码，极其罕见，有生之年大概不会遇到第二次，这里只是提供一个思路，输入localhost’@‘@”即可绕过phpmyadmin的登录入口。</p>
+<p><strong>4. 报错页面的图片也是可以存在反射型XSS的</strong></p>
+<p>这个也是碰巧找到的，也是被逼出来的。这个站点实在是过滤得太严格，无聊中在一个图片后面加了点特殊字符，没想到这些字符被返回到页面中去了。然后加上跨站代码，没想到这个png图片页面是先XSS弹窗，然后WAF再提示“信息提示：请不要提交恶意字符”，这个真是无语。</p>
+<p><code>http://xxxxxx.com/BICP/framework/images/mainSkin/mainFrm/errorIcon.png”&gt;&lt;/textarea&gt;&lt;script&gt;alert(/TOPSEC/)&lt;%2fscript&gt;alert(/TOPSEC/)    </code></p>
+<p><code>alert(/TOPSEC/)</code></p>
+<p><img src="/image/web/4.jpg"></p>
+<p><strong>5. 隐藏域中可能存着明文密码</strong></p>
+<p>举一个某省移动内网的渗透实例（这个确切的说，不算是隐藏域，但是和隐藏域类似。说白了，就是明文密码存在当前页面的源码中，但是你光看页面是看不到的。但是那个具体实例我找不到了，那个密码是隐藏在一个“找回密码处”的页面中）</p>
+<p>看到没，它的密码直接保存在源码中，value后面的abc123就是密码了。</p>
+<p><img src="/image/web/5.jpg"></p>
+<p><strong>6. 逻辑漏洞——任意用户密码重置</strong></p>
+<p>各式各样的逻辑漏洞广泛存在，而且很难杜绝，扫描器很难扫描到，而且每个人找逻辑漏洞的思路又不一样。</p>
+<p>   密码找回处，仅仅通过手机验证码校验，而且验证码仅仅为4位数字，有效期为15分钟。在15分钟内，完全可以遍历0000置9999所有的验证码组合，所以此漏洞可以重置包括管理员在内的任意用户的密码。</p>
+<p><strong>7. 短信炸弹</strong></p>
+<p>   “短信炸弹”广泛存在，这个就不用详细说了，有发短信的地方，就试试“短信炸弹”漏洞吧。</p>
+<p><strong>8. SVN源码泄露</strong></p>
+<p>这个实例也是某省移动的，对于大数量的IP段来说，SVN源码泄露问题防范存在。</p>
+<p><a target="_blank" rel="noopener" href="https://www.xxx.com/.svn/entries">https://www.xxx.com/.svn/entries</a></p>
+<p>在网址后面加/.svn/entries，源码泄露了</p>
+<p><strong>9. 扫描一下局域网共享</strong></p>
+<p>如果你处在内网环境中，不妨扫一扫局域网的共享文件吧。我在河南就遇到一次，网站的配置文件直接被共享在局域网中了，我也不知道这个管理员为啥要把tomcat目录开个局域网共享。</p>
+<p>看看下面这张图，一个站就这样被沦陷了，这个站也是没有测试账号，但是看到这个文件后，也不需要测试账号了。</p>
+<p><img src="/image/web/7.jpg"></p>
+<p><strong>10. 关注一些非主流的漏洞，如HTTP响应拆分漏洞</strong></p>
+<p>以前在OWASP书中看到过这一漏洞，这回遇上了。当然下边的这个漏洞利用起来还是比较困难的，因为SETCOOKIE的-及空格都被过滤掉了。</p>
+<p><img src="/image/web/8.jpg"></p>
+<p><strong>11. 扫一下端口</strong></p>
+<p>  下面这个页面，你看着是不是觉得没有什么希望，不想再搞下去了呢。</p>
+<p>  但是nmap扫端口，开放着9091、21端口，浏览器打开发现9091是另一个WEB应用，</p>
+<p><a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com:80/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.xxx.com:9091/">http://www.xxx.com:9091/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.xxx.com/">https://www.xxx.com/</a></p>
+<p>有可能对应着不同的WEB应用，渗透测试又可以继续了（原来的渗透测试报告没找到，没办法发图</p>
+<p><strong>12. 发掘隐藏的链接地址</strong></p>
+<p>   上面这个页面，没有测试账号及用户名，看着有点晕晕的，不知道该如何下手，但是很快注意到左下角的两个链接地址，于是手工测试一下。</p>
+<p><img src="/image/web/9.jpg"></p>
+<p>左边的那个帮助文档没有什么安全问题，但是右边的“相关软件”的链接，存在一个任意文件下载漏洞</p>
+<p>treasuryauth/authAction.do?method=download&amp;fileName=../../../../../../etc/passwd</p>
+<p><img src="/image/web/10.jpg"></p>
+<p><strong>13. 发掘一些越权的测试页面</strong></p>
+<p><img src="/image/web/11.jpg"></p>
+<p><strong>14. IIS短文件名泄露漏洞</strong></p>
+<p>危害：Microsoft</p>
+<p>IIS在实现上存在文件枚举漏洞，攻击者可利用此漏洞枚举网络服务器根目录中的文件。危害：攻击者可以利用“~”字符猜解或遍历服务器中的文件名，或对IIS服务器中的.Net</p>
+<p>Framework进行拒绝服务攻击。</p>
+<p>验证方法说明：在命令行模式运行IIS-shortname工具，执行java</p>
+<p>scanner 2 20 <a target="_blank" rel="noopener" href="http://www.xxx.com回车执行,看是否能遍历服务器中的文件名./">http://www.xxx.com回车执行，看是否能遍历服务器中的文件名。</a></p>
+<p><strong>15. jQuery存在XSS漏洞</strong></p>
+<p><strong>危害：</strong>jQuery是一个 JavaScript 库。版本低于1.7的jQuery过滤用户输入数据所使用的正则表达式存在缺陷，可能导致LOCATION.HASH跨站漏洞</p>
+<p><strong>验证方法说明：</strong>直接在火狐浏览器打开JQuery漏洞地址，查看源代码里面的JQuery版本是否存在低于1.7，如果低于1.7那么就存在漏洞。</p>
+<p><img src="/image/web/12.jpg"></p>
+<p><strong>16. 目录浏览漏洞</strong></p>
+<p><strong>危害：</strong>由于Web服务器权限配置不当，造成用户可以直接浏览Web网站目录，如图片目录images,javascript目录js,不同的目录潜在的危险是不同的。攻击者一般利用常见目录中可能包含的敏感文件获取敏感信息。</p>
+<p><strong>验证方法说明：</strong>直接在火狐浏览器打开目录浏览页面，看是否存在列目录。</p>
+<p><strong>17. URL跳转漏洞</strong></p>
+<p>经确认，存在Struts 2 URL跳转漏洞，导致网站的恶意跳转。</p>
+<p><img src="/image/web/13.jpg"></p>
+<p><strong>18. 框架钓鱼漏洞</strong></p>
+<p>网站应用程序未对用户输入的危险字符进行有效检验，导致存在可注入frame或iframe标记，从而嵌入可进行诱骗攻击的恶意网站地址。</p>
+<p><img src="/image/web/14.jpg"></p>
+<p><strong>19 .点击劫持</strong></p>
+<p>应用程序没有对用户提交的数据进行有效的过滤或转换，攻击者可向WEB页面里插入对终端用户造成影响或损失的恶意链接。</p>
+<p><strong>20. HTTP报头追踪漏洞</strong></p>
+<p>目标网站支持TRACE/TRACK WEB服务器HTTP连接方式调节功能。当该调试功能开启时，包含敏感信息的HTTP报头可能被攻击者追踪截获。经检测发现该网站存在HTTP报头协议追踪漏洞。</p>
+<p><strong>漏洞危害：</strong></p>
+<p>攻击者利用该漏洞，通过构造恶意Script脚本追踪HTTP报头，可能获取HTTP报头中包含的敏感资讯，如 Cookie或认证证书等。</p>
+<p><strong>21. DNS域传送漏洞</strong></p>
+<p>检测发现目标系统存在配置缺陷，攻击者可通过请求域传送操作，获取网站域内的详细信息。</p>
+<p><strong>22.私有IP泄露</strong></p>
+<p><strong>检测发现目标网站未对页面信息进行有效安全过滤，通过请求和响应数据包发现内部私有IP敏感信息。</strong></p>
+<p><strong>23. 网络物理路径信息泄漏漏洞</strong></p>
+<p><strong>24. 系统重装漏洞</strong></p>
+<p>易商宝”CMS存在系统重装漏洞，通过此漏洞可重新安装该CMS，并取得网站的管理员权限。为不影响网站的正常运行，未进行漏洞实际验证。</p>
+<p><strong>25. 任意文件下载</strong></p>
+<p>向以上URL提交任意已知文件名可以下载到文件内容，导致网站敏感文件被下载。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/11/20/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E/">https://zhangyanlady.github.io/2019/11/20/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/11/29/%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF/">渗透思路</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/">脚本后门分析</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

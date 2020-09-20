@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>owasp-top10 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">owasp-top10</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 20, 2019&nbsp;&nbsp;21:17:45</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="什么是OWASP-Top-10"><a href="#什么是OWASP-Top-10" class="headerlink" title="什么是OWASP Top 10"></a>什么是OWASP Top 10</h2><p>OWASP（开放式Web应用程序安全项目）的工具、文档、论坛和全球各地分会都是开放的，对所有致力于改进应用程序安全的人士开放，其最具权威的就是“10项最严重的Web 应用程序安全风险列表” ，总结了Web应用程序最可能、最常见、最危险的十大漏洞，是开发、测试、服务、咨询人员应知应会的知识。</p>
+<h2 id="A1-注入injection"><a href="#A1-注入injection" class="headerlink" title="A1 注入injection"></a>A1 注入injection</h2><p>将不安全的命令作为命令发送给解析器，会产生类似于SQL注入、NoSQL注入、OS注入和LDAP注入(轻量目录访问协议) 的缺陷，攻击者可以构造恶意数据通过注入缺陷的解析器执行没有权限的非预期命令或访问数据。</p>
+<h2 id="A2-失效的身份认证"><a href="#A2-失效的身份认证" class="headerlink" title="A2 失效的身份认证"></a>A2 失效的身份认证</h2><p>通过错误使用应用程序的身份认证和会话管理功能，攻击者能够破译密码、密钥或会话令牌，或者暂时或永久的冒充其他用户的身份。</p>
+<h2 id="A3-敏感数据泄露"><a href="#A3-敏感数据泄露" class="headerlink" title="A3 敏感数据泄露"></a>A3 敏感数据泄露</h2><p>这个比较好理解，一般我们的敏感信息包括密码、财务数据、医疗数据等，由于web应用或者API未加密或不正确的保护敏感数据，这些数据极易遭到攻击者利用，攻击者可能使用这些数据来进行一些犯罪行为，因此，未加密的信息极易遭到破坏和利用，我们应该加强对敏感数据的保护，web应用应该在传输过程中数据、存储的数据以及和浏览器的交互时的数据进行加密，保证数据安全。</p>
+<h2 id="A4外部实体-XXE"><a href="#A4外部实体-XXE" class="headerlink" title="A4外部实体(XXE)"></a>A4外部实体(XXE)</h2><p>XXE 全称为XML External Entity attack 即XML(可扩展标记语言) 外部实体注入攻击，早期或配置错误的XML处理器评估了XML文件外部实体引用，攻击者可以利用这个漏洞窃取URI(统一资源标识符)文件处理器的内部文件和共享文件、监听内部扫描端口、执行远程代码和实施拒绝服务攻击。</p>
+<h2 id="A5失效的访问控制"><a href="#A5失效的访问控制" class="headerlink" title="A5失效的访问控制"></a>A5失效的访问控制</h2><p>通过身份验证的用户，可以访问其他用户的相关信息，没有实施恰当的访问权限。攻击者可以利用这个漏洞去查看未授权的功能和数据，eg:访问用户的账户、敏感文件、获取和正常用户相同的权限等.</p>
+<h2 id="A6-安全配置错误"><a href="#A6-安全配置错误" class="headerlink" title="A6 安全配置错误"></a>A6 安全配置错误</h2><p>安全配置错误是比较常见的漏洞，由于操作者的不当配置(默认配置，临时配置，开源云存储，http标头配置，以及包含敏感信息的详细错误)，导致攻击者可以利用这些配置获取到更高的权限，安全配置错误可以发生在各个层面，包含平台、web服务器、应用服务器、数据库、架构和代码。</p>
+<h2 id="A7-跨站脚本（xss）"><a href="#A7-跨站脚本（xss）" class="headerlink" title="A7 跨站脚本（xss）"></a>A7 跨站脚本（xss）</h2><p>xss攻击全称为跨站脚本攻击,当应用程序的新网页中包含不受信任的、未经恰当验证、转义的数据或可以使用HTML、JavaScript的浏览器API更新的现有网页时，就会出现xss漏洞，跨站脚本攻击是最普遍的web应用安全漏洞，甚至在某些安全平台都存在xss漏洞。xss会执行攻击者在浏览器中执行的脚本，并劫持用户会话，破坏网站或用户重定向到恶意站点，使用xss还可以执行拒绝服务攻击。</p>
+<h2 id="A8不安全的反序列化"><a href="#A8不安全的反序列化" class="headerlink" title="A8不安全的反序列化"></a>A8不安全的反序列化</h2><p>不安全的反序列化可以导致远程代码执行、重放攻击、注入攻击或特权升级攻击</p>
+<h2 id="A9使用含有已知漏洞的组件"><a href="#A9使用含有已知漏洞的组件" class="headerlink" title="A9使用含有已知漏洞的组件"></a>A9使用含有已知漏洞的组件</h2><p>组件(eg：库、框架或其他软件模块)拥有应用程序相同的权限，如果应用程序中含有已知漏洞，攻击者可以利用漏洞获取数据或接管服务器。同时，使用这些组件会破坏应用程序防御，造成各种攻击产生严重的后果。</p>
+<h2 id="A10-不足的日志记录和监控"><a href="#A10-不足的日志记录和监控" class="headerlink" title="A10 不足的日志记录和监控"></a>A10 不足的日志记录和监控</h2><p>这个和等保有一定的关系，不作介绍，不足的日志记录和监控，以及事件响应缺失或无效的集成，使攻击者能够进一步攻击系统、保持持续性的或攻击更多的系统，以及对数据的不当操作。</p>
+<p>结语</p>
+<p>大概了解了top 10的相关漏洞，对于漏洞有了一个大概的认识，接下来就是去多实际操作，去熟悉漏洞的相关特性，有助于您更好的了解这些漏洞。</p>
+<p>参考文章</p>
+<p>OWASP Top 10 2017:<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%2528en%2529.pdf.pdf">https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf</a></p>
+<p>三分钟了解OWASP TOP 10 2017 RC2: <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.freebuf.com/news/152207.html">https://www.freebuf.com/news/152207.html</a></p>
+<p>浅谈OWASP TOP 10:<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.cnblogs.com/cn-36/p/6723536.html">https://www.cnblogs.com/cn-36/p/6723536.html</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/03/20/owasp-top10/">https://zhangyanlady.github.io/2019/03/20/owasp-top10/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/05/20/%E6%89%AB%E6%8F%8F%E5%99%A8/">扫描器</a>
+            
+            
+            <a class="next" rel="next" href="/2018/06/10/%E5%A0%A1%E5%9E%92%E6%9C%BA/">堡垒机</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

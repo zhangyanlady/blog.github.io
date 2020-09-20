@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>查找网站后台地址 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">查找网站后台地址</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 20, 2020&nbsp;&nbsp;9:38:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/02/20/%E6%9F%A5%E6%89%BE%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E5%9C%B0%E5%9D%80/" class="leancloud-visitors view" data-flag-title="查找网站后台地址">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>我们经常会遇到脱裤后，得到了管理员的账号和密码后，想继续下去的时候，就得有后台的地址才能更深入的渗透下去</p>
+<p>  一 字典查找法</p>
+<p>   大家要养成一个小小的习惯..把一些上传的地址..后台地址.表段记录下来..是有好处的，也可以去下些别人收集的字典..配合wwwscan 啊D 黑客动画巴明小子旁注之类的工具去扫描..不过成功机率不是很高(一般管理都是根据自己的习惯乱写的) 当然扫下总有好处的..说不定就会扫到后台或上传路径..</p>
+<p>二 工具扫描法</p>
+<p>   其实上面也用到了工具.. 介绍本人常用的几款工具:阿D注入工具的后台扫描功能,还有明小子的后台扫描功能wwwscan目录扫描器 御剑的目录扫描功能 等等。</p>
+<p>三 搜索引擎查找法 </p>
+<p>   其实今天要说的就是这个方法..语法site:<a target="_blank" rel="noopener" href="http://www.myhack58.com/">www.myhack58.com</a> inurl:xx (关键字)这个是我常用的..当然这里我也只讲这一个..还有其它的..自己去看google hack 结合起来用..用实例讲可能会好点.. 目标: <a target="_blank" rel="noopener" href="http://www.myhack58.com/">www.myhack58.com</a></p>
+<p>Site:<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a>   inurl:asp 这就是列出所有收录的asp页面…站大的话找死人..从这我们可以延伸出去一点..到有些网站里可以查到网站被百度 google 等 收录的所有页面 …这里不提了..但是大家看下.站大的话我们翻都要翻死后台相关信息的查找</p>
+<p>由于谷歌被大陆屏蔽,大家可以使用谷歌翻墙，百度也支持这些语法搜索。</p>
+<p>site:<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> intext:管理  无利用</p>
+<p>site:<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> inurl:login(登陆的页面)</p>
+<p>site:<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> intitle:后台 (很容易的就找到了网站的后台登陆口)</p>
+<p>site:google.com intext:管理|后台|登陆|用户名|密码|验证码|系统|帐号|manage|admin|login|system</p>
+<p>site:google.com inurl:login|admin|manage|manager|admin_login|login_admin|system</p>
+<p>site:google.com intitle:管理|后台|登陆|</p>
+<p>site:google.com intext:验证码</p>
+<hr>
+<p>【查找网站后台的方法】</p>
+<p>1.猜解常用路径</p>
+<p>常用后台路径:</p>
+<p>Admin</p>
+<p>Adminlogin</p>
+<p>Admin/admin_login.asp</p>
+<p>Admin/admin_login.php</p>
+<p>Manage</p>
+<p>User</p>
+<p>System</p>
+<p>大部分网站默认都是admin目录后台。</p>
+<p>2.Robots.txt</p>
+<p>Robots是防止搜索引擎抓取敏感目录和文件的的一个指引文件。</p>
+<p>Admin/</p>
+<p>很多管理员为了防止后台被搜索引擎抓取，所有会把后台路径放进robots.txt里</p>
+<p>类似robots.txt sitemap.xml</p>
+<p>3.扫描工具</p>
+<p>如果字典内有目标的后台路径，那么就可以扫出来(可能会有复杂的情况，禁止扫描等 不过很少)</p>
+<p>4.爬行(Awvs  burp suite 整站爬行工具)</p>
+<p>扫描:暴力猜解  利用字典</p>
+<p>爬行:</p>
+<p>访问网站首页：</p>
+<p>A界面存在很多链接</p>
+<p>​    抓取A界面的所有链接，分别变成B C D 等等</p>
+<p>​            继续抓取B C D界面，一直循环。直到爬行完。</p>
+<p>5.查看图片属性</p>
+<p>为什么会爆出后台路径？</p>
+<p>当我们上传点在后台目录后面，很有可能导致这种情况。</p>
+<p>一般编辑器放在后台目录后面，基本上都可以用这种方法找到后台。</p>
+<p>\1. 自带上传点</p>
+<p>\2. 编辑器上传点   上传会导致这种情况。</p>
+<p>6.谷歌语法 site:目标站 intitle:后台 管理 登录 管理员 管理中心  inurl:admin|login|user</p>
+<p>site:zlgc.usx.edu.cn</p>
+<p>7.网站位置暴露管理入口</p>
+<p>背景:</p>
+<p>尤其是多个管理员的网站，一般学校和行政单位居多。为了方便登录后台，会在前台留一个入口。</p>
+<hr>
+<p>1、工具辅助查找</p>
+<p>如大家常用的:明小子、啊D、wwwscan</p>
+<p>以及一些列目录工具:Acunetix Web Vulnerability Scanner 、JSky、IntelliTamper、Netsparker…等等</p>
+<p>现在很多管理员都学着把后台登陆页面放其他位置，二B的很！</p>
+<p>清凉网站后台扫描器 V3.0内置的后台数据库也非常的全。</p>
+<p>2、网站资源利用</p>
+<p>如:网站根目录Robots.txt文本、图片路径爆后台、查看网站底部版权信息是否有连接、通过网站里的文件名查询源码下载得知</p>
+<p>3、搜索引擎查询</p>
+<p>命令很多种列几种自己常用的吧:</p>
+<p>site:sfz.1ri.me intext:管理|后台|登陆|用户名|密码|验证码|系统|帐号|manage|admin|login|system</p>
+<p>site:sfz.1ri.me inurl:login|admin|manage|manager|admin_login|login_admin|system</p>
+<p>site:sfz.1ri.me intitle:管理|后台|登陆|</p>
+<p>site:sfz.1ri.me intext:验证码</p>
+<p>4、社会工程学</p>
+<p>猜吧…</p>
+<p>如:前段时间的CCTV <a target="_blank" rel="noopener" href="http://chinvan.cctv.com/ChinvanAdmin/login.aspx">http://chinvan.cctv.com/ChinvanAdmin/login.aspx</a> 看出什么没有这样的情况经常能碰到就是域名+admin</p>
+<p><a target="_blank" rel="noopener" href="http://www.sfz.1ri.me/">www.sfz.1ri.me</a></p>
+<p>hackseoadmin hackseo_admin hackseomanage adminhackseo等等</p>
+<p>或者注入的时候还可以根据数据库里的一些敏感名字猜管理地址，例如lz说的hackseo_admin。</p>
+<p>这个要看运气了,祝大家好运~</p>
+<p>————————————————————————————————————————————</p>
+<p>直接问管理员：你们后台地址是多少，我试试能进去不？朋友告诉我你们网站的密码是admin admin</p>
+<p>猥琐的：注册个会员发表个反动文章，然后加管理qq，然后你就说我是网监，把这条新闻删了。给我加个管理员，方便我以后自己删……（我以前做站就遇到过），此方法t00ls首发，如有人利用此方法违法，本人不承担责任。</p>
+<p>————————————————————————————————————————————</p>
+<p>加管理员QQ，说要买他网站程序的源码，价钱出高点，让管理动心，然后让他给个后台和用户密码进后台看功能。。如果他不同意就让他QQ远程，这他应该会同意的。。。然后你就得到后台地址了。。。嘻嘻，金钱诱惑。。。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/02/20/%E6%9F%A5%E6%89%BE%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E5%9C%B0%E5%9D%80/">https://zhangyanlady.github.io/2020/02/20/%E6%9F%A5%E6%89%BE%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E5%9C%B0%E5%9D%80/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/02/24/%E7%A4%BE%E5%B7%A5%E3%80%81APT/">社工、APT</a>
+            
+            
+            <a class="next" rel="next" href="/2020/02/12/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">代码执行与反序列化</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

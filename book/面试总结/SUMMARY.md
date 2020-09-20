@@ -2,6 +2,7 @@
 
 * [前言](README.md)
 * [开发](part1/README.md)
+    * [技术栈链接](part1/技术栈.md)
     * [python高级](part1/python高级.md)
     * [数据库](part1/数据库.md)
     * [数据类型](part1/数据类型.md)

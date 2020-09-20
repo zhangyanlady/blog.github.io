@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>堡垒机 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">堡垒机</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 10, 2018&nbsp;&nbsp;16:16:03</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2018/06/10/%E5%A0%A1%E5%9E%92%E6%9C%BA/" class="leancloud-visitors view" data-flag-title="堡垒机">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="🎃堡垒机原理"><a href="#🎃堡垒机原理" class="headerlink" title="🎃堡垒机原理"></a>🎃堡垒机原理</h1><p>其从功能上讲，它综合了核心系统运维和安全审计管控两大主干功能，从技术实现上讲，通过切断终端计算机对网络和服务器资源的直接访问，而采用协议代理的方式，接管了终端计算机对网络和服务器的访问。形象地说，终端计算机对目标的访问，均需要经过运维安全审计的翻译。打一个比方，运维安全审计扮演着看门者的工作，所有对网络设备和服务器的请求都要从这扇大门经过。因此运维安全审计能够拦截非法访问和恶意攻击，对不合法命令进行命令阻断，过滤掉所有对目标设备的非法访问行为，并对内部人员误操作和非法操作进行审计监控，以便事后责任追踪。安全审计作为企业信息安全建设不可缺少的组成部分，逐渐受到用户的关注，是企业安全体系中的重要环节。同时，安全审计是事前预防、事中预警的有效风险控制手段，也是事后追溯的可靠证据来源。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><hr>
+<h1 id="🎊🎃产生原因"><a href="#🎊🎃产生原因" class="headerlink" title="🎊🎃产生原因"></a>🎊🎃产生原因</h1><p>编辑随着企事业单位IT系统的不断发展，网络规模和设备数量迅速扩大，日趋复杂的IT系统与不同背景的运维人员的行为给信息系统安全带来较大风险。1.多个用户使用同一个账号。这种情况主要出现在同一工作组中，由于工作需要，同时系统管理账号，因此只能多用户共享同一账号。如果发生安全事故，不仅难以定位账号的实际使用者和责任人，而且无法对账号的使用范围进行有效控制，存在较大安全风险和隐患。2.一个用户使用多个账号。一个维护人员使用多个账号是较为普遍的情况，用户需要记忆多套口令同时在多套主机系统、网络设备之间切换，降低工作效率，增加工作复杂度。如下图所示：3. 缺少统一的权限管理平台，权限管理日趋繁重和无序；而且维护人员的权限大多是粗放管理，无法基于最小权限分配原则的用户权限管理，难以实现更细粒度的命令级权限控制，系统安全性无法充分保证。4. 无法制定统一的访问审计策略，审计粒度粗。各网络设备、主机系统、数据库是分别单独审计记录访问行为，由于没有统一审计策略，并且各系统自身审计日志内容深浅不一，难以及时通过系统自身审计发现违规操作行为和追查取证。5. 传统的网络安全审计系统无法对维护人员经常使用的SSH、RDP等加密、图形操作协议进行内容审计。</p>
+<p><img src="//upload-images.jianshu.io/upload_images/21549033-972dcd3ea540be9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/777/format/webp" alt="img"></p>
+<hr>
+<h1 id="🎃🎃核心功能"><a href="#🎃🎃核心功能" class="headerlink" title="🎃🎃核心功能"></a>🎃🎃核心功能</h1><p><strong>登录功能</strong></p>
+<p>支持对X11、linux、unix、数据库、网络设备、安全设备等一系列授权账号进行密码的自动化周期更改，简化密码管理，让使用者无需记忆众多系统密码，即可实现自动登录目标设备，便捷安全。</p>
+<p><strong>账号管理</strong></p>
+<p>设备支持统一账户管理策略，能够实现对所有服务器、网络设备、安全设备等账号进行集中管理，完成对账号整个生命周期的监控，并且可以对设备进行特殊角色设置如：审计巡检员、运维操作员、设备管理员等自定义设置，以满足审计需求</p>
+<p><strong>身份认证</strong></p>
+<p>设备提供统一的认证接口，对用户进行认证，支持身份认证模式包括 动态口令、静态密码、硬件key 、生物特征等多种认证方式，设备具有灵活的定制接口，可以与其他第三方认证服务器之间结合；安全的认证模式，有效提高了认证的安全性和可靠性。</p>
+<p><strong>资源授权</strong></p>
+<p>设备提供基于用户、目标设备、时间、协议类型IP、行为等要素实现细粒度的操作授权，最大限度保护用户资源的安全</p>
+<p><strong>访问控制</strong></p>
+<p>设备支持对不同用户进行不同策略的制定，细粒度的访问控制能够最大限度的保护用户资源的安全，严防非法、越权访问事件的发生。</p>
+<p><strong>操作审计</strong></p>
+<p>设备能够对字符串、图形、文件传输、数据库等全程操作行为审计；通过设备录像方式实时监控运维人员对操作系统、安全设备、网络设备、数据库等进行的各种操作，对违规行为进行事中控制。对终端指令信息能够进行精确搜索，进行录像精确定位。 </p>
+<p><img src="//upload-images.jianshu.io/upload_images/21549033-fc37fed2e7e53c29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/527/format/webp" alt="img"></p>
+<hr>
+<h1 id="🎃目标价值"><a href="#🎃目标价值" class="headerlink" title="🎃目标价值"></a>🎃目标价值</h1><p><strong>1、 目标</strong></p>
+<blockquote>
+<p>堡垒机的核心思路是<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://baike.baidu.com/item/%25E9%2580%25BB%25E8%25BE%2591/543">逻辑</a>上将人与目标设备分离，建立“人-〉主账号（堡垒机用户账号）-〉授权—&gt;从账号（目标设备账号）的模式;在这种模式下，基于身份标识，通过集中管控安全策略的账号管理、授权管理和审计，建立针对维护人员的“主账号-〉登录—〉访问操作-〉退出”的全过程完整审计管理，实现对各种运维加密/非加密、图形操作协议的命令级审计。</p>
+</blockquote>
+<p><strong>2、 系统价值</strong></p>
+<p>堡垒机的作用主要体现在下述几个方面：</p>
+<blockquote>
+<p><strong>企业角度</strong></p>
+<p>通过<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://baike.baidu.com/item/%25E7%25BB%2586%25E7%25B2%2592%25E5%25BA%25A6">细粒度</a>的安全管控策略，保证企业的服务器、网络设备、数据库、安全设备等安全可靠运行，降低人为安全风险，避免安全损失，保障企业效益。</p>
+</blockquote>
+<blockquote>
+<p><strong>管理员角度</strong></p>
+<p>所有运维账号的管理在一个平台上进行管理，账号管理更加简单有序；</p>
+<p>通过建立用户与账号的对应关系，确保用户拥有的权限是完成任务所需的最小权限；</p>
+<p>直观方便的监控各种访问行为，能够及时发现违规操作、权限滥用等。</p>
+<p>鉴于多账号同时使用超管进行的操作，便于实名制的认证和自然人的关联。</p>
+</blockquote>
+<blockquote>
+<p><strong>普通用户角度</strong></p>
+<p>运维人员只需记忆一个账号和口令，一次登录，便可实现对其所维护的多台设备的访问，无须记忆多个账号和口令，提高了工作效率，降低工作复杂度。</p>
+</blockquote>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><hr>
+<h1 id="🎃应用"><a href="#🎃应用" class="headerlink" title="🎃应用"></a>🎃应用</h1><blockquote>
+<p>一种用于单点登录的主机应用系统，<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://baike.baidu.com/item/%25E7%2594%25B5%25E4%25BF%25A1/15421798">电信</a>、<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://baike.baidu.com/item/%25E7%25A7%25BB%25E5%258A%25A8/8464874">移动</a>、<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://baike.baidu.com/item/%25E8%2581%2594%25E9%2580%259A">联通</a>三个运营商广泛采用堡垒机来完成单点登陆和萨班斯要求的审计。</p>
+<p>在银行、证券等金融业机构也广泛采用堡垒机来完成对财务、会计操作的审计。</p>
+<p>在电力行业的双网改造项目后，采用堡垒机来完成双网隔离之后跨网访问的问题，能够很好的解决双网之间的访问的安全问题。</p>
+</blockquote>
+<h1 id="-2"><a href="#-2" class="headerlink" title=""></a></h1><hr>
+<h1 id="🧧特点"><a href="#🧧特点" class="headerlink" title="🧧特点"></a>🧧特点</h1><p><strong>审计协议范围</strong></p>
+<p>平台采用协议分析、基于数据包还原虚拟化技术，实现操作界面模拟，将所有的操作转换为图形化界面予以展现，实现100%审计信息不丢失：针对运维操作图形化审计功能的展现外，同时还能对字符进行分析，包括命令行操作的命令以及回显信息和非字符型操作时键盘、鼠标的敲击信息。</p>
+<p><strong>系统支持的审计协议以及工具包括：</strong></p>
+<blockquote>
+<p>字符串操作：SSH/Telnet（工具：SecureCRT/Putty/Xshell）</p>
+<p>图形操作： RDP/VNC/X11/pcAnywhere/DameWare等</p>
+<p>其他协议： FTP/SFTP/Http/Https等</p>
+<p>数据库工具:Oracle/sqlserver/Mysql客户端工具</p>
+<p>协议及工具</p>
+<p>字符串操作：SSH/Telnet （工具：SecureCRT/Putty/Xshell）</p>
+<p>图形操作： RDP/VNC/X11/pcAnywhere/DameWare等</p>
+<p>其他协议：FTP/SFTP/Http/Https/SQLPLUS等</p>
+</blockquote>
+<p><strong>报表管理</strong></p>
+<p>平台具有丰富的报表统计功能，可以进行默认报表和自定义报表来进行运维数据的报表统计。</p>
+<p>平台提供多种报表格式，包括Word、Excel等。</p>
+<p>平台提供折线、饼状、柱状等多种图表统计运维数据，方便后期的运维分析和管理。</p>
+<p><strong>完善管理权限</strong></p>
+<p>平台对用户的管理权限严格分明，各司其职，分为系统管理员、审计管理员、运维管理员、口令管理员四种管理员角色，平台也支持管理员角色的自定义创建，对管理权限进行细粒度设置，保障了平台的用户安全管理，以满足审计需求</p>
+<p>平台集用户管理、身份认证、资源授权、访问控制、操作审计为一体，有效地实现了事前预防、事中控制和事后审计。</p>
+<p><strong>处理能力</strong></p>
+<p>审计平台能够对常见的SSH/Telnet/FTP/SFTP/HTTP/HTTPS /Windows Terminal/X11、VNC协议进行完整的透明转发，针对如RDP/VNC/X11等图形化协议的处理能力要比同类产品处理能力强。</p>
+<p><strong>性能</strong></p>
+<p>平台采用模块化设计，单模块故障不影响其他模块使用，从而提高了平台的健壮性、稳定性</p>
+<p>运维人员登陆可支持Portal统一登录，并兼容终端C/S客户端连接设备；</p>
+<p>审计平台的认证方式可以与第三方的认证设备进行定制兼容</p>
+<p>具有强大研发实力，不但能为客户提供长期的产品更新，还能按照客户的实际需求进行定制开发。</p>
+<p><strong>部署方式</strong></p>
+<p>堡垒机提供了功能完善、操作灵活、使用方便、界面友好、符合习惯的审计管理功能；</p>
+<p>B/S方式实现了对后台的各项管理配置</p>
+<p>平台简单易部署，通过配置导航，可在短时间内完成配置要求，实现上线要求。</p>
+<p><strong>系统安全</strong></p>
+<p>基于HTTPS/SSL的自身安全管理与审计；</p>
+<p>严格的安全访问控制和管理员身份认证支持强认证；</p>
+<p>审计信息加密存储；</p>
+<p>完善的审计信息备份机制；</p>
+<p>完整全面的自审计功能。</p>
+<h1 id="-3"><a href="#-3" class="headerlink" title=""></a></h1><hr>
+<h1 id="🎇堡垒机注意事项"><a href="#🎇堡垒机注意事项" class="headerlink" title="🎇堡垒机注意事项"></a>🎇堡垒机注意事项</h1><h1 id="原则1：堡垒机的账号管理"><a href="#原则1：堡垒机的账号管理" class="headerlink" title="原则1：堡垒机的账号管理"></a>原则1：堡垒机的账号管理</h1><p>企业管理人员为了方便登陆，经常会出现多个用户使用一个账号或一个用户使用多个账号的情况。由于共享账号是多人共同使用，当系统发生问题后，无法精确定位恶意操作或误操作的具体责任人。因此在搭建堡垒机时，一定要注意必须做到一人一个帐号，绝不允许多个人共用个人帐号，更不能允许共同账号登录堡垒机。</p>
+<h1 id="原则2：堡垒机的访问控制"><a href="#原则2：堡垒机的访问控制" class="headerlink" title="原则2：堡垒机的访问控制"></a>原则2：堡垒机的访问控制</h1><p>访问控制的目的是通过限制维护人员对数据信息的访问能力及范围，保证信息资源不被非法使用和访问。</p>
+<h1 id="原则3：堡垒机的指令审核"><a href="#原则3：堡垒机的指令审核" class="headerlink" title="原则3：堡垒机的指令审核"></a>原则3：堡垒机的指令审核</h1><p>堡垒机的操作审计功能主要审计运维人员的账号使用（登录、资源访问）情况、资源使用情况等，针对敏感指令，堡垒机可以进行阻断响应或触发审核操作，审核不通过的敏感指令，堡垒机将会进行拦截。</p>
+<h1 id="原则4：堡垒机的身份认证"><a href="#原则4：堡垒机的身份认证" class="headerlink" title="原则4：堡垒机的身份认证"></a>原则4：堡垒机的身份认证</h1><p>杜绝仅使用密码登录堡垒机，建议在执行主机重启、密码修改、会话创建、快照回滚、磁盘更换等各种重要操作时，可通过微信或短信等进行双因子身份确认，确保访问者身份的合法性。</p>
+<h1 id="原则5：堡垒机的资源授权"><a href="#原则5：堡垒机的资源授权" class="headerlink" title="原则5：堡垒机的资源授权"></a>原则5：堡垒机的资源授权</h1><p>用户授权，建议结合公司内部CMDB来做基于角色的访问控制模型以实现权限控制。通过集中访问控制和细粒度的命令级授权策略，基于最小权限原则，实现集中有序的运维操作管理。</p>
+<h1 id="原则6：堡垒机的审计录像"><a href="#原则6：堡垒机的审计录像" class="headerlink" title="原则6：堡垒机的审计录像"></a>原则6：堡垒机的审计录像</h1><p>在安全层面，除了通过堡垒机的事前权限授权、事中敏感指令拦截外，还需提供堡垒机事后运维审计的特性。用户在堡垒机中所进行的运维操作均会以日志的形式记录下来，管理者即通过日志对运维人员的运维操作进行审计。</p>
+<h1 id="原则7：堡垒机的操作审计"><a href="#原则7：堡垒机的操作审计" class="headerlink" title="原则7：堡垒机的操作审计"></a>原则7：堡垒机的操作审计</h1><p>堡垒机的操作审计功能主要审计运维人员的账号使用（登录、资源访问）情况、资源使用情况等。在各服务器主机的访问日志记录都采用统一的账号、资源进行标识后，堡垒机的操作审计功能才能更好地对账号的完整使用过程进行追踪。</p>
+<p>以上是企业搭建堡垒机时应该注意的7个原则，只有坚持并遵守7个原则搭建堡垒机，企业的数据安全才能够尽可能的得到保证。对于创业公司或者中小企业来讲，成本是不得不考虑的大问题，放眼看市面上堡垒机的众多品牌，目前主流堡垒机分为开源堡垒机和商用堡垒机两大类。企业选择合适的堡垒机搭建时，需要结合自身的成本预估和产品的性能特点。开源堡垒机使用灵活方便，但是后期的运维成本颇高，需要请专人进行运维或者找原厂商进行二次开发，总体下来其成本不亚于直接购买一台商用堡垒机，并且开源堡垒机原厂商没有任何责任。</p>
+<p>商用堡垒机分为三种，这里就不细说了，推荐大家使用云堡垒机，免安装免维护，行云管家云堡垒机是市面上首款也是唯一一款支持Windows2012/2016系统操作指令审计的<strong>堡垒机</strong>，并且除了私有部署版堡垒机，行云管家还提供更加便宜且功能一样的SaaS形态堡垒机，为用户提供4台云主机或局域网主机的免费管理配额。通常来讲，4台主机免费配额已经能够满足创业公司或中小型企业的基本需要。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2018/06/10/%E5%A0%A1%E5%9E%92%E6%9C%BA/">https://zhangyanlady.github.io/2018/06/10/%E5%A0%A1%E5%9E%92%E6%9C%BA/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/03/20/owasp-top10/">owasp-top10</a>
+            
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

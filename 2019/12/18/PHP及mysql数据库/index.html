@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>PHP及mysql数据库 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">PHP及mysql数据库</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 18, 2019&nbsp;&nbsp;20:02:01</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                        </span>
+						<span id="/2019/12/18/PHP%E5%8F%8Amysql%E6%95%B0%E6%8D%AE%E5%BA%93/" class="leancloud-visitors view" data-flag-title="PHP及mysql数据库">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>1.数据库的五个基本单位：数据库服务器，数据库，数据表，字段（数据列），数据行</p>
+<p>2.数据库登录命令：mysql -h localhost -u root -p       (-h 连接名，本地连接可以不写，-u 用户名， -p 用密码的方式登录)</p>
+<p>3.数据库引擎：MyISAM与nnoDB<br>区别：<br>            MyISAM：能更好的的用于查找，不支持事务。<br>            nnoDB：更好的用于增删改，支持事务。<br>            详细 ：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.cnblogs.com/vicenteforever/articles/1613119.html">https://www.cnblogs.com/vicenteforever/articles/1613119.html</a>       </p>
+<p>4.常用的数据库编码<br>             gbk–chinese–ci 简体中文，不区分大小。<br>             uft8–general不区分大小写。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="二、数据库定义语句（DDL）"><a href="#二、数据库定义语句（DDL）" class="headerlink" title="二、数据库定义语句（DDL）"></a>二、数据库定义语句（DDL）</h3><ol>
+<li><p>创建数据库 create  database  </p>
+<p>数据库名称;<br>create database books;           </p>
+</li>
+<li><p>查看数据库 show data</p>
+</li>
+<li><p>删除数据库</p>
+</li>
+</ol>
+<p>​       drop database user;</p>
+<ol start="4">
+<li><p>创建数据表 </p>
+<p>use user;            //使用数据库<br>create table book (<br>id int(20) primary key,<br>bookname varchar(255),<br>type varchar(255),<br>information varchar(255)<br>)<br>注：最后没有“,”,primary key 为主键</p>
+</li>
+<li><p>查看本数据库所有数据表</p>
+<p>show tables;</p>
+</li>
+<li><p>查看表结构</p>
+<p>desc user;</p>
+</li>
+<li><p>修改数据表</p>
+<p>向数据表中添加新字段：alter table book add column ISDN int(20);</p>
+<p>向数据表中删除字段：alter table book drop column ISDN;</p>
+<p>修改数据表中字段的类型：alter table book modify column type int(200);</p>
+<p>修改数据表中字段的名称及类型：alter table book change column type phone int(25);</p>
+</li>
+<li><p>删除数据表</p>
+<p>drop table book;</p>
+</li>
+<li><p>查看数据库创建过程</p>
+<p>show create database books;</p>
+</li>
+<li><p>查看表创建源码：</p>
+<p>show create table user；</p>
+</li>
+</ol>
+<h3 id="三、数据库定义语言（DML）"><a href="#三、数据库定义语言（DML）" class="headerlink" title="三、数据库定义语言（DML）"></a>三、数据库定义语言（DML）</h3><p>1.向数据表中插入数据<br>insert into user (id,username,password,birthday) values(5,”qiqi”,123456,”1998.05.26”);</p>
+<p>2.修改表中的数据<br>update user set username=”zhao” where id=5;</p>
+<p>3.删除表中的数据<br>删除所有数据：delete from user；</p>
+<h3 id="四、权限操作"><a href="#四、权限操作" class="headerlink" title="四、权限操作"></a>四、权限操作</h3><ol>
+<li><p>授予权限 </p>
+<p>grant 权限 on 库.表 to’用户‘@’主机’ identified by ‘密码’;<br>示例         grant select, inserton test.* to ‘liwenkai’@’localhost’ identified by ‘4311’;<br>示例说明        给予liwenkai用户，在本机连接test库所有表的权限。操作的这些表具有查询和写入权限。</p>
+</li>
+<li><p>删除权限</p>
+<p>基本语法：revoke 权限 on 库.表  from ‘用户‘@’主机’;<br>示例：revoke select ,insert on test.* from ‘liwenkai’@’localhost’;</p>
+</li>
+</ol>
+<h2 id="php"><a href="#php" class="headerlink" title="php"></a>php</h2><h3 id="一、基本语法"><a href="#一、基本语法" class="headerlink" title="一、基本语法"></a>一、基本语法</h3><p>1.定义 （$+有意义的名称）<br>$shu<br>初始化 $shu=10;//开始定义的时候赋值</p>
+<p>2.可变变量$$+有意义名称；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?p</span><br><span class="line">&#x2F;&#x2F;可变变量</span><br><span class="line"></span><br><span class="line">$shu&#x3D;&#39;biao&#39;;</span><br><span class="line"></span><br><span class="line">$biao&#x3D;&quot;鼠标&quot;;</span><br><span class="line"></span><br><span class="line">echo $$shu;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.注释<br>单行注释：//<br>单行注释：#<br>多行注释：/* */</p>
+<p>4.数据类型<br>整型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;整数类型 10进制，8进制，16进制int</span><br><span class="line"></span><br><span class="line">$int&#x3D;1000;</span><br><span class="line"></span><br><span class="line">echo $int;</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">$int8&#x3D;01534;</span><br><span class="line"></span><br><span class="line">echo $int8;</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">$int16&#x3D;0x1927fa;</span><br><span class="line"></span><br><span class="line">echo $int16;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>bool类型：<br>只有两个返回值：true ,false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;布尔类型bool</span><br><span class="line"></span><br><span class="line">$bool&#x3D;true;</span><br><span class="line"></span><br><span class="line">echo $bool;</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">var_dump($bool);</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>str字符串类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;字符串类型str</span><br><span class="line"></span><br><span class="line">str1&#x3D;&#39;name,let\&#39;s go&#39;;&#x2F;&#x2F;单引号中有符号，会被原样输出</span><br><span class="line"></span><br><span class="line">var_dump($str1);</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">str2&#x3D;&quot;name,let&#39;s go&quot;;&#x2F;&#x2F;双引号中的符号，不会被原样输出，是变量的开始</span><br><span class="line"></span><br><span class="line">var_dump($str2);</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.算数运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php&#x2F;&#x2F;算数运算符[Math Processing Error]x&#x3D;5;y&#x3D;10;</span><br><span class="line"></span><br><span class="line">echo [Math Processing Error]x+y;echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">echo [Math Processing Error]x+&#x3D;y;&#x2F;&#x2F;x&#x3D;15</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line"> echo [Math Processing Error]x++;&#x2F;&#x2F;x++是先输出再相加</span><br><span class="line"></span><br><span class="line"> echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">echo ++[Math Processing Error]x; &#x2F;&#x2F;++x是先相加在输出</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">echo [Math Processing Error]y % x;?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二、流程控制"><a href="#二、流程控制" class="headerlink" title="二、流程控制"></a>二、流程控制</h3><p>1.if  else 选择结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php&#x2F;&#x2F;if语句</span><br><span class="line"></span><br><span class="line">$po&#x3D;true;</span><br><span class="line"></span><br><span class="line">if($po)&#123;</span><br><span class="line"></span><br><span class="line"> echo &#39;我愿意去学习！&#39;;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">else&#123;</span><br><span class="line"></span><br><span class="line"> echo &#39;我不愿意去学习！&#39;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> ?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.switch case 语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$tool&#x3D;rand(1,6);&#x2F;&#x2F;产生随机数的函数</span><br><span class="line"></span><br><span class="line">switch($tool)&#123;</span><br><span class="line"></span><br><span class="line">case 1:</span><br><span class="line"></span><br><span class="line">echo &#39;自己开车&#39;;</span><br><span class="line"></span><br><span class="line">break;</span><br><span class="line"></span><br><span class="line">case 2:</span><br><span class="line"></span><br><span class="line">echo &#39;骑自行车&#39;;</span><br><span class="line"></span><br><span class="line">break;</span><br><span class="line"></span><br><span class="line">	case 3:						&#x2F;&#x2F;选项块</span><br><span class="line"></span><br><span class="line">echo &#39;开小汽车&#39;;</span><br><span class="line"></span><br><span class="line">break;</span><br><span class="line"></span><br><span class="line">	defined:					&#x2F;&#x2F;都不选的时候执行的语句块</span><br><span class="line"></span><br><span class="line">echo &#39;不回家&#39;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;根据产生的随机数，选择不同模块</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.while循环语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; while循环语句</span><br><span class="line"></span><br><span class="line">$rom&#x3D;0;</span><br><span class="line"></span><br><span class="line">while($rom &lt;5)&#123;</span><br><span class="line"></span><br><span class="line">	if($rom&#x3D;&#x3D;0)&#123;</span><br><span class="line"></span><br><span class="line">		echo &#39;我刚进入循环&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	else&#123;</span><br><span class="line"></span><br><span class="line">		echo &#39;我循环了&#39;.$rom.&#39;次&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	$rom++;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &#39;while循环结束了&#39;;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>4.for循环语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;for循环,foreach(数组1 as $value)  将数组赋值给value</span><br><span class="line"></span><br><span class="line">for (i&#x3D;1;i&lt;5;$i++)&#123;</span><br><span class="line"></span><br><span class="line">	echo &#39;这是第&#39;.$i.&#39;次&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &#39;for循环结束&#39;;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.goto语句<br>goto语句跳转之后会停止向下执行，直接执行跳转到的语句中继续执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">goto wan;</span><br><span class="line"></span><br><span class="line">echo &#39;我就是我，我喜欢我自己&#39;;</span><br><span class="line"></span><br><span class="line">wan:</span><br><span class="line"></span><br><span class="line">echo &#39;你不能那么自私,你要爱大家！&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">goto gril;</span><br><span class="line"></span><br><span class="line">gril:</span><br><span class="line"></span><br><span class="line">echo &#39;你还要爱你的女孩!&#39;;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、函数"><a href="#三、函数" class="headerlink" title="三、函数"></a>三、函数</h3><p>1.定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;基本函数语法</span><br><span class="line"></span><br><span class="line">function love(i,l&#x3D;14)&#123;</span><br><span class="line"></span><br><span class="line">		echo &#39;i love you &#39;.i.l;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">love(13);</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.常用函数<br>**<strong>**</strong>数字函数</p>
+<p>abs()  绝对值函数<br>pow(-1,20)  返回-1的20次方<br>min(1,2,3,4,5,6)  求这些数的最小值<br>max()   返回最大值<br>pi()    圆周率值<br>count()    计算数量</p>
+<p><strong>****</strong>字符串函数<br>count_chars() 统计字符串中的所有字母</p>
+<p><strong>****</strong>日期函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$mytime &#x3D; getdate();</span><br><span class="line"></span><br><span class="line">echo &quot;年 :&quot;.$mytime[&#39;year&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;月 :&quot;.$mytime[&#39;mon&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;日 :&quot;.$mytime[&#39;mday&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;时 :&quot;.$mytime[&#39;hours&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;分 :&quot;.$mytime[&#39;minutes&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;秒 :&quot;.$mytime[&#39;seconds&#39;].&quot;&lt;br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;一个小时中的第几钟 :&quot;.$mytime[&#39;minutes&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;这是一分钟的第几秒 :&quot;.$mytime[&#39;seconds&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;星期名称 :&quot;.$mytime[&#39;weekday&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;月份名称 :&quot;.$mytime[&#39;month&#39;].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;时间戳   :&quot;.$mytime[0].&quot;\n&quot;;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="四、数组与数据结构"><a href="#四、数组与数据结构" class="headerlink" title="四、数组与数据结构"></a>四、数组与数据结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;数组与数据结构</span><br><span class="line"></span><br><span class="line">$shu&#x3D;array(1,1.5,20,true,&#39;我就是我，我爱我&#39;);</span><br><span class="line"></span><br><span class="line">var_dump($shu);</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;br&gt;&#39;;&#x2F;&#x2F;区别</span><br><span class="line"></span><br><span class="line">echo $shu.&#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">$num&#x3D;array(1,2,3,4,5,6,7,8,9,10);</span><br><span class="line"></span><br><span class="line">echo $num[0].&#39;&lt;br&gt;&#39;;&#x2F;&#x2F;单个输出</span><br><span class="line"></span><br><span class="line">for (i&#x3D;0;i&lt;9;$i++)&#123;&#x2F;&#x2F;遍历数组</span><br><span class="line"></span><br><span class="line">	echo num[i].&#39;&lt;br&gt;&#39;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;数组遍历元素</span><br><span class="line"></span><br><span class="line">$mingren &#x3D; array(&quot;邓超&quot;, &quot;黄晓明&quot;, &quot;宁泽涛&quot;, &quot;钟汉良&quot;);</span><br><span class="line"></span><br><span class="line">dc &#x3D; array_shift(mingren);</span><br><span class="line"></span><br><span class="line">echo $dc .&#39;&lt;br &#x2F;&gt;&#39;;</span><br><span class="line"></span><br><span class="line">print_r($mingren);</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="五、正则表达式"><a href="#五、正则表达式" class="headerlink" title="五、正则表达式"></a>五、正则表达式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;php 正则表达式</span><br><span class="line"></span><br><span class="line">$zz &#x3D; &#39;&#x2F;w.+q&#x2F;&#39;;&#x2F;&#x2F;&#39;&#x2F;w.+q&#x2F;U&#39;为懒惰模式，输出结果为w_q</span><br><span class="line"></span><br><span class="line">$string &#x3D; &#39;sssssw__qqqqqqaaaaaa&#39;;</span><br><span class="line"></span><br><span class="line">if(preg_match(zz, string, $matches))&#123;</span><br><span class="line"></span><br><span class="line">   echo &#39;匹配到了，结果为：&#39;;</span><br><span class="line"></span><br><span class="line">   var_dump($matches);</span><br><span class="line"></span><br><span class="line">   print_r( &#39;&lt;br&gt;&#39;.$matches);</span><br><span class="line"></span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">&lt;hr&gt;&#x2F;&#x2F;分割线符号</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$subject &#x3D; &quot;test__123123123&quot;;</span><br><span class="line"></span><br><span class="line">preg_match(&#39;&#x2F;test.+123&#x2F;&#39;, subject, matches); &#x2F;&#x2F;贪婪模式 </span><br><span class="line"></span><br><span class="line">var_dump($matches);</span><br><span class="line"></span><br><span class="line">preg_match(&#39;&#x2F;test.+123&#x2F;U&#39;, subject, matches); &#x2F;&#x2F;懒惰模式</span><br><span class="line"></span><br><span class="line">var_dump($matches);</span><br><span class="line"></span><br><span class="line">preg_filter(&#39;&#x2F;test.+123&#x2F;&#39;,subject,matches);</span><br><span class="line"></span><br><span class="line">var_dump($matches);&#x2F;&#x2F;匹配结果与懒惰模式一样，</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>删除表中的某个字段：delete from user where id=5；</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/12/18/PHP%E5%8F%8Amysql%E6%95%B0%E6%8D%AE%E5%BA%93/">https://zhangyanlady.github.io/2019/12/18/PHP%E5%8F%8Amysql%E6%95%B0%E6%8D%AE%E5%BA%93/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        <a href="/tags/%E5%BC%80%E5%8F%91/"># 开发</a>
+                    
+                        <a href="/tags/web/"># web</a>
+                    
+                        <a href="/tags/%E9%9D%A2%E8%AF%95/"># 面试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/20/%E6%B8%97%E9%80%8F%E6%AD%A5%E9%AA%A4/">渗透步骤</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/29/%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF/">渗透思路</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

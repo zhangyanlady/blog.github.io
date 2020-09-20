@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="future.zhangyan">
+
+
+
+    <meta name="description" content="未来可期">
+
+
+
+<title>文件上传、下载 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+	<!--动态线条背景-->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+    <div class="wrapper">
+        <header>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	  <script type="text/javascript" src="C:/Users/zhangyan/Desktop/blog/themes/next/source/js"></script>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">张艳&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+				<label for="switch_default" class="toggleBtn"></label>
+         
+				<div class="search bar7">
+					<form id="search-form"> <!-- 搜索框相关 -->
+						<input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off"/>
+						<button type="submit" class="search-form-submit"></button>
+						<i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+					</form>
+					<div class="ins-section-wrapper">
+						<div class="ins-section-container"></div>
+					</div>
+					<div id="local-search-result"></div> <!-- 搜索结果区 -->
+						<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+					</div>
+
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">张艳&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/book">Book</a>
+                
+                    <a class="menu-item" href="/bangumis">Bangumis</a>
+                
+            </div>
+
+
+        </div>
+    </nav>
+
+</header>
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+	body {
+		margin:0;
+		padding:0;
+		background-image:url(ydrzimages/p3.jpg);
+		font-weight:500;
+		font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+	}
+	#container {
+		width:500px;
+		height:820px;
+		margin:0 auto;
+	}
+	div.search {
+		padding:10px 0;
+		margin-left:200px
+	}
+	form {
+		position:relative;
+		width:300px;
+		margin:0 auto;
+	}
+	input,button {
+		border:none;
+		outline:none;
+	}
+	input {
+		width:100%;
+		height:42px;
+		padding-left:13px;
+	}
+	button {
+		height:42px;
+		width:42px;
+		cursor:pointer;
+		position:absolute;
+	}
+	/*搜索框7*/
+		  
+	.bar7 form {
+		height:42px;
+	}
+	.bar7 input {
+		width:200px;
+		border-radius:42px;
+		border:2px solid #324B4E;
+		transition:.3s linear;
+		float:right;
+	}
+	.bar7 input:focus {
+		width:300px;
+	}
+	.bar7 button {
+		background:none;
+		top:-2px;
+		right:20px;
+	}
+	.bar7 button:before {
+		content:"点..";
+		font-family:FontAwesome;
+		color:#324b4e;
+	}
+	.no-result{
+		display:none
+	}
+</style>
+
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">文件上传、下载</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">future.zhangyan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 12, 2019&nbsp;&nbsp;22:34:15</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                            
+                        </span>
+						<span id="/2019/10/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/" class="leancloud-visitors view" data-flag-title="文件上传、下载">
+						  <em class="post-meta-item-text">Pageviews:</em>
+						  <i class="leancloud-visitors-count"></i>
+						</span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="总结图"><a href="#总结图" class="headerlink" title="总结图"></a>总结图</h2><p><img src="/image/%E8%84%91%E5%9B%BE/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD.png"></p>
+<h2 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h2><h3 id="一、漏洞介绍"><a href="#一、漏洞介绍" class="headerlink" title="一、漏洞介绍"></a>一、漏洞介绍</h3><p>  一些网站由于业务需求，往往需要提供文件查看或文件下载功能，但若对用户查看或下载的文件不做限制，则恶意用户就能够查看或下载任意敏感文件，这就是文件查看与下载漏洞。</p>
+<h3 id="二、利用方式"><a href="#二、利用方式" class="headerlink" title="二、利用方式"></a>二、利用方式</h3><h4 id="一般链接形式"><a href="#一般链接形式" class="headerlink" title="一般链接形式:"></a>一般链接形式:</h4><p>download.php?path=<br>down.php?file=<br>data.php?file=</p>
+<h4 id="或者包含参数"><a href="#或者包含参数" class="headerlink" title="或者包含参数:"></a>或者包含参数:</h4><p>&amp;Src=<br>&amp;Inputfile=<br>&amp;Filepath=<br>&amp;Path=<br>&amp;Data=</p>
+<h3 id="三、利用思路"><a href="#三、利用思路" class="headerlink" title="三、利用思路:"></a>三、利用思路:</h3><p>(1)下载常规的配置文件，例如: ssh,weblogic,ftp,mysql等相关配置</p>
+<p>(2)下载各种.log文件，从中寻找一些后台地址，文件上传点之类的地方，如果运气好的话会获得一些前辈们的后门。</p>
+<p>(3)下载web业务文件进行白盒审计，利用漏洞进一步攻入服务器。<br>      尝试读取/root/.bash_history看自己是否具有root权限。如果没有的话。我们只能按部就班的利用../来回跳转读取一些.ssh下的配置信息文件，读取mysql下的.bash_history文件。来查看是否记录了一些可以利用的相关信息。然后逐个下载我们需要审计的代码文件，但是下载的时候变得很繁琐，我们只能尝试去猜解目录，然后下载一些中间件的记录日志进行分析。</p>
+<h5 id="如果我们遇到的是java-oracle环境"><a href="#如果我们遇到的是java-oracle环境" class="headerlink" title="如果我们遇到的是java+oracle环境"></a>如果我们遇到的是java+oracle环境</h5><p>  可以先下载/WEB-INF/classes/applicationContext.xml 文件，这里面记载的是web服务器的相应配置，然后下载/WEB-INF/classes/xxx/xxx/ccc.class对文件进行反编译，然后搜索文件中的upload关键字看是否存在一些api接口，如果存在的话我们可以本地构造上传页面用api接口将我们的文件传输进服务器</p>
+<h5 id="如果具有root权限"><a href="#如果具有root权限" class="headerlink" title="如果具有root权限"></a>如果具有root权限</h5><p>  在linux中有这样一个命令 locate 是用来查找文件或目录的，它不搜索具体目录，而是搜索一个数据库/var/lib/mlocate/mlocate.db。这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次。当我们不知道路径是什么的情况下，这个可以说是一个核武器了，我们利用任意文件下载漏洞mlocate.db文件下载下来，利用locate命令将数据输出成文件，这里面包含了全部的文件路径信息。</p>
+<p>locate 读取方法: locate mlocate.db admin    //可以将mlocate.db中包含admin文件名的内容全部输出来</p>
+<p>（4）常见利用文件<br>/root/.ssh/authorized_keys<br>/root/.ssh/id_rsa<br>/root/.ssh/id_ras.keystore<br>/root/.ssh/known_hosts //记录每个访问计算机用户的公钥<br>/etc/passwd<br>/etc/shadow<br>/etc/my.cnf //mysql配置文件<br>/etc/httpd/conf/httpd.conf //apache配置文件<br>/root/.bash_history //用户历史命令记录文件<br>/root/.mysql_history //mysql历史命令记录文件<br>/proc/mounts //记录系统挂载设备<br>/porc/config.gz //内核配置文件<br>/var/lib/mlocate/mlocate.db //全文件路径<br>/porc/self/cmdline //当前进程的cmdline参数</p>
+<h3 id="四、漏洞修复"><a href="#四、漏洞修复" class="headerlink" title="四、漏洞修复"></a>四、漏洞修复</h3><p>（1）过滤”.”，使用户在url中不能回溯上级目录</p>
+<p>（2）正则严格判断用户输入参数的格式</p>
+<p>（3）php.ini配置open_basedir限定文件访问范围</p>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="/image/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/1.jpg"></p>
+<h3 id="一、客户端检测绕过-javascript-检测"><a href="#一、客户端检测绕过-javascript-检测" class="headerlink" title="一、客户端检测绕过(javascript 检测)"></a>一、客户端检测绕过(javascript 检测)</h3><p>​      首先观察到提示只允许上传图片文件，那么前端的查看代码，当页面发生改变时，会调用这个checkFileExt函数来检查上传的是不是图片，我们只需要在前端将checkFileExt函数删除，就能上传一个一个非图片文件。</p>
+<p><strong>文件上传客户端：</strong></p>
+<p>将checkFileExt(this.value)函数删除便可上传任意文件</p>
+<p>或者通过burp抓包将之前改为符合类型的文件在改回来</p>
+<h3 id="二、服务端验证绕过-MIME-类型检测"><a href="#二、服务端验证绕过-MIME-类型检测" class="headerlink" title="二、服务端验证绕过(MIME 类型检测)"></a>二、服务端验证绕过(MIME 类型检测)</h3><p>​      MIME(Multipurpose Internet Mail Extensions)多用途互联网邮件扩展类型。是设定某种扩展名的文件用一种应用程序来打开的方式类型，当该扩展名文件被访问的时候，浏览器会自动使用指定应用程序来打开。多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。</p>
+<p>​      每个MIME类型由两部分组成，前面是数据的大类别，例如声音audio、图象image等，后面定义具体的种类。</p>
+<p><strong>常见的MIME类型(通用型)：</strong></p>
+<ul>
+<li>超文本标记语言文本 .html text/html</li>
+<li>xml文档 .xml text/xml</li>
+<li>XHTML文档 .xhtml application/xhtml+xml</li>
+<li>普通文本 .txt text/plain</li>
+<li>RTF文本 .rtf application/rtf</li>
+<li>PDF文档 .pdf application/pdf</li>
+<li>Microsoft Word文件 .word application/msword</li>
+<li>PNG图像 .png image/png</li>
+<li>GIF图形 .gif image/gif</li>
+<li>JPEG图形 .jpeg,.jpg image/jpeg</li>
+<li>au声音文件 .au audio/basic</li>
+<li>MIDI音乐文件 mid,.midi audio/midi,audio/x-midi</li>
+<li>RealAudio音乐文件 .ra, .ram audio/x-pn-realaudio</li>
+<li>MPEG文件 .mpg,.mpeg video/mpeg</li>
+<li>AVI文件 .avi video/x-msvideo</li>
+<li>GZIP文件 .gz application/x-gzip</li>
+<li>TAR文件 .tar application/x-tar</li>
+<li>任意的二进制数据 application/octet-stream</li>
+</ul>
+<p><strong>通过使用 PHP 的全局数组 $_FILES，你可以从客户计算机向远程服务器上传文件。</strong></p>
+<p>第一个参数是表单的 input name，第二个下标可以是 “name”, “type”, “size”, “tmp_name” 或 “error”。就像这样：</p>
+<p><code>$_FILES[&quot;file&quot;][&quot;name&quot;] </code> 被上传文件的名称</p>
+<p><code>$_FILES[&quot;file&quot;][&quot;type&quot;]</code> 被上传文件的类型</p>
+<p><code>$_FILES[&quot;file&quot;][&quot;size&quot;]</code> 被上传文件的大小，以字节计</p>
+<p><code>$_FILES[&quot;file&quot;][&quot;tmp_name&quot;]</code> 存储在服务器的文件的临时副本的名称</p>
+<p><code>$_FILES[&quot;file&quot;][&quot;error&quot;]</code> 由文件上传导致的错误代码</p>
+<p>详细可参考：<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/php/php_file_upload.asp">http://www.w3school.com.cn/php/php_file_upload.asp</a></p>
+<p>​       分析代码逻辑：首先会获取到前端的提交请求，然后定义了一个数组（定义图片上传指定类型），然后通过upload_sick函数对上传的文件进行一定的检查。</p>
+<p>分析upload_sick函数（定义在uploadfunction.php文件里面）存在漏洞的的原因是因为 $ _FILES() 这个全局的方法是通过浏览器http头去获取的content-type，content-type是前端用户可以控制的。容易被绕过。</p>
+<p>​     上传一张正常的符合标准的图片，对其content-type进行抓包操作。可见正常上传符合要求的图片中数据包中content-type为image/png对比符合条件，而php文件则不符合条件返回文件类型错误。</p>
+<h3 id="三、代码注入绕过–getimagesize"><a href="#三、代码注入绕过–getimagesize" class="headerlink" title="三、代码注入绕过–getimagesize()"></a>三、代码注入绕过–getimagesize()</h3><p>​    getimagesize() 函数用于获取图像大小及相关信息，成功返回一个数组，失败则返回 FALSE 并产生一条 E_WARNING 级的错误信息，如果用这个涵数来获取类型，从而判断是否是图片的话，会存在问题。</p>
+<p>语法格式：</p>
+<p>  <code> array getimagesize ( string $filename [, array &amp;$imageinfo ] )</code></p>
+<p>getimagesize() 函数将测定任何 GIF，JPG，PNG，SWF，SWC，PSD，TIFF，BMP，IFF，JP2，JPX，JB2，JPC，XBM 或 WBMP 图像文件的大小并返回图像的尺寸以及文件类型及图片高度与宽度。</p>
+<p><strong>文件包含漏洞之文件上传漏洞利用</strong></p>
+<p>方法一：直接伪造头部GIF89A</p>
+<p>方法二：CMD方法，copy /b test.png+1.php muma.png</p>
+<p>方法三：直接使用工具增加备注写入一句话木马。</p>
+<h3 id="四、路径-扩展名绕过"><a href="#四、路径-扩展名绕过" class="headerlink" title="四、路径/扩展名绕过"></a>四、路径/扩展名绕过</h3><p>1、白名单</p>
+<p>0x00截断或test.asp%00.jpg</p>
+<p>MIME绕过</p>
+<p>2、黑名单</p>
+<p>（1）文件名大小写绕过</p>
+<p>（2）名单绕过</p>
+<p>​     用黑名单里没有的名单进行攻击，比如黑名单里没有.php|.php5|.php4|.php3|.php2|php1|.html|.htm|.phtml|.pHp|.pHp5|.pHp4|.pHp3|.pHp2|pHp1|.Html|.Htm|.pHtml|.jsp|.jspa|.jspx|.jsw|.jsv|.jspf|.jtml|.jSp|.jSpx|.jSpa|.jSw|.jSv|.jSpf|.jHtml|.asp|.aspx|.asa|.asax|.ascx|.ashx|.asmx|.cer|.aSp|.aSpx|.aSa|.aSax|.aScx|.aShx|.aSmx|.cEr|.sWf|.swf|.htaccess后缀文件之类</p>
+<p>（3）特殊文件名或文件夹绕过(windows)</p>
+<p>​      还有比如发送的http 包里把文件名改成test.asp. 或test.asp_(下划线为空格)，这种命名方式在windows 系统里是不被允许的，所以需要在burp 之类里进行修改，然后绕过验证后，会被windows 系统自动去掉后面的点和空格，但要注意Unix/Linux 系统没有这个特性。</p>
+<p>（4）0x00截断%00和0x0a</p>
+<p>name = getname(http request) //假如这时候获取到的文件名是test.asp .jpg(asp 后面为0x00)</p>
+<p>type = gettype(name) //而在gettype()函数里处理方式是从后往前扫描扩展名，所以判断为jpg</p>
+<p>if (type == jpg)</p>
+<p>SaveFileToPath(UploadPath.name, name) //但在这里却是以0x00 作为文件名截断</p>
+<p>​                                   //最后以test.asp 存入路径里</p>
+<p>（5）把文件名改成test.asp. 或test.asp_(下划线为空格)，这种命名方式在windows 系统里是不被允许的，所以需要在burp 之类里进行修改，然后绕过验证后，会被windows 系统自动去掉后面的点和空格，但要注意Unix/Linux 系统没有这个特性。</p>
+<p>（6）双后缀名绕过</p>
+<p>（7）::$DATA绕过</p>
+<p>​    是Windows下NTFS文件系统的一个特性，即NTFS文件系统的存储数据流的一个属性 DATA 时，就是请求 a.asp 本身的数据，如果a.asp 还包含了其他的数据流，比如 a.asp:lake2.asp，请求 a.asp:lake2.asp::$DATA，则是请求a.asp中的流数据lake2.asp的流数据内容。</p>
+<h3 id="五、中间件解析漏洞绕过"><a href="#五、中间件解析漏洞绕过" class="headerlink" title="五、中间件解析漏洞绕过"></a>五、中间件解析漏洞绕过</h3><h4 id="总结图-1"><a href="#总结图-1" class="headerlink" title="总结图"></a>总结图</h4><p><img src="/image/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/2.jpg"></p>
+<h4 id="IIS解析漏洞"><a href="#IIS解析漏洞" class="headerlink" title="IIS解析漏洞"></a>IIS解析漏洞</h4><h5 id="（一）IIS5-x-6-x解析漏洞"><a href="#（一）IIS5-x-6-x解析漏洞" class="headerlink" title="（一）IIS5.x-6.x解析漏洞"></a><strong>（一）IIS5.x-6.x解析漏洞</strong></h5><p>使用iis5.x-6.x版本的服务器，大多为windows server 2003，网站比较古老，开发语句一般为asp；该解析漏洞也只能解析asp文件，而不能解析aspx文件。</p>
+<p><strong>目录解析(6.0)</strong></p>
+<p>形式：<a target="_blank" rel="noopener" href="http://www.xxx.com/xx.asp/xx.jpg">www.xxx.com/xx.asp/xx.jpg</a><br>原理: 服务器默认会把.asp，.asa目录下的文件都解析成asp文件。</p>
+<p><strong>文件解析</strong></p>
+<p>形式：<a target="_blank" rel="noopener" href="http://www.xxx.com/xx.asp;.jpg">www.xxx.com/xx.asp;.jpg</a><br>原理：服务器默认不解析;号后面的内容，因此xx.asp;.jpg便被解析成asp文件了。</p>
+<p><strong>解析文件类型</strong></p>
+<p>IIS6.0 默认的可执行文件除了asp还包含这三种 :</p>
+<p>/test.asa<br>/test.cer<br>/test.cdx</p>
+<p><strong>修复方案</strong></p>
+<p>1.目前尚无微软官方的补丁，可以通过自己编写正则，阻止上传xx.asp;.jpg类型的文件名。<br>2.做好权限设置，限制用户创建文件夹。</p>
+<h4 id="（二）IIS7-x解析漏洞"><a href="#（二）IIS7-x解析漏洞" class="headerlink" title="（二）IIS7.x解析漏洞"></a>（二）IIS7.x解析漏洞</h4><p>需要把请求限制的 对勾 给去掉，才会有解析漏洞<br>192.168.0.106:8089/1.jpg/.php,这样去构造。</p>
+<p><img src="/image/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/3.jpg"></p>
+<hr>
+<h4 id="Apache解析漏洞"><a href="#Apache解析漏洞" class="headerlink" title="Apache解析漏洞"></a>Apache解析漏洞</h4><p><strong>漏洞原理</strong></p>
+<p>　　Apache 解析文件的规则是从右到左开始判断解析,如果后缀名为不可识别文件解析,就再往左判断。比如 test.php.owf.rar “.owf”和”.rar” 这两种后缀是apache不可识别解析,apache就会把oldboy.php.owf.rar解析成php。</p>
+<p><strong>漏洞形式</strong></p>
+<p><a target="_blank" rel="noopener" href="http://www.xxxx.xxx.com/test.php.php123">www.xxxx.xxx.com/test.php.php123</a></p>
+<p><strong>其余配置问题导致漏洞</strong></p>
+<p>（1）如果在 Apache 的 conf 里有这样一行配置 AddHandler php5-script .php 这时只要文件名里包含.php 即使文件名是 test2.php.jpg 也会以 php 来执行。<br>（2）如果在 Apache 的 conf 里有这样一行配置 AddType application/x-httpd-php .jpg 即使扩展名是 jpg，一样能以 php 方式执行。</p>
+<p><strong>修复方案</strong></p>
+<p>1.apache配置文件，禁止.php.这样的文件执行，配置文件里面加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;Files ~ “.(php.|php3.)”&gt;</span><br><span class="line">        Order Allow,Deny</span><br><span class="line">        Deny from all</span><br><span class="line">&lt;&#x2F;Files&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.用伪静态能解决这个问题，重写类似.php.*这类文件，打开apache的httpd.conf找到LoadModule rewrite_module modules/mod_rewrite.so<br>把#号去掉，重启apache,在网站根目录下建立.htaccess文件</p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteRule .(php.|php3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(pHp.|pHp3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(phP.|phP3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(Php.|Php3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(PHp.|PHp3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(PhP.|PhP3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(pHP.|pHP3.) &#x2F;index.php</span><br><span class="line">RewriteRule .(PHP.|PHP3.) &#x2F;index.php</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br><span class="line"></span><br><span class="line">.htaccess</span><br><span class="line"></span><br><span class="line">    配置文件LoadModule rewrite_module modules&#x2F;mod_rewrite.so前的注释去掉，寻找关键词：AllowOverride，并把后面的参数从None全部改成All</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Nginx解析漏洞"><a href="#Nginx解析漏洞" class="headerlink" title="Nginx解析漏洞"></a>Nginx解析漏洞</h4><p><strong>漏洞原理</strong></p>
+<p>　　Nginx默认是以CGI的方式支持PHP解析的，普遍的做法是在Nginx配置文件中通过正则匹配设置SCRIPT_FILENAME。当访问<a target="_blank" rel="noopener" href="http://www.xx.com/phpinfo.jpg/1.php%E8%BF%99%E4%B8%AAURL%E6%97%B6%EF%BC%8C$fastcgi_script_name%E4%BC%9A%E8%A2%AB%E8%AE%BE%E7%BD%AE%E4%B8%BA%E2%80%9Cphpinfo.jpg/1.php%E2%80%9D%EF%BC%8C%E7%84%B6%E5%90%8E%E6%9E%84%E9%80%A0%E6%88%90SCRIPT_FILENAME%E4%BC%A0%E9%80%92%E7%BB%99PHP">www.xx.com/phpinfo.jpg/1.php这个URL时，$fastcgi_script_name会被设置为“phpinfo.jpg/1.php”，然后构造成SCRIPT_FILENAME传递给PHP</a> CGI，但是PHP为什么会接受这样的参数，并将phpinfo.jpg作为PHP文件解析呢?这就要说到fix_pathinfo这个选项了。 如果开启了这个选项，那么就会触发在PHP中的如下逻辑：</p>
+<p>PHP会认为SCRIPT_FILENAME是phpinfo.jpg，而1.php是PATH_INFO，所以就会将phpinfo.jpg作为PHP文件来解析了</p>
+<p><strong>漏洞形式</strong></p>
+<p><a target="_blank" rel="noopener" href="http://www.xxxx.com/UploadFiles/image/1.jpg/1.php">www.xxxx.com/UploadFiles/image/1.jpg/1.php</a><br><a target="_blank" rel="noopener" href="http://www.xxxx.com/UploadFiles/image/1.jpg%00.php">www.xxxx.com/UploadFiles/image/1.jpg%00.php</a><br><a target="_blank" rel="noopener" href="http://www.xxxx.com/UploadFiles/image/1.jpg/%20/0.php">www.xxxx.com/UploadFiles/image/1.jpg/%20\0.php</a></p>
+<p>xxx.jpg%00.php (Nginx &lt;8.03 空字节代码执行漏洞)</p>
+<p>另外一种手法：上传一个名字为test.jpg，以下内容的文件。</p>
+<p><code>&lt;?PHP fputs(fopen(&#39;shell.php&#39;,&#39;w&#39;),&#39;&lt;?php eval($_POST[cmd])?&gt;&#39;);?&gt;</code></p>
+<p>然后访问test.jpg/.php,在这个目录下就会生成一句话木马shell.php。</p>
+<p><strong>修复方案</strong></p>
+<p>1.修改php.ini文件，将cgi.fix_pathinfo的值设置为0;<br>2.在Nginx配置文件中添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if ( $fastcgi_script_name ~ ..&#x2F;.php ) &#123;</span><br><span class="line"></span><br><span class="line">return 403;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这行代码的意思是当匹配到类似test.jpg/a.php的URL时，将返回403错误代码。</p>
+<hr>
+<h4 id="htaccess文件解析"><a href="#htaccess文件解析" class="headerlink" title=".htaccess文件解析"></a>.htaccess文件解析</h4><p>上传.htaccess文件 ，是将本文件夹中的所有文件用php来执行  也可以称为文件包含漏洞<br>文件内容为：</p>
+<blockquote>
+<p>&lt;FilesMatch “”&gt;SetHandler application/x-httpd-php</FilesMatch></p>
+</blockquote>
+<h4 id="本地文件包含解析"><a href="#本地文件包含解析" class="headerlink" title="本地文件包含解析"></a>本地文件包含解析</h4><p>文件包含漏洞的查找，当有源代码的时候可以直接查找，相关函数，当没有源代码的时候我们就需要手工包含别的文件来看看是否有包含漏洞。</p>
+<p>文件包含有四个函数，遇到错误不会停止执行：include()、include_once()<br>                                    遇到错误会停止执行：require()、ruquire_once()<br>                                    我们一般使用include()和include_once()</p>
+<p>需要我们把allow_url_include()设置为on状态、magic_quotes_gpc为off状态</p>
+<p>（1）包含漏洞一般采用图片与文件一起上传，利用包含漏洞将图片中的一句话木马给解出来。<br>（2）需要使用../来进行返回上一级目录，如果被过滤可以进行…/./进行过滤。<br>（3）如果没有发现需要进行上传的漏洞，我们可以选择选择找到日志文件进行包含获取webshell，/apache/logs/access.log目录，但是目录前面的../需要自己构造。<br>（4）文件包含读文件和写文件，这个都需要使用php协议<br>读文件：php://filter/read=convert.base64-encode/resource=     （使用base64加密防止报错）<br>写文件：php://input   在post中提交<?php system('net user')?><br>（5）str_replace()函数，可以将http、https、../、..\都替换为空或删除。<br>我们需要使用ht<a target="_blank" rel="noopener" href="http://tp//%E5%92%8C.../%E8%BF%9B%E8%A1%8C%E7%BB%95%E8%BF%87%EF%BC%8C%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%8D%E4%BC%9A%E5%8F%97%E5%BD%B1%E5%93%8D%E3%80%82">http://tp://和..././进行绕过，绝对路径也可以不会受影响。</a><br>（6）fnmatch()函数，只允许include和file头进行访问<br>我们可以使用file协议file://c:1.txt 这里绝对路径和../都支持。一般企业都使用这个函数进行过滤。</p>
+<h3 id="六、安全防范"><a href="#六、安全防范" class="headerlink" title="六、安全防范"></a>六、安全防范</h3><p>​      针对文件上传漏洞的特点和必须具备的三个条件，我们阻断任何一个条件就可以达到组织文件上传攻击的目的：</p>
+<p>1、最有效的，将文件上传目录直接设置为不可执行，对于Linux而言，撤销其目录的’x’权限；实际中很多大型网站的上传应用都会放置在独立的存储上作为静态文件处理，一是方便使用缓存加速降低能耗，二是杜绝了脚本执行的可能性；</p>
+<p>2、文件类型检查：强烈推荐白名单方式，结合MIME Type、后缀检查等方式（即只允许允许的文件类型进行上传）；此外对于图片的处理可以使用压缩函数或resize函数，处理图片的同时破坏其包含的HTML代码；</p>
+<p>3、使用随机数改写文件名和文件路径，使得用户不能轻易访问自己上传的文件；</p>
+<p>4、单独设置文件服务器的域名；</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>future.zhangyan</span>
+                    </p>
+                
+				
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://zhangyanlady.github.io/2019/10/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/">https://zhangyanlady.github.io/2019/10/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E3%80%81%E4%B8%8B%E8%BD%BD/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>The future can be expected, the world is worth it.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"># 网络安全</a>
+                    
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"># 渗透测试</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/10/20/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%89%80%E9%9C%80%E5%B7%A5%E5%85%B7%E5%8F%8A%E7%BD%91%E7%AB%99/">信息收集所需工具及网站</a>
+            
+            
+            <a class="next" rel="next" href="/2019/10/06/Metasploit/">Metasploit</a>
+            
+        </section>
+			</br>
+			
+
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© future.zhangyan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+	<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+    </div>
+
+
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
